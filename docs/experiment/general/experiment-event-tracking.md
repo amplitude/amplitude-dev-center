@@ -5,6 +5,8 @@ description: An overview of assignment and exposure tracking in Amplitude Experi
 
 Amplitude Experiment's *end-to-end* platform relies on two events, [assignment](#assignment-events) and [exposure](#exposure-events), and an [experiment user property](#experiment-user-properties) per experiment, to enable experiment analysis, monitoring, and debugging.
 
+Using the **Amplitude defined exposure or assignment events** as your experiment's exposure event **is recommended** to ensure the correct [experiment user property](#experiment-user-properties) is set when the exposure is ingested. Custom exposure events may be ingested before the experiment user property is set, which would not count in experiment analysis.
+
 <table>
     <tbody>
         <tr>
