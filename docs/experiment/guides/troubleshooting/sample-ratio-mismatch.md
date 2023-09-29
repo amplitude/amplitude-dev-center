@@ -22,7 +22,7 @@ This page is ordered from most common cause to least common cause of an SRM.
 
 ## Amplitude exposure events versus custom exposure events
 <!-- Casey: Revisit -->
-Amplitude recommends that you use the [Amplitude exposure event](../../../general/exposure-tracking). When using client-side SDKs, the Amplitude exposure event is automatically tracked when the variant is accessed from the cache, not when variants are fetched. When using local evaluation, there is no assignment event and you are required to use a custom exposure event. 
+Amplitude recommends that you use the [Amplitude exposure event](../../general/experiment-event-tracking.md#exposure-events). When using client-side SDKs, the Amplitude exposure event is automatically tracked when the variant is accessed from the cache, not when variants are fetched. When using local evaluation, there is no assignment event and you are required to use a custom exposure event. 
 
 If you use a custom exposure event, make sure that you send it when the user experiences the variant. More importantly, the custom exposure event may happen before assignment, meaning that the user property isn't yet set, and the initial custom exposure event isn't actually counted as an exposure in analysis. Note that it doesn't cost extra money to use Amplitude Exposure events.
 

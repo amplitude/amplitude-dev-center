@@ -37,7 +37,7 @@ The SDK loads flag configuration updates from the server on startup and stores t
 
 Local evaluation SDKs track evaluations differently on the client-side vs on the server-side.
 
-- Client-side SDKs track an [**exposure event**](../exposure-tracking.md) when the user is evaluated due to a variant being accessed from the SDK.
+- Client-side SDKs track an [**exposure event**](../experiment-event-tracking.md#exposure-events) when the user is evaluated due to a variant being accessed from the SDK.
 - Server-side SDKs track an **assignment event** (if configured to do so) when a user is evaluated.
 
 Server-side local evaluation experiments often set the Assignment event as a heuristic for Exposure.

@@ -308,7 +308,7 @@ experiment.clear()
 
 ### Exposure
 
-Manually track an [exposure event](../general/exposure-tracking.md#exposure-event) for the current variant of the given flag key through configured [integration](#integrations) or custom [exposure tracking provider](#exposure-tracking-provider). Generally used in conjunction with setting the `automaticExposureTracking` [configuration](#configuration) optional to `false`.
+Manually track an [exposure event](../general/experiment-event-tracking.md#exposure-events) for the current variant of the given flag key through configured [integration](#integrations) or custom [exposure tracking provider](#exposure-tracking-provider). Generally used in conjunction with setting the `automaticExposureTracking` [configuration](#configuration) optional to `false`.
 
 ```swift
 func exposure(key: String)
@@ -316,7 +316,7 @@ func exposure(key: String)
 
 | Parameter | Requirement | Description |
 | --- | --- | --- |
-| `key` | required | The **flag key** to identify the [flag or experiment](../general/data-model.md#flags-and-experiments) variant to track an [exposure event](../general/exposure-tracking.md#exposure-event) for. |
+| `key` | required | The **flag key** to identify the [flag or experiment](../general/data-model.md#flags-and-experiments) variant to track an [exposure event](../general/experiment-event-tracking.md#exposure-events) for. |
 
 ```swift
 let variant = experiment.variant("<FLAG_KEY>")
@@ -361,7 +361,7 @@ let experiment = Experiment.initialize(apiKey: "<DEPLOYMENT_KEY>", config: confi
 
 ### Exposure tracking provider
 
-Implementing an exposure tracking provider is highly recommended. [Exposure tracking](../general/exposure-tracking.md) increases the accuracy and reliability of experiment results and improves visibility into which flags and experiments a user is exposed to.
+Implementing an exposure tracking provider is highly recommended. [Exposure tracking](../general/experiment-event-tracking.md#exposure-events) increases the accuracy and reliability of experiment results and improves visibility into which flags and experiments a user is exposed to.
 
 ```swift title="ExposureTrackingProvider"
 protocol ExposureTrackingProvider {

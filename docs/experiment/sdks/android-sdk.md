@@ -496,7 +496,7 @@ You can call `clear` after user logout to clear the variants in cache and storag
 
 ### Exposure
 
-Manually track an [exposure event](../general/exposure-tracking.md#exposure-event) for the current variant of the given flag key through configured [integration](#integrations) or custom [exposure tracking provider](#exposure-tracking-provider). Generally used in conjunction with setting the `automaticExposureTracking` [configuration](#configuration) optional to `false`.
+Manually track an [exposure event](../general/experiment-event-tracking.md#exposure-events) for the current variant of the given flag key through configured [integration](#integrations) or custom [exposure tracking provider](#exposure-tracking-provider). Generally used in conjunction with setting the `automaticExposureTracking` [configuration](#configuration) optional to `false`.
 
 ```kotlin
 fun exposure(key: String)
@@ -504,7 +504,7 @@ fun exposure(key: String)
 
 | Parameter | Requirement | Description |
 | --- | --- | --- |
-| `key` | required | The **flag key** to identify the [flag or experiment](../general/data-model.md#flags-and-experiments) variant to track an [exposure event](../general/exposure-tracking.md#exposure-event) for. |
+| `key` | required | The **flag key** to identify the [flag or experiment](../general/data-model.md#flags-and-experiments) variant to track an [exposure event](../general/experiment-event-tracking.md#exposure-events) for. |
 
 === "Java"
 
@@ -578,7 +578,7 @@ To use your custom user provider, set the `userProvider` [configuration](#config
 
 ### Exposure tracking provider
 
-Implementing an exposure tracking provider is highly recommended. [Exposure tracking](../general/exposure-tracking.md) increases the accuracy and reliability of experiment results and improves visibility into which flags and experiments a user is exposed to.
+Implementing an exposure tracking provider is highly recommended. [Exposure tracking](../general/experiment-event-tracking.md#exposure-events) increases the accuracy and reliability of experiment results and improves visibility into which flags and experiments a user is exposed to.
 
 ```kotlin title="ExposureTrackingProvider"
 interface ExposureTrackingProvider {
