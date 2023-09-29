@@ -52,7 +52,7 @@ All server-side SDKs and some client-side (which have local evaluation enabled) 
 | --- | --- | --- |
 | [:javascript-color: JavaScript](../../sdks/javascript-sdk.md) |  :material-check-bold:{ .green } | :material-check-bold:{ .green }  |
 | [:android: Android](../../sdks/android-sdk.md) |  :material-check-bold:{ .green } | :material-close-thick:{ .red }  |
-| [:material-apple-ios: iOS](../../sdks/ios-sdk.md) |  :material-check-bold:{ .green } | :material-close-thick:{ .red } |
+| [:material-apple-ios: iOS](../../sdks/ios-sdk.md) |  :material-check-bold:{ .green } | :material-check-bold:{ .green } |
 | [:react: React Native](../../sdks/react-native-sdk.md) |  :material-check-bold:{ .green } | :material-close-thick:{ .red } |
 
 ### Server-side
