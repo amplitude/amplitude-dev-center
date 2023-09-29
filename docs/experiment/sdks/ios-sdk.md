@@ -32,7 +32,7 @@ Official documentation for Amplitude Experiment's Client-side iOS SDK implementa
 !!!tip "Quick Start"
 
     The right way to initialize the Experiment SDK depends on whether you use an
-    Amplitude SDK for analytics or a third party (e.g. Segment).
+    Amplitude SDK for analytics or a third party (for example, Segment).
 
     === "Amplitude Analytics"
 
@@ -180,7 +180,7 @@ The SDK client can be configured once on initialization.
     | `debug` | Enable additional debug logging within the SDK. Should be set to false in production builds. | `false` |
     | `fallbackVariant` | The default variant to fall back if a variant for the provided key doesn't exist. | `{}` |
     | `initialVariants` | An initial set of variants to access. This field is valuable for bootstrapping the client SDK with values rendered by the server using server-side rendering (SSR). | `{}` |
-    | `serverZone` | Select the Amplitude dta center to get flags and variants from, `.US` or `.EU` | `.US` |
+    | `serverZone` | Select the Amplitude data center to get flags and variants from, `.US` or `.EU` | `.US` |
     | `serverUrl` | The host to fetch variants from. | `https://api.lab.amplitude.com` |
     | `flagsServerUrl` | The host to fetch local evaluation flags from. For hitting the EU data center, use `serverZone`. | `https://flag.lab.amplitude.com` |
     | `fetchTimeoutMillis` | The timeout for fetching variants in milliseconds. | `10000` |
