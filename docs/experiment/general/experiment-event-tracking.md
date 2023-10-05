@@ -5,7 +5,7 @@ description: An overview of assignment and exposure tracking in Amplitude Experi
 
 Amplitude Experiment's *end-to-end* platform relies on two events, [assignment](#assignment-events) and [exposure](#exposure-events), and an [experiment user property](#experiment-user-properties) per experiment, to enable experiment analysis, monitoring, and debugging.
 
-Using the **Amplitude defined exposure or assignment events** as your experiment's exposure event **is recommended** to ensure the correct [experiment user property](#experiment-user-properties) is set when the exposure is ingested. Custom exposure events may be ingested before the experiment user property is set, which would not count in experiment analysis.
+Amplitude recommends you to use **Amplitude defined exposure or assignment events** as your experiment's exposure event to ensure the correct [experiment user property](#experiment-user-properties) is set when the exposure is ingested. Custom exposure events may be ingested before the experiment user property is set, which don't count in experiment analysis.
 
 <table>
     <tbody>
@@ -35,7 +35,7 @@ Using the **Amplitude defined exposure or assignment events** as your experiment
 </table>
 
 !!!info "Event Volume Billing & Property Limits"
-    If you've purchased Amplitude Experiment's *End-to-end* feature flagging and experimentation solution, Amplitude defined [assignment](#assignment-events) and [exposure](#exposure-events) **don't count** toward your organization's event volume billing. Further, experiment user properties and event properties don't count towards your project property limits.
+    If your organization has Amplitude Experiment's *End-to-end* feature flagging and experimentation solution, Amplitude-defined [assignment](#assignment-events) and [exposure](#exposure-events) **don't count** toward your organization's event volume billing. Further, experiment user properties and event properties don't count towards your project property limits.
 
     If you have purchased *Experiment Results* or haven't purchased Experiment then all events are billed in full.
 
@@ -52,7 +52,7 @@ Assignment events are tracked by Amplitude's evaluation servers or SDKs as a res
 You shouldn't need to track assignment events manually.
 
 !!!warning "User property inheritance"
-    Assignment events inherit all non-experiment user properties from the current user state in Amplitude at the time of event ingestion. In short, **the user properties on the assignment event aren't guaranteed to be the same as the properties used in evaluation.** For example, If an assignment event is the first event ingested for a user, the event won't contain any non-experiment user properties, even if user properties were explicitly included in the evaluation.
+    Assignment events inherit all non-experiment user properties from the current user state in Amplitude at the time of event ingestion. In short, **the user properties on the assignment event aren't guaranteed to be the same as the properties used in evaluation.** For example, if an assignment event is the first event ingested for a user, the event contains experiment user properties only, even if user properties are explicitly included in the evaluation.
 
 ### Assignment event definition
 
@@ -83,7 +83,9 @@ The assignment event, `[Experiment] Assignment`, contains an event property, `[E
 
 Automatic assignment tracking for [remote evaluation](./evaluation/remote-evaluation.md) is supported out-of-the-box. Remote evaluation requests that miss the CDN cache, and which contain a valid user or device ID, will trigger an assignment event to be tracked asynchronously after evaluation.
 
-For server-side [local evaluation](./evaluation/local-evaluation.md), you may configure the local evaluation SDK on initialization to track assignment events on `evaluate()`. Assignment events sent by server-side local evaluation SDKs are deduplicated for each user using an `insert_id` containing the user ID, device ID, hash of a canonicalized list of assigned flags and variants, and finally the date stamp. In other words, you should expect one Assignment per evaluated user, per unique evaluation result, per day.
+For server-side [local evaluation](./evaluation/local-evaluation.md), you may configure the local evaluation SDK on initialization to track assignment events on `evaluate()`. Amplitude deduplicates assignment events sent by server-side local evaluation SDKs  for each user using an `insert_id` that contains the user ID, device ID, hash of a canonicalized list of assigned flags and variants, and the date stamp. 
+
+In other words, you should expect one Assignment per evaluated user, per unique evaluation result, per day.
 
 | SDK | Minimum Version |
 | --- | --- |
@@ -101,7 +103,7 @@ When Amplitude ingests an [exposure event](#exposure-event), it uses the flag ke
 
 ### Exposure event definition
 
-The exposure event is simple enough to send through any analytics implementation or customer data platform without needing to manipulate user properties directly. When Amplitude ingests an **`$exposure`** event, the requisite user properties are automatically set or unset for 100% accuracy and confidence.
+The exposure event is simple enough to send through any analytics implementation or customer data platform without the need to manipulate user properties. When Amplitude ingests an **`$exposure`** event, it sets or unsets the requisite user properties for 100% accuracy and confidence.
 
 | Event Type | <div class='big-column'>Event Property</div> | Requirement | Description |
 | --- | --- | --- | --- |
