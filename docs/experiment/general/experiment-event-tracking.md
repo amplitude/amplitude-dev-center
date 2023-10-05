@@ -37,7 +37,7 @@ Amplitude recommends you to use **Amplitude defined exposure or assignment event
 !!!info "Event Volume Billing & Property Limits"
     If your organization has Amplitude Experiment's *End-to-end* feature flagging and experimentation solution, Amplitude-defined [assignment](#assignment-events) and [exposure](#exposure-events) **don't count** toward your organization's event volume billing. Further, experiment user properties and event properties don't count towards your project property limits.
 
-    If you have purchased *Experiment Results* or haven't purchased Experiment then all events are billed in full.
+    If your organization has only purchased *Experiment Results* then all Experiment events are billed in full.
 
 ## Experiment user properties
 
