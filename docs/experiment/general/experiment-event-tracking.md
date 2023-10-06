@@ -105,7 +105,7 @@ When Amplitude ingests an [exposure event](#exposure-event), it uses the flag ke
 
 ### Exposure event definition
 
-The exposure event is simple enough to send through any analytics implementation or customer data platform without the need to manipulate user properties. When Amplitude ingests an **`$exposure`** event, it sets or unsets the requisite user properties for 100% accuracy and confidence.
+The exposure event is simple enough to send through any analytics implementation or customer data platform without the need to manipulate user properties.
 
 | Event Type | <div class='big-column'>Event Property</div> | Requirement | Description |
 | --- | --- | --- | --- |
@@ -122,14 +122,20 @@ The exposure event is simple enough to send through any analytics implementation
         "event_properties": {
             "flag_key": "my-experiment",
             "variant": "treatment"
-        },
-        "user_properties": {
-            "$set": {
-                "[Experiment] my-experiment": "treatment"
-            },
         }
     }
     ```
+
+#### Exposure transformation
+
+When Amplitude ingests an **`$exposure`** event, it's **transformed**. The event type and event properties are modified for consistency with other Amplitude properties, and [experiment user properties](#experiment-user-properties) are set or unset for accurate experiment analysis.
+
+| Property Type | Pre-transformation | Post-transformation |
+| --- | --- | --- |
+| Event Type | `$exposure` | `[Experiment] Exposure` |
+| Event Property | `flag_key` | `[Experiment] Flag Key` |
+| Event Property | `variant` | `[Experiment] Variant` |
+| Event Property | `experiment_key` | `[Experiment] Experiment Key` |
 
 ### Automatic exposure tracking
 
