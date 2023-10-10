@@ -49,8 +49,8 @@ pod install
 
 !!!tip "Quick Start"
 
-    The right way to initialize the Experiment SDK depends on whether you use an
-    Amplitude SDK for analytics or a third party (e.g. Segment).
+    The correct way to initialize the Experiment SDK depends on whether you use an
+    Amplitude SDK for analytics or a third party tool like Segment.
 
     === "Amplitude Analytics"
 
@@ -81,7 +81,7 @@ pod install
     === "Third Party Analytics"
 
         4. [Initialize the experiment client](#initialize)
-        5. [Start the SDK with the user](#fetch)
+        5. [Start the SDK with the user](#start)
         6. [Access a flag's variant](#variant)
 
         ```js
@@ -181,7 +181,7 @@ The initializer returns a singleton instance, so subsequent initializations for 
 
 #### Configuration
 
-The SDK client can be configured once on initialization.
+SDK client configuration occurs during initialization.
 
 ???config "Configuration Options"
     | <div class="big-column">Name</div> | Description | Default Value |
@@ -194,10 +194,10 @@ The SDK client can be configured once on initialization.
     | `flagsServerUrl` | The host to fetch local evaluation flags from. For hitting the EU data center, use `serverZone`. | `https://flag.lab.amplitude.com` |
     | `fetchTimeoutMillis` | The timeout for fetching variants in milliseconds. | `10000` |
     | `retryFetchOnFailure` | Whether to retry variant fetches in the background if the request doesn't succeed. | `true` |
-    | `automaticExposureTracking` | If true, calling [`variant()`](#variant) will track an exposure event through the configured `exposureTrackingProvider`. If no exposure tracking provider is set, this configuration option does nothing.  | `true` |
+    | `automaticExposureTracking` | If true, calling [`variant()`](#variant) tracks an exposure event through the configured `exposureTrackingProvider`. If no exposure tracking provider is set, this configuration option does nothing.  | `true` |
     | `fetchOnStart` | If true, always [fetch](#fetch) remote evaluation variants on [start](#start). If false, never fetch on start. If undefined, dynamically determine whether to fetch on start. | `undefined` |
     | `pollOnStart` | Poll for local evaluation flag configuration updates once per minute on [start](#start). | `true` |
-    | `automaticFetchOnAmplitudeIdentityChange` | Only matters if you use the `initializeWithAmplitudeAnalytics` initialization function to seamlessly integrate with the Amplitude Analytics SDK. If `true` any change to the user ID, device ID or user properties from analytics will trigger the experiment SDK to fetch variants and update it's cache. | `false` |
+    | `automaticFetchOnAmplitudeIdentityChange` | Only matters if you use the `initializeWithAmplitudeAnalytics` initialization function to seamlessly integrate with the Amplitude Analytics SDK. If `true` any change to the user ID, device ID or user properties from analytics triggers the experiment SDK to fetch variants and update it's cache. | `false` |
     | `userProvider` | An interface used to provide the user object to `fetch()` when called. See [Experiment User](https://developers.experiment.amplitude.com/docs/experiment-user#user-providers) for more information. | `null` |
     | `exposureTrackingProvider` | Implement and configure this interface to track exposure events through the experiment SDK, either automatically or explicitly. | `null` |
     | `instanceName` | Custom instance name for experiment SDK instance. **The value of this field is case-sensitive.** | `null` |
@@ -207,7 +207,7 @@ The SDK client can be configured once on initialization.
 
 #### Integrations
 
-If you use either Amplitude or Segment Analytics SDKs to track events into Amplitude, you'll want to set up an integration on initialization. Integrations automatically implement [provider](#providers) interfaces to enable a more streamlined developer experience by making it easier to **manage user identity** and **track exposures events**.
+If you use either Amplitude or Segment Analytics SDKs to track events into Amplitude, Amplitude recommends that you set up an integration on initialization. Integrations implement [provider](#providers) interfaces to enable a more streamlined developer experience by making it easier to **manage user identity** and **track exposures events**.
 
 ???amplitude "Amplitude integration (click to open)"
 
@@ -221,11 +221,11 @@ If you use either Amplitude or Segment Analytics SDKs to track events into Ampli
     const experiment = Experiment.initializeWithAmplitudeAnalytics('DEPLOYMENT_KEY');
     ```
 
-    Using the integration initializer will automatically configure implementations of the [user provider](#user-provider) and [exposure tracking provider](#exposure-tracking-provider) interfaces to pull user data from the Amplitude Analytics SDK and track exposure events.
+    When you use the integration initializer, it configures implementations of the [user provider](#user-provider) and [exposure tracking provider](#exposure-tracking-provider) interfaces to pull user data from the Amplitude Analytics SDK and track exposure events.
 
 ???segment "Segment integration (click to open)"
 
-    Experiment's integration with Segment Analytics must be configured manually. The Experiment SDK must then be configured on initialization with an instance of the the exposure tracking provider. Make sure this happens _after_ the analytics SDK has been loaded an initialized.
+    When you use Segment as your analytics provider, configure the integration with Experiment manually on initialization with an instance of the exposure tracking provider. Ensure this happens after the analytics SDK loads and initializes.
 
     ```js
     analytics.ready(() => {
@@ -250,7 +250,7 @@ If you use either Amplitude or Segment Analytics SDKs to track events into Ampli
 
 ### Start
 
-Start the SDK by getting flag configurations from the server and fetching remote evaluation variants for the user. The SDK is ready once the returned promise resolves.
+Start the Experiment SDK to get flag configurations from the server and fetch remote evaluation variants for the user. The SDK is ready once the returned promise resolves.
 
 ```js
 start(user?: ExperimentUser): Promise<void>
@@ -258,15 +258,15 @@ start(user?: ExperimentUser): Promise<void>
 
 | Parameter | Requirement | Description |
 | --- | --- | --- |
-| `user` | optional | Explicit [user](../general/data-model.md#users) information to pass with the request to fetch variants. This user information is merged with user information provided from [integrations](#integrations) via the [user provider](#user-provider), preferring properties passed explicitly to `fetch()` over provided properties. Also sets the user in the SDK for reuse. | `undefined` |
+| `user` | optional | Explicit [user](../general/data-model.md#users) information to pass with the request to fetch variants. This user information merges with user information from any [integrations](#integrations) through the [user provider](#user-provider), and prefers properties passed explicitly to `fetch()` over provided properties. Also sets the user in the SDK for reuse. | `undefined` |
 
 Call `start()` when your application is initializing, after user information is available to use to evaluate or [fetch](#fetch) variants. The returned promise resolves after loading local evaluation flag configurations and fetching remote evaluation variants.
 
-Configure the behavior of `start()` by setting `fetchOnStart` in the SDK configuration on initialization to **improve performance based on the needs of your application**.
+Set `fetchOnStart` in the SDK configuration to set the behavior of `start()` to improve the performance of your application.
 
 * If your application always relies on remote evaluation on startup, set `fetchOnStart` to `true` to load flag configurations and fetch remote evaluation variants simultaneously.
 * If your application never relies on remote evaluation, set `fetchOnStart` to `false` to avoid increased startup latency if someone accidentally creates a remote evaluation flag.
-* If your application relies on remote evaluation, but not right at startup, you may set `fetchOnStart` to `false` and call `fetch()` and await the promise separately.
+* If your application relies on remote evaluation, but not right at startup, set `fetchOnStart` to `false` and call `fetch()` and await the promise separately.
 
 === "Amplitude Analytics"
 
