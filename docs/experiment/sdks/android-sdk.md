@@ -23,48 +23,14 @@ dependencies {
 
 !!!tip "Quick Start"
 
-    1. [Initialize the experiment client](#initialize)
-    2. [Fetch variants for the user](#fetch)
-    3. [Access a flag's variant](#variant)
+    The right way to initialize the Experiment SDK depends on whether you use an
+    Amplitude SDK for analytics or a third party (e.g. Segment).
 
+    === "Amplitude Analytics"
 
-    === "Java"
-
-        ```java
-        public class MyApplication extends Application {
-
-            @Override
-            public void onCreate() {
-                super.onCreate();
-
-                // (1) Initialize the experiment client
-                ExperimentConfig config = new ExperimentConfig();
-                ExperimentClient client = Experiment.initialize(this, "<DEPLOYMENT_KEY>", config);
-
-                // (2) Fetch variants for a user
-                ExperimentUser user = ExperimentUser.builder()
-                    .userId("user@company.com")
-                    .deviceId("abcdefg")
-                    .userProperty("premium", true)
-                    .build();
-                try {
-                    client.fetch(user).get();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                // (3) Lookup a flag's variant
-                Variant variant = client.variant("<FLAG_KEY>");
-                if (variant.is("on")) {
-                    // Flag is on
-                } else {
-                    // Flag is off
-                }
-            }
-        }
-        ```
-
-    === "Kotlin"
+        1. [Initialize the experiment client](#initialize)
+        2. [Start the SDK](#start)
+        3. [Access a flag's variant](#variant)
 
         ```kotlin
         class MyApplication : Application() {
@@ -73,17 +39,64 @@ dependencies {
                 super.onCreate()
 
                 // (1) Initialize the experiment client
-                val config = ExperimentConfig()
-                val client = initialize(this, "<DEPLOYMENT_KEY>", config)
+                val client = Experiment.initializeWithAmplitudeAnalytics(
+                    this, "DEPLOYMENT_KEY", ExperimentConfig()
+                )
 
                 // (2) Fetch variants for a user
-                val user = builder()
+                try {
+                    client.start().get()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+                // (3) Lookup a flag's variant
+                val variant = client.variant("<FLAG_KEY>")
+                if (variant.value == "on") {
+                    // Flag is on
+                } else {
+                    // Flag is off
+                }
+            }
+        }
+        ```
+
+    === "Third Party Analytics"
+
+        4. [Initialize the experiment client](#initialize)
+        5. [Start the SDK with the user](#fetch)
+        6. [Access a flag's variant](#variant)
+
+        ```kotlin
+        class MyApplication : Application() {
+
+            override fun onCreate() {
+                super.onCreate()
+
+                // (1) Initialize the experiment client
+                val client = Experiment.initialize(this, "DEPLOYMENT_KEY", ExperimentConfig.builder()
+                    .exposureTrackingProvider(object : ExposureTrackingProvider {
+                        override fun track(exposure: Exposure) {
+                            // TODO: Implement exposure tracking
+                            // Analytics.with(context).track(
+                            //     "\$exposure",
+                            //     Properties()
+                            //         .putValue("flag_key", exposure.flagKey)
+                            //         .putValue("variant", exposure.variant)
+                            //         .putValue("experiment_key", exposure.experimentKey));
+                            // )
+                        }
+                    }).build()
+                )
+
+                // (2) Fetch variants for a user
+                val user = ExperimentUser.builder()
                     .userId("user@company.com")
                     .deviceId("abcdefg")
                     .userProperty("premium", true)
                     .build()
                 try {
-                    client.fetch(user).get()
+                    client.start().get()
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -111,9 +124,19 @@ The following functions make up the core of the Experiment client-side SDK.
 
 The SDK client should be initialized in your application on startup. The [deployment key](../general/data-model.md#deployments) argument passed into the `apiKey` parameter must live within the same project that you are sending analytics events to.
 
-```kotlin
-fun initialize(application: Application, apiKey: String, config: ExperimentConfig)
-```
+=== "Amplitude Analytics"
+
+    ```kotlin
+    fun initializeWithAmplitudeAnalytics(
+        application: Application, apiKey: String, config: ExperimentConfig
+    )
+    ```
+
+=== "Third Party Analytics"
+
+    ```kotlin
+    fun initialize(application: Application, apiKey: String, config: ExperimentConfig)
+    ```
 
 | <div class='med-column'>Parameter</div> | Requirement | Description |
 | --- | --- | --- |
@@ -123,42 +146,69 @@ fun initialize(application: Application, apiKey: String, config: ExperimentConfi
 
 The initializer returns a singleton instance, so subsequent initializations for the same instance name will always return the initial instance. To create multiple instances, use the `instanceName` [configuration](#configuration).
 
-=== "Java"
-
-    ```java
-    ExperimentClient experiment = Experiment.initialize(
-        context, "<DEPLOYMENT_KEY>", new ExperimentConfig());
-    ```
-
-=== "Kotlin"
+=== "Amplitude Analytics"
 
     ```kotlin
-    val experiment = Experiment.initialize(context, "<DEPLOYMENT_KEY>", ExperimentConfig())
+    val experiment = Experiment.initializeWithAmplitudeAnalytics(
+        context, "DEPLOYMENT_KEY", ExperimentConfig()
+    )
     ```
+
+=== "Third Party Analytics"
+
+    ```kotlin
+    val experiment = Experiment.initialize(context, "DEPLOYMENT_KEY", ExperimentConfig())
+    ```
+
+#### Configuration
+
+The SDK client can be configured once on initialization.
+
+???config "Configuration Options"
+    | <div class="big-column">Name</div> | Description | Default Value |
+    | --- | --- | --- |
+    | `debug` | Enable additional debug logging within the SDK. Should be set to false in production builds. | `false` |
+    | `fallbackVariant` | The default variant to fall back if a variant for the provided key doesn't exist. | `{}` |
+    | `initialVariants` | An initial set of variants to access. This field is valuable for bootstrapping the client SDK with values rendered by the server using server-side rendering (SSR). | `{}` |
+    | `serverZone` | Select the Amplitude data center to get flags and variants from | `ServerZone.US` |
+    | `serverUrl` | The host to fetch remote evaluation variants from. For hitting the EU data center, use `serverZone`. | `https://api.lab.amplitude.com` |
+    | `flagsServerUrl` | The host to fetch local evaluation flags from. For hitting the EU data center, use `serverZone`. | `https://flag.lab.amplitude.com` |
+    | `fetchTimeoutMillis` | The timeout for fetching variants in milliseconds. | `10000` |
+    | `retryFetchOnFailure` | Whether to retry variant fetches in the background if the request doesn't succeed. | `true` |
+    | `automaticExposureTracking` | If true, calling [`variant()`](#variant) will track an exposure event through the configured `exposureTrackingProvider`. If no exposure tracking provider is set, this configuration option does nothing.  | `true` |
+    | `fetchOnStart` | If true, always [fetch](#fetch) remote evaluation variants on [start](#start). If false, never fetch on start. If null, dynamically determine whether to fetch on start. | `null` |
+    | `pollOnStart` | Poll for local evaluation flag configuration updates once per minute on [start](#start). | `true` |
+    | `automaticFetchOnAmplitudeIdentityChange` | Only matters if you use the `initializeWithAmplitudeAnalytics` initialization function to seamlessly integrate with the Amplitude Analytics SDK. If `true` any change to the user ID, device ID or user properties from analytics will trigger the experiment SDK to fetch variants and update it's cache. | `false` |
+    | `userProvider` | An interface used to provide the user object to `fetch()` when called. See [Experiment User](https://developers.experiment.amplitude.com/docs/experiment-user#user-providers) for more information. | `null` |
+    | `exposureTrackingProvider` | Implement and configure this interface to track exposure events through the experiment SDK, either automatically or explicitly. | `null` |
+    | `instanceName` | Custom instance name for experiment SDK instance. **The value of this field is case-sensitive.** | `null` |
+
+!!!info "EU Data Center"
+    If you're using Amplitude's EU data center, configure the `serverZone` option on initialization to `ServerZone.EU`.
 
 #### Integrations
 
 If you use either Amplitude or Segment Analytics SDKs to track events into Amplitude, you'll want to set up an integration on initialization. Integrations automatically implement [provider](#providers) interfaces to enable a more streamlined developer experience by making it easier to **manage user identity** and **track exposures events**.
 
-!!!amplitude "Amplitude Integration"
+???amplitude "Amplitude integration (click to open)"
 
-    The Amplitude Experiment SDK is set up to integrate seamlessly with the Amplitude Analytics SDK. All you need to do is update your SDK versions to the latest, and use the special integration initialization function.
+    The Amplitude Experiment SDK is set up to integrate seamlessly with the Amplitude Analytics SDK.
 
     === "Java"
 
         ```kotlin hl_lines="2"
-        Amplitude.getInstance().init("<API_KEY>");
+        Amplitude.getInstance().init("API_KEY");
         ExperimentClient experiment = Experiment.initializeWithAmplitudeAnalytics(
-            context, "<DEPLOYMENT_KEY>", new ExperimentConfig());
+            context, "DEPLOYMENT_KEY", new ExperimentConfig());
         ```
 
     === "Kotlin"
 
         ```kotlin hl_lines="2"
-        Amplitude.getInstance().init("<API_KEY>")
+        Amplitude.getInstance().init("API_KEY")
         val experiment = Experiment.initializeWithAmplitudeAnalytics(
             context,
-            "<DEPLOYMENT_KEY>",
+            "DEPLOYMENT_KEY",
             ExperimentConfig(),
         )
         ```
@@ -175,7 +225,7 @@ If you use either Amplitude or Segment Analytics SDKs to track events into Ampli
 
 ???segment "Segment Integration"
 
-    Experiment's integration with Segment Analytics is still a manual implementation at this point. Copy the exposure tracking provider implementation into your app code base and initialize the Experiment SDK with the provider instances in the configuration.
+    Experiment's integration with Segment Analytics must be configured manually. The Experiment SDK must then be configured on initialization with an instance of the the exposure tracking provider. Make sure this happens _after_ the analytics SDK has been loaded an initialized.
 
     === "Java"
 
@@ -191,7 +241,8 @@ If you use either Amplitude or Segment Analytics SDKs to track events into Ampli
                         "$exposure",
                         new Properties()
                             .putValue("flag_key", exposure.flagKey)
-                            .putValue("variant", exposure.variant));
+                            .putValue("variant", exposure.variant)
+                            .putValue("experiment_key", exposure.experimentKey));
             }
         }
         ```
@@ -208,7 +259,8 @@ If you use either Amplitude or Segment Analytics SDKs to track events into Ampli
                     "\$exposure",
                     Properties()
                         .putValue("flag_key", exposure.flagKey)
-                        .putValue("variant", exposure.variant),
+                        .putValue("variant", exposure.variant)
+                        .putValue("experiment_key", exposure.experimentKey)
                 )
             }
         }
@@ -223,7 +275,7 @@ If you use either Amplitude or Segment Analytics SDKs to track events into Ampli
         ExperimentConfig config = ExperimentConfig.builder()
             .exposureTrackingProvider(new SegmentExposureTrackingProvider(analytics))
             .build();
-        ExperimentClient experiment = Experiment.initialize(context, "<DEPLOYMENT_KEY>", config);
+        ExperimentClient experiment = Experiment.initialize(context, "DEPLOYMENT_KEY", config);
         ```
 
     === "Kotlin"
@@ -233,10 +285,10 @@ If you use either Amplitude or Segment Analytics SDKs to track events into Ampli
         val config = ExperimentConfig.builder()
             .exposureTrackingProvider(SegmentExposureTrackingProvider(analytics))
             .build()
-        val experiment = Experiment.initialize(context, "<DEPLOYMENT_KEY>", config)
+        val experiment = Experiment.initialize(context, "DEPLOYMENT_KEY", config)
         ```
 
-    When [fetching variants](#fetch), pass the segment anonymous ID and user ID for the device ID and user ID, respectively.
+    When [starting the SDK](#start), pass the segment anonymous ID and user ID for the device ID and user ID, respectively.
 
     === "Java"
 
@@ -248,7 +300,7 @@ If you use either Amplitude or Segment Analytics SDKs to track events into Ampli
                 .userId(userId)
                 .deviceId(deviceId)
                 .build();
-            experiment.fetch(user).get();
+            experiment.start(user).get();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -264,35 +316,59 @@ If you use either Amplitude or Segment Analytics SDKs to track events into Ampli
                 .userId(userId)
                 .deviceId(deviceId)
                 .build()
-            experiment.fetch(user).get()
+            experiment.start(user).get()
         } catch (e: Exception) {
             e.printStackTrace()
         }
         ```
 
-#### Configuration
-
-The SDK client can be configured once on initialization.
-
-???config "Configuration Options"
-    | <div class="big-column">Name</div> | Description | Default Value |
-    | --- | --- | --- |
-    | `debug` | Enable additional debug logging within the SDK. Should be set to false in production builds. | `false` |
-    | `fallbackVariant` | The default variant to fall back if a variant for the provided key doesn't exist. | `{}` |
-    | `initialVariants` | An initial set of variants to access. This field is valuable for bootstrapping the client SDK with values rendered by the server using server-side rendering (SSR). | `{}` |
-    | `serverUrl` | The host to fetch variants from. | `https://api.lab.amplitude.com` |
-    | `fetchTimeoutMillis` | The timeout for fetching variants in milliseconds. | `10000` |
-    | `retryFetchOnFailure` | Whether to retry variant fetches in the background if the request doesn't succeed. | `true` |
-    | `automaticExposureTracking` | If true, calling [`variant()`](#variant) will track an exposure event through the configured `exposureTrackingProvider`. If no exposure tracking provider is set, this configuration option does nothing.  | `true` |
-    | `automaticFetchOnAmplitudeIdentityChange` | Only matters if you use the `initializeWithAmplitudeAnalytics` initialization function to seamlessly integrate with the Amplitude Analytics SDK. If `true` any change to the user ID, device ID or user properties from analytics will trigger the experiment SDK to fetch variants and update it's cache. | `false` |
-    | `userProvider` | An interface used to provide the user object to `fetch()` when called. See [Experiment User](https://developers.experiment.amplitude.com/docs/experiment-user#user-providers) for more information. | `null` |
-    | `exposureTrackingProvider` | Implement and configure this interface to track exposure events through the experiment SDK, either automatically or explicitly. | `null` |
-    | `instanceName` | Custom instance name for experiment SDK instance. **The value of this field is case-sensitive.** | `null` |
-
 ---
 
-!!!info "EU Data Center"
-    If you're using Amplitude's EU data center, configure the `serverUrl` option on initialization to `https://api.lab.eu.amplitude.com`
+### Start
+
+Start the SDK by getting flag configurations from the server and fetching remote evaluation variants for the user. The SDK is ready once the returned future resolves.
+
+```kotlin
+fun start(user: ExperimentUser? = null): Future<ExperimentClient>
+```
+
+| Parameter | Requirement | Description |
+| --- | --- | --- |
+| `user` | optional | Explicit [user](../general/data-model.md#users) information to pass with the request to fetch variants. This user information is merged with user information provided from [integrations](#integrations) via the [user provider](#user-provider), preferring properties passed explicitly to `fetch()` over provided properties. Also sets the user in the SDK for reuse. | `null` |
+
+Call `start()` when your application is initializing, after user information is available to use to evaluate or [fetch](#fetch) variants. The returned future resolves after loading local evaluation flag configurations and fetching remote evaluation variants.
+
+Configure the behavior of `start()` by setting `fetchOnStart` in the SDK configuration on initialization to **improve performance based on the needs of your application**.
+
+* If your application always relies on remote evaluation on startup, set `fetchOnStart` to `true` to load flag configurations and fetch remote evaluation variants simultaneously.
+* If your application never relies on remote evaluation, set `fetchOnStart` to `false` to avoid increased startup latency if someone accidentally creates a remote evaluation flag.
+* If your application relies on remote evaluation, but not right at startup, you may set `fetchOnStart` to `false` and call `fetch()` and await the future separately.
+
+=== "Amplitude Analytics"
+
+    ```kotlin
+    try {
+        experiment.start().get();
+    } catch (e: Exception) {
+        e.printStackTrace();
+    }
+    ```
+
+=== "Third Party Analytics"
+
+    ```kotlin
+    ExperimentUser user = ExperimentUser.builder()
+        .userId("user@company.com")
+        .userProperty("premium", true)
+        .build();
+    try {
+        experiment.start(user).get();
+    } catch (e: Exception) {
+        e.printStackTrace();
+    }
+    ```
+
+---
 
 ### Fetch
 

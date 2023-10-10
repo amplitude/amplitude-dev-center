@@ -172,7 +172,6 @@ The initializer returns a singleton instance, so subsequent initializations for 
             }
         }
     );
-
     ```
 
 #### Configuration
