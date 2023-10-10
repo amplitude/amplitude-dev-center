@@ -74,15 +74,15 @@ Install the Experiment JavaScript Client SDK.
 
     === "Third Party Analytics"
 
-        4. [Initialize the experiment client](#initialize)
-        5. [Start the SDK with the user](#fetch)
-        6. [Access a flag's variant](#variant)
+        1. [Initialize the experiment client](#initialize)
+        2. [Start the SDK with a user](#fetch)
+        3. [Access a flag's variant](#variant)
 
         ```js
         import { Experiment } from '@amplitude/experiment-js-client';
 
-        // (1) Initialize the experiment client with Amplitude Analytics and
-        // implement an exposure tracking provider.
+        // (1) Initialize the experiment client and implement a
+        //     custom exposure tracking provider.
         const experiment = Experiment.initialize(
             'DEPLOYMENT_KEY',
             {
