@@ -189,6 +189,7 @@ SDK client configuration occurs during initialization.
     | `debug` | Enable additional debug logging within the SDK. Should be set to false in production builds. | `false` |
     | `fallbackVariant` | The default variant to fall back if a variant for the provided key doesn't exist. | `{}` |
     | `initialVariants` | An initial set of variants to access. This field is valuable for bootstrapping the client SDK with values rendered by the server using server-side rendering (SSR). | `{}` |
+    | `source` | The primary source of variants. Set the value to `Source.InitialVariants` and configured `initialVariants` to bootstrap the SDK for SSR or testing purposes. | `Source.LocalStorage` |
     | `serverZone` | Select the Amplitude data center to get flags and variants from, `us` or `eu`. | `us` |
     | `serverUrl` | The host to fetch remote evaluation variants from. For hitting the EU data center, use `serverZone`. | `https://api.lab.amplitude.com` |
     | `flagsServerUrl` | The host to fetch local evaluation flags from. For hitting the EU data center, use `serverZone`. | `https://flag.lab.amplitude.com` |
