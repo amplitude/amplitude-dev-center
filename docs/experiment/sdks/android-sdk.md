@@ -64,7 +64,7 @@ dependencies {
     === "Third Party Analytics"
 
         4. [Initialize the experiment client](#initialize)
-        5. [Start the SDK with the user](#fetch)
+        5. [Start the SDK with the user](#start)
         6. [Access a flag's variant](#variant)
 
         ```kotlin
@@ -162,7 +162,7 @@ The initializer returns a singleton instance, so subsequent initializations for 
 
 #### Configuration
 
-The SDK client can be configured once on initialization.
+SDK client configuration occurs during initialization.
 
 ???config "Configuration Options"
     | <div class="big-column">Name</div> | Description | Default Value |
@@ -175,16 +175,16 @@ The SDK client can be configured once on initialization.
     | `flagsServerUrl` | The host to fetch local evaluation flags from. For hitting the EU data center, use `serverZone`. | `https://flag.lab.amplitude.com` |
     | `fetchTimeoutMillis` | The timeout for fetching variants in milliseconds. | `10000` |
     | `retryFetchOnFailure` | Whether to retry variant fetches in the background if the request doesn't succeed. | `true` |
-    | `automaticExposureTracking` | If true, calling [`variant()`](#variant) will track an exposure event through the configured `exposureTrackingProvider`. If no exposure tracking provider is set, this configuration option does nothing.  | `true` |
+    | `automaticExposureTracking` | If true, calling [`variant()`](#variant) tracks an exposure event through the configured `exposureTrackingProvider`. If no exposure tracking provider is set, this configuration option does nothing.  | `true` |
     | `fetchOnStart` | If true, always [fetch](#fetch) remote evaluation variants on [start](#start). If false, never fetch on start. If null, dynamically determine whether to fetch on start. | `null` |
     | `pollOnStart` | Poll for local evaluation flag configuration updates once per minute on [start](#start). | `true` |
-    | `automaticFetchOnAmplitudeIdentityChange` | Only matters if you use the `initializeWithAmplitudeAnalytics` initialization function to seamlessly integrate with the Amplitude Analytics SDK. If `true` any change to the user ID, device ID or user properties from analytics will trigger the experiment SDK to fetch variants and update it's cache. | `false` |
+    | `automaticFetchOnAmplitudeIdentityChange` | Only matters if you use the `initializeWithAmplitudeAnalytics` initialization function to seamlessly integrate with the Amplitude Analytics SDK. If `true` any change to the user ID, device ID or user properties from analytics triggers the experiment SDK to fetch variants and update it's cache. | `false` |
     | `userProvider` | An interface used to provide the user object to `fetch()` when called. See [Experiment User](https://developers.experiment.amplitude.com/docs/experiment-user#user-providers) for more information. | `null` |
     | `exposureTrackingProvider` | Implement and configure this interface to track exposure events through the experiment SDK, either automatically or explicitly. | `null` |
     | `instanceName` | Custom instance name for experiment SDK instance. **The value of this field is case-sensitive.** | `null` |
 
 !!!info "EU Data Center"
-    If you're using Amplitude's EU data center, configure the `serverZone` option on initialization to `ServerZone.EU`.
+    If you use Amplitude's EU data center, configure the `serverZone` option on initialization to `ServerZone.EU`.
 
 #### Integrations
 
@@ -326,7 +326,7 @@ If you use either Amplitude or Segment Analytics SDKs to track events into Ampli
 
 ### Start
 
-Start the SDK by getting flag configurations from the server and fetching remote evaluation variants for the user. The SDK is ready once the returned future resolves.
+Start the Experiment SDK to get flag configurations from the server and fetch remote evaluation variants for the user. The SDK is ready once the returned future resolves.
 
 ```kotlin
 fun start(user: ExperimentUser? = null): Future<ExperimentClient>
