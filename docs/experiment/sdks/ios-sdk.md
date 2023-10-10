@@ -31,35 +31,78 @@ Official documentation for Amplitude Experiment's Client-side iOS SDK implementa
 
 !!!tip "Quick Start"
 
-    1. [Initialize the experiment client](#initialize)
-    2. [Fetch variants for the user](#fetch)
-    3. [Access a flag's variant](#variant)
+    The right way to initialize the Experiment SDK depends on whether you use an
+    Amplitude SDK for analytics or a third party (for example, Segment).
 
-    ```swift
-    // (1) Initialize the experiment client
-    let experiment = Experiment.initialize(
-        apiKey: "<DEPLOYMENT_KEY>",
-        config: ExperimentConfig()
-    )
+    === "Amplitude Analytics"
 
-    let user = ExperimentUserBuilder()
-        .userId("user@company.com")
-        .deviceId("abcdefg")
-        .userProperty("premium", value: true)
-        .build()
+        1. [Initialize the experiment client](#initialize)
+        2. [Start the SDK](#start)
+        3. [Access a flag's variant](#variant)
 
-    // (2) Fetch variants for a user
-    experiment.fetch(user: user) { experiment, error in
+        ```swift
+        // (1) Initialize the experiment client with Amplitude Analytics
+        let experiment = Experiment.initializeWithAmplitudeAnalytics(
+            apiKey: "DEPLOYMENT_KEY",
+            config: ExperimentConfigBuilder().build()
+        )
 
-        // (3) Lookup a flag's variant
-        let variant = experiment.variant("<FLAG_KEY>")
-        if variant.value == "on" {
-            // Flag is on
-        } else {
-            // Flag is off
+        // (2) Start the SDK
+        experiment.start() { error in
+
+            // (3) Lookup a flag's variant
+            let variant = experiment.variant("FLAG_KEY")
+            if variant.value == "on" {
+                // Flag is on
+            } else {
+                // Flag is off
+            }
         }
-    }
-    ```
+        ```
+
+    === "Third Party Analytics"
+
+        1. [Initialize the experiment client](#initialize)
+        2. [Start the SDK with a user](#fetch)
+        3. [Access a flag's variant](#variant)
+
+        ```swift
+
+        // (1) Initialize the experiment client and implement a
+        //     custom exposure tracking provider.
+        class ExposureTracker: ExposureTrackingProvider {
+            func track(exposure: Exposure) {
+                // TODO: Implement exposure tracking
+                // analytics.track(name: "$exposure", properties: [
+                //     "flag_key": exposure.flagKey,
+                //     "variant": exposure.variant,
+                //     "experiment_key": exposure.experimentKey
+                // ])
+            }
+        }
+        let experiment = Experiment.initialize(
+            apiKey: "DEPLOYMENT_KEY",
+            config: ExperimentConfigBuilder()
+                .exposureTrackingProvider(ExposureTracker())
+                .build()
+        )
+        // (2) Start the SDK with the user.
+        let user = ExperimentUserBuilder()
+            .userId("user@company.com")
+            .deviceId("abcdefg")
+            .userProperty("premium", value: true)
+            .build()
+        experiment.start(user) { error in
+
+            // (3) Lookup a flag's variant
+            let variant = experiment.variant("FLAG_KEY")
+            if variant.value == "on" {
+                // Flag is on
+            } else {
+                // Flag is off
+            }
+        }
+        ```
 
     **Not getting the expected variant result for your flag?** Make sure your flag [is activated](../guides/getting-started/create-a-flag.md#activate-the-flag), has a [deployment set](../guides/getting-started/create-a-flag.md#add-a-deployment), and has [users allocated](../guides/getting-started/create-a-flag.md#configure-targeting-rules).
 
@@ -73,9 +116,20 @@ The following functions make up the core of the Experiment client-side SDK.
 
 The SDK client should be initialized in your application on startup. The [deployment key](../general/data-model.md#deployments) argument passed into the `apiKey` parameter must live within the same project that you are sending analytics events to.
 
-```swift
-func initialize(apiKey: String, config: ExperimentConfig) -> ExperimentClient
-```
+=== "Amplitude Analytics"
+
+    ```swift
+    func initializeWithAmplitudeAnalytics(
+        apiKey: String,
+        config: ExperimentConfig
+    ) -> ExperimentClient
+    ```
+
+=== "Third Party Analytics"
+
+    ```swift
+    func initialize(apiKey: String, config: ExperimentConfig) -> ExperimentClient
+    ```
 
 | <div class='med-column'>Parameter</div> | Requirement | Description |
 | --- | --- | --- |
@@ -84,27 +138,77 @@ func initialize(apiKey: String, config: ExperimentConfig) -> ExperimentClient
 
 The initializer returns a singleton instance, so subsequent initializations for the same instance name will always return the initial instance. To create multiple instances, use the `instanceName` [configuration](#configuration).
 
-```swift
-let experiment = Experiment.initialize(
-    apiKey: "<DEPLOYMENT_KEY>",
-    config: ExperimentConfig()
-)
-```
+=== "Amplitude Analytics"
+
+    ```swift
+    let experiment = Experiment.initializeWithAmplitudeAnalytics(
+        apiKey: "DEPLOYMENT_KEY",
+        config: ExperimentConfigBuilder().build()
+    )
+    ```
+
+=== "Third Party Analytics"
+
+    ```swift
+    // (1) Initialize the experiment client and implement a
+    //     custom exposure tracking provider.
+    class ExposureTracker: ExposureTrackingProvider {
+        func track(exposure: Exposure) {
+            // TODO: Implement exposure tracking
+            // analytics.track(name: "$exposure", properties: [
+            //     "flag_key": exposure.flagKey,
+            //     "variant": exposure.variant,
+            //     "experiment_key": exposure.experimentKey
+            // ])
+        }
+    }
+    let experiment = Experiment.initialize(
+        apiKey: "DEPLOYMENT_KEY",
+        config: ExperimentConfigBuilder()
+            .exposureTrackingProvider(ExposureTracker())
+            .build()
+    )
+    ```
+
+#### Configuration
+
+The SDK client can be configured once on initialization.
+
+???config "Configuration Options"
+    | <div class="big-column">Name</div> | Description | Default Value |
+    | --- | --- | --- |
+    | `debug` | Enable additional debug logging within the SDK. Should be set to false in production builds. | `false` |
+    | `fallbackVariant` | The default variant to fall back if a variant for the provided key doesn't exist. | `{}` |
+    | `initialVariants` | An initial set of variants to access. This field is valuable for bootstrapping the client SDK with values rendered by the server using server-side rendering (SSR). | `{}` |
+    | `serverZone` | Select the Amplitude data center to get flags and variants from, `.US` or `.EU` | `.US` |
+    | `serverUrl` | The host to fetch variants from. | `https://api.lab.amplitude.com` |
+    | `flagsServerUrl` | The host to fetch local evaluation flags from. For hitting the EU data center, use `serverZone`. | `https://flag.lab.amplitude.com` |
+    | `fetchTimeoutMillis` | The timeout for fetching variants in milliseconds. | `10000` |
+    | `retryFetchOnFailure` | Whether to retry variant fetches in the background if the request doesn't succeed. | `true` |
+    | `automaticExposureTracking` | If true, calling [`variant()`](#variant) will track an exposure event through the configured `exposureTrackingProvider`. If no exposure tracking provider is set, this configuration option does nothing.  | `true` |
+    | `fetchOnStart` | If true, always [fetch](#fetch) remote evaluation variants on [start](#start). If false, never fetch on start. If undefined, dynamically determine whether to fetch on start. | `nil` |
+    | `pollOnStart` | Poll for local evaluation flag configuration updates once per minute on [start](#start). | `true` |
+    | `automaticFetchOnAmplitudeIdentityChange` | Only matters if you use the `initializeWithAmplitudeAnalytics` initialization function to seamlessly integrate with the Amplitude Analytics SDK. If `true` any change to the user ID, device ID or user properties from analytics will trigger the experiment SDK to fetch variants and update it's cache. | `false` |
+    | `userProvider` | An interface used to provide the user object to `fetch()` when called. See [Experiment User](https://developers.experiment.amplitude.com/docs/experiment-user#user-providers) for more information. | `null` |
+    | `exposureTrackingProvider` | Implement and configure this interface to track exposure events through the experiment SDK, either automatically or explicitly. | `null` |
+    | `instanceName` | Custom instance name for experiment SDK instance. **The value of this field is case-sensitive.** | `null` |
+
+!!!info "EU Data Center"
+    If you're using Amplitude's EU data center, configure the `serverZone` option on initialization to `.EU`.
 
 #### Integrations
 
 If you use either Amplitude or Segment Analytics SDKs to track events into Amplitude, you'll want to set up an integration on initialization. Integrations automatically implement [provider](#providers) interfaces to enable a more streamlined developer experience by making it easier to **manage user identity** and **track exposures events**.
 
-!!!amplitude "Amplitude Integration"
+???amplitude "Amplitude Integration (click to open)"
 
-    The Amplitude Experiment SDK is set up to integrate seamlessly with the Amplitude Analytics SDK. All you need to do is update your SDK versions to the latest, and use the special integration initialization function.
-
+    The Amplitude Experiment SDK is set up to integrate seamlessly with the Amplitude Analytics SDK.
 
     ```swift hl_lines="2"
-    Amplitude.instance().initializeApiKey("<API_KEY>")
+    Amplitude.instance().initializeApiKey("API_KEY")
     let experiment = Experiment.initializeWithAmplitudeAnalytics(
-        apiKey: "<DEPLOYMENT_KEY>",
-        config: ExperimentConfig()
+        apiKey: "DEPLOYMENT_KEY",
+        config: ExperimentConfigBuilder().build()
     )
     ```
 
@@ -114,13 +218,15 @@ If you use either Amplitude or Segment Analytics SDKs to track events into Ampli
 
     **Supported Versions**
 
+    All generally available versions of the next-generation [Amplitude Analytics Swift](../../data/sdks/ios-swift/index.md) SDK support this integration.
+
     | Analytics SDK Version | Experiment SDK Version |
     | --- | --- |
     | `8.8.0+` | `1.6.0+` |
 
-???segment "Segment Integration"
+???segment "Segment Integration (click to open)"
 
-    Experiment's integration with Segment Analytics is still a manual implementation at this point. Copy the exposure tracking provider implementation into your app code base and initialize the Experiment SDK with the provider instances in the configuration.
+    Experiment's integration with Segment Analytics must be configured manually. The Experiment SDK must then be configured on initialization with an instance of the the exposure tracking provider. Make sure this happens _after_ the analytics SDK has been loaded an initialized.
 
     ```swift title="SegmentExposureTrackingProvider"
     class SegmentExposureTrackingProvider : ExposureTrackingProvider {
@@ -131,7 +237,8 @@ If you use either Amplitude or Segment Analytics SDKs to track events into Ampli
         func track(exposure: Exposure) {
             analytics.track("$exposure", properties: [
                 "flag_key": exposure.flagKey,
-                "variant": exposure.variant
+                "variant": exposure.variant,
+                "experiment_key": exposure.experimentKey
             ])
         }
     }
@@ -160,29 +267,47 @@ If you use either Amplitude or Segment Analytics SDKs to track events into Ampli
     experiment.fetch(user: user, completion: nil)
     ```
 
-#### Configuration
+### Start
 
-The SDK client can be configured once on initialization.
+Start the SDK by getting flag configurations from the server and fetching remote evaluation variants for the user. The SDK is ready once the completion callback is called.
 
-???config "Configuration Options"
-    | <div class="big-column">Name</div> | Description | Default Value |
-    | --- | --- | --- |
-    | `debug` | Enable additional debug logging within the SDK. Should be set to false in production builds. | `false` |
-    | `fallbackVariant` | The default variant to fall back if a variant for the provided key doesn't exist. | `{}` |
-    | `initialVariants` | An initial set of variants to access. This field is valuable for bootstrapping the client SDK with values rendered by the server using server-side rendering (SSR). | `{}` |
-    | `serverUrl` | The host to fetch variants from. | `https://api.lab.amplitude.com` |
-    | `fetchTimeoutMillis` | The timeout for fetching variants in milliseconds. | `10000` |
-    | `retryFetchOnFailure` | Whether to retry variant fetches in the background if the request doesn't succeed. | `true` |
-    | `automaticExposureTracking` | If true, calling [`variant()`](#variant) will track an exposure event through the configured `exposureTrackingProvider`. If no exposure tracking provider is set, this configuration option does nothing.  | `true` |
-    | `automaticFetchOnAmplitudeIdentityChange` | Only matters if you use the `initializeWithAmplitudeAnalytics` initialization function to seamlessly integrate with the Amplitude Analytics SDK. If `true` any change to the user ID, device ID or user properties from analytics will trigger the experiment SDK to fetch variants and update it's cache. | `false` |
-    | `userProvider` | An interface used to provide the user object to `fetch()` when called. See [Experiment User](https://developers.experiment.amplitude.com/docs/experiment-user#user-providers) for more information. | `null` |
-    | `exposureTrackingProvider` | Implement and configure this interface to track exposure events through the experiment SDK, either automatically or explicitly. | `null` |
-    | `instanceName` | Custom instance name for experiment SDK instance. **The value of this field is case-sensitive.** | `null` |
+```js
+func start(_ user: ExperimentUser? = nil, completion: ((Error?) -> Void)? = nil)
+```
 
----
+| Parameter | Requirement | Description |
+| --- | --- | --- |
+| `user` | optional | Explicit [user](../general/data-model.md#users) information to pass with the request to fetch variants. This user information is merged with user information provided from [integrations](#integrations) via the [user provider](#user-provider), preferring properties passed explicitly to `fetch()` over provided properties. Also sets the user in the SDK for reuse. |
+| `completion` | optional | The completion block, called when the SDK has finished starting. If fetch is called on start, the completion block is called after the fetch response is received. |
 
-!!!info "EU Data Center"
-    If you're using Amplitude's EU data center, configure the `serverUrl` option on initialization to `https://api.lab.eu.amplitude.com`
+Call `start()` when your application is initializing, after user information is available to use to evaluate or [fetch](#fetch) variants. The provided completion block is called after loading local evaluation flag configurations and fetching remote evaluation variants.
+
+Configure the behavior of `start()` by setting `fetchOnStart` in the SDK configuration on initialization to **improve performance based on the needs of your application**.
+
+* If your application always relies on remote evaluation on startup, set `fetchOnStart` to `true` to load flag configurations and fetch remote evaluation variants simultaneously.
+* If your application never relies on remote evaluation, set `fetchOnStart` to `false` to avoid increased startup latency if someone accidentally creates and activates a remote evaluation flag.
+* If your application relies on remote evaluation, but not right at startup, you may set `fetchOnStart` to `false` and call `fetch()` separately.
+
+=== "Amplitude Analytics"
+
+    ```swift
+    experiment.start() { error in 
+        // SDK Started
+    }
+    ```
+
+=== "Third Party Analytics"
+
+    ```swift
+    let user = ExperimentUserBuilder()
+        .userId("user@company.com")
+        .deviceId("abcdefg")
+        .userProperty("premium", value: true)
+        .build()
+    experiment.start(user) { error in
+        // SDK Started
+    }
+    ```
 
 ### Fetch
 
