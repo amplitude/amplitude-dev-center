@@ -101,7 +101,7 @@ The configurations for the new SDK are simpler and more consistent across runtim
 |Customize storage provider. NOT SUPPORTED.|`config.storageProvider`|
 |Set up log level. NOT SUPPORTED.|`config.logLevel`|
 |Customize logger provider. NOT SUPPORTED.|`config.loggerProvider`|
-| `deviceId` and `userId` don't have a minimum length.|`config.minIdLength` overwrites the minimum length `deviceId` and `userId`.|
+| `deviceId` and `userId` don't have a minimum length.| Minimum length is 5. `config.minIdLength` overwrites the minimum length  of`deviceId` and `userId`.|
 |Partner Id for partner integrations. NOT SUPPORTED.|`config.partnerId`|
 |The event callback. NOT SUPPORTED. See middleware. |`config.callback`|
 |`amplitude.libraryName`|NOT SUPPORTED.|
