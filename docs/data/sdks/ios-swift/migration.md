@@ -101,7 +101,7 @@ The configurations for the new SDK are simpler and more consistent across runtim
 |Customize storage provider. NOT SUPPORTED.|`config.storageProvider`|
 |Set up log level. NOT SUPPORTED.|`config.logLevel`|
 |Customize logger provider. NOT SUPPORTED.|`config.loggerProvider`|
-|Overwrite the minimum length deviceId and userId. NOT SUPPORTED.|`config.minIdLength`|
+|Have no length limit on deviceId or userId.|`config.minIdLength`overwrites the minimum length deviceId and userId.|
 |Partner Id for partner integrations. NOT SUPPORTED.|`config.partnerId`|
 |The event callback. NOT SUPPORTED. See middleware. |`config.callback`|
 |`amplitude.libraryName`|NOT SUPPORTED.|
@@ -253,6 +253,8 @@ The APIs for setting user properties are the same, except for the removal of `in
 
 #### `setUserId()`
 
+--8<-- "includes/sdk-min-id-length.md"
+
 Setting a user ID can be invoked on `amplitude` without calling `getInstance()`.
 
 === "Swift"
@@ -272,6 +274,8 @@ Setting a user ID can be invoked on `amplitude` without calling `getInstance()`.
     ```
 
 #### `setDeviceId()`
+
+--8<-- "includes/sdk-min-id-length.md"
 
 Set a device ID on `amplitude` without calling `instance()`.
 

@@ -144,7 +144,9 @@ The `clearUserProperties()` API has been removed, but you can now use the unifie
 
 #### `setUserId()`
 
-The `setUserId()` API remains the same`.
+--8<-- "includes/sdk-min-id-length.md"
+
+The `setUserId()` API remains the same.
 
 ```diff
 - import { Amplitude } from '@amplitude/react-native';

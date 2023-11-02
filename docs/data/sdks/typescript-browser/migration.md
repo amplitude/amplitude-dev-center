@@ -247,6 +247,8 @@ The APIs for setting user properties are the same, except for the removal of `ge
 
 #### `setUserId()`
 
+--8<-- "includes/sdk-min-id-length.md"
+
 Setting a user ID can be invoked on `amplitude` without calling `getInstance()`.
 
 === "amplitude-js"
@@ -264,6 +266,8 @@ Setting a user ID can be invoked on `amplitude` without calling `getInstance()`.
     ```
 
 #### `setDeviceId()`
+
+--8<-- "includes/sdk-min-id-length.md"
 
 Setting a device ID can be invoked on `amplitude` without calling `getInstance()`.
 

@@ -1,0 +1,2 @@
+!!!warning "Id length limit"
+    The maintenance SDK uses the old SDK endpoint (`api2.amplitude.com`) which has no length limit on device Id and user Id. But the latest SDK uses HTTP V2 API (`api2.amplitude.com/2/httpapi`) which requires the minimum id length is 5 by default. Set `config.minIdLength` to a smalle value if you set user Id or device Id with length less than 5 when migration.
