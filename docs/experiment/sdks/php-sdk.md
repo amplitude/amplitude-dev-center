@@ -146,3 +146,130 @@ if ($variant) {
     }
 }
 ```
+
+## Local evaluation
+
+Implements evaluating variants for a user via [local evaluation](../general/evaluation/local-evaluation.md). If you plan on using local evaluation, you should [understand the tradeoffs](../general/evaluation/local-evaluation.md#targeting-capabilities).
+
+!!!note "Local Evaluation Mode"
+    The local evaluation client can only evaluation flags which are [set to local evaluation mode](../guides/create-local-evaluation-flag.md).
+
+### Install
+
+!!!info "PHP version compatibility"
+
+    The PHP Server SDK works with PHP 7.4+.
+
+Install the PHP Server SDK with composer.
+
+=== "php"
+
+    ```bash
+    composer require amplitude/experiment-php-server
+    ```
+
+!!!tip "Quick Start"
+
+    1. [Initialize the local evaluation client.](#initialize-local)
+    2. [Start the local evaluation client.](#start)
+    3. [Evaluate a user.](#evaluate)
+
+    ```php
+    <?php
+    // (1) Initialize the experiment client
+    $experiment = new \AmplitudeExperiment\Experiment();
+    $client = $experiment->initializeLocal('<DEPLOYMENT_KEY>');
+
+    // (2) Start the local evaluation client.
+    $experiment->start();
+
+    // (3) Evaluate a user.
+    $user = \AmplitudeExperiment\User::builder()
+        ->deviceId('abcdefg')
+        ->userId('user@company.com')
+        ->userProperties(['premium' => true]) 
+        ->build();
+
+    // (3) Evaluate a user
+    $variants = $client->evaluate($user);
+    ```
+
+    **Not getting the expected variant result for your flag?** Make sure your flag [is activated](../guides/getting-started/create-a-flag.md#activate-the-flag), has a [deployment set](../guides/getting-started/create-a-flag.md#add-a-deployment), and has [users allocated](../guides/getting-started/create-a-flag.md#configure-targeting-rules).
+
+### Initialize Local
+
+Initializes a [local evaluation](../general/evaluation/local-evaluation.md) client.
+
+!!!warning "Server Deployment Key"
+    You must [initialize](#initialize-local) the local evaluation client with a server [deployment](../general/data-model.md#deployments) key to get access to local evaluation flag configs.
+
+```php
+(string $apiKey, ?LocalEvaluationConfig $config = null): LocalEvaluationClient
+```
+
+| Parameter | Requirement | Description |
+| --- | --- | --- |
+| `apiKey` | required | The server [deployment key](../general/data-model.md#deployments) which authorizes fetch requests and determines which flags should be evaluated for the user. |
+| `config` | optional | The client [configuration](#configuration) used to customize SDK client behavior. |
+
+!!!tip "Flag Polling Interval"
+    Use the `flagConfigPollingIntervalMillis` [configuration](#configuration_1) to determine the time flag configs take to update once modified (default 30s).
+
+#### Configuration
+
+You can configure the SDK client on initialization.
+
+???config "Configuration Options"
+
+    | <div class="big-column">Name</div> | Description | Default Value |
+    | --- | --- | --- |
+    | `debug` | Set to `true` to enable debug logging. | `false` |
+    | `serverUrl` | The host to fetch flag configurations from. | `https://api.lab.amplitude.com` |
+    | `flagConfigPollingIntervalMillis` | The interval (in milliseconds) to poll for updated flag configs after calling `start()` | `30000` |
+
+!!!info "EU Data Center"
+    If you're using Amplitude's EU data center, configure the `serverUrl` option on initialization to `https://api.lab.eu.amplitude.com`
+
+### Start
+
+Start the local evaluation client, pre-fetching local evaluation mode flag configs for [evaluation](#evaluate) and starting the flag config poller at the [configured](#configuration) interval.
+
+```php
+start(): PromiseInterface
+```
+
+You should await the result of `start()` to ensure that flag configs are ready to be used before calling [`evaluate()`](#evaluate)
+
+```php
+$experiment->start()->wait();
+```
+
+### Evaluate
+
+Executes the [evaluation logic](../general/evaluation/implementation.md) using the flags pre-fetched on [`start()`](#start). You must give evaluate a user object argument. You can optionally pass an array of flag keys if you require only a specific subset of required flag variants.
+
+```php
+evaluate(User $user, ?array $flagKeys): array
+```
+
+| Parameter | Requirement | Description |
+| --- | --- | --- |
+| `user` | required | The [user](../general/data-model.md#users) to evaluate. |
+| `flagKeys` | optional | Specific flags or experiments to evaluate. If null or empty, all flags and experiments are evaluated. |
+
+```php
+<?php
+// The user to evaluate
+$user = \AmplitudeExperiment\User::builder()
+        ->deviceId('abcdefg')
+        ->build();
+
+// Evaluate all flag variants
+$allVariants = $experiment->evaluate(user);
+
+// Evaluate a specific subset of flag variants
+$specificVariants = $experiment->evaluate(user, [
+  "my-local-flag-1",
+  "my-local-flag-2",
+]);
+```
