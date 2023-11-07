@@ -11,10 +11,6 @@ Official documentation for Amplitude Experiment's server-side PHP SDK implementa
 !!!beta "SDK Resources"
      [:material-github: GitHub](https://github.com/amplitude/experiment-php-server) · [:material-code-tags-check: Releases](https://github.com/amplitude/experiment-php-server/releases)
 
-## Remote evaluation
-
-This SDK supports and uses [remote evaluation](../general/evaluation/remote-evaluation.md) to fetch variants for users.
-
 ### Install
 
 !!!info "PHP version compatibility"
@@ -28,6 +24,10 @@ Install the PHP Server SDK with composer.
     ```bash
     composer require amplitude/experiment-php-server
     ```
+
+## Remote evaluation
+
+This SDK supports and uses [remote evaluation](../general/evaluation/remote-evaluation.md) to fetch variants for users.
 
 !!!tip "Quick Start"
 
@@ -154,20 +154,6 @@ Implements evaluating variants for a user via [local evaluation](../general/eval
 !!!note "Local Evaluation Mode"
     The local evaluation client can only evaluation flags which are [set to local evaluation mode](../guides/create-local-evaluation-flag.md).
 
-### Install
-
-!!!info "PHP version compatibility"
-
-    The PHP Server SDK works with PHP 7.4+.
-
-Install the PHP Server SDK with composer.
-
-=== "php"
-
-    ```bash
-    composer require amplitude/experiment-php-server
-    ```
-
 !!!tip "Quick Start"
 
     1. [Initialize the local evaluation client.](#initialize-local)
@@ -181,7 +167,7 @@ Install the PHP Server SDK with composer.
     $client = $experiment->initializeLocal('<DEPLOYMENT_KEY>');
 
     // (2) Start the local evaluation client.
-    $experiment->start();
+    $client->start()->wait();
 
     // (3) Evaluate a user.
     $user = \AmplitudeExperiment\User::builder()
@@ -204,7 +190,7 @@ Initializes a [local evaluation](../general/evaluation/local-evaluation.md) clie
     You must [initialize](#initialize-local) the local evaluation client with a server [deployment](../general/data-model.md#deployments) key to get access to local evaluation flag configs.
 
 ```php
-(string $apiKey, ?LocalEvaluationConfig $config = null): LocalEvaluationClient
+initializeLocal(string $apiKey, ?LocalEvaluationConfig $config = null): LocalEvaluationClient
 ```
 
 | Parameter | Requirement | Description |
@@ -241,7 +227,7 @@ start(): PromiseInterface
 You should await the result of `start()` to ensure that flag configs are ready to be used before calling [`evaluate()`](#evaluate)
 
 ```php
-$experiment->start()->wait();
+$client->start()->wait();
 ```
 
 ### Evaluate
@@ -265,11 +251,21 @@ $user = \AmplitudeExperiment\User::builder()
         ->build();
 
 // Evaluate all flag variants
-$allVariants = $experiment->evaluate(user);
+$allVariants = $client->evaluate(user);
 
 // Evaluate a specific subset of flag variants
-$specificVariants = $experiment->evaluate(user, [
+$specificVariants = $client->evaluate(user, [
   "my-local-flag-1",
   "my-local-flag-2",
 ]);
+
+// Access a flag's variant
+$variant = $specificVariants['FLAG_KEY']
+if ($variant) {
+    if ($variant->value == 'on') {
+        // Flag is on
+    } else {
+        // Flag is off
+    }
+}
 ```
