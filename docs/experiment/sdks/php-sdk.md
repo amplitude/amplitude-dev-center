@@ -198,9 +198,6 @@ initializeLocal(string $apiKey, ?LocalEvaluationConfig $config = null): LocalEva
 | `apiKey` | required | The server [deployment key](../general/data-model.md#deployments) which authorizes fetch requests and determines which flags should be evaluated for the user. |
 | `config` | optional | The client [configuration](#configuration) used to customize SDK client behavior. |
 
-!!!tip "Flag Polling Interval"
-    Use the `flagConfigPollingIntervalMillis` [configuration](#configuration_1) to determine the time flag configs take to update once modified (default 30s).
-
 #### Configuration
 
 You can configure the SDK client on initialization.
@@ -211,14 +208,14 @@ You can configure the SDK client on initialization.
     | --- | --- | --- |
     | `debug` | Set to `true` to enable debug logging. | `false` |
     | `serverUrl` | The host to fetch flag configurations from. | `https://api.lab.amplitude.com` |
-    | `flagConfigPollingIntervalMillis` | The interval (in milliseconds) to poll for updated flag configs after calling `start()` | `30000` |
+    | `bootstrap` | Bootstrap the client with an array of flag key to flag configuration | `[]` |
 
 !!!info "EU Data Center"
     If you're using Amplitude's EU data center, configure the `serverUrl` option on initialization to `https://api.lab.eu.amplitude.com`
 
 ### Start
 
-Start the local evaluation client, pre-fetching local evaluation mode flag configs for [evaluation](#evaluate) and starting the flag config poller at the [configured](#configuration) interval.
+Start the local evaluation client and pre-fetch local evaluation mode flag configs for [evaluation](#evaluate).
 
 ```php
 start(): PromiseInterface
@@ -260,7 +257,7 @@ $specificVariants = $client->evaluate(user, [
 ]);
 
 // Access a flag's variant
-$variant = $specificVariants['FLAG_KEY']
+$variant = $allVariants['FLAG_KEY']
 if ($variant) {
     if ($variant->value == 'on') {
         // Flag is on
