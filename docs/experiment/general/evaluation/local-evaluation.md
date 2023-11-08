@@ -44,7 +44,7 @@ Server-side local evaluation experiments often set the Assignment event as a heu
 
 ## SDKs
 
-Most server-side SDKs and all client-side (which have local evaluation enabled) support local evaluation.
+All server-side SDKs and all client-side (which have local evaluation enabled) support local evaluation.
 
 ### Client-side
 
@@ -64,7 +64,7 @@ Most server-side SDKs and all client-side (which have local evaluation enabled) 
 | [:java: JVM](../../sdks/jvm-sdk.md) |  :material-check-bold:{ .green } | :material-check-bold:{ .green } |
 | [:golang: Go](../../sdks/go-sdk.md) |  :material-check-bold:{ .green } | :material-check-bold:{ .green } |
 | [:python: Python](../../sdks/python-sdk.md) |  :material-check-bold:{ .green } | :material-check-bold:{ .green } |
-| [:php: PHP](../../sdks/php-sdk.md) |  :material-check-bold:{ .green } | :material-close-thick:{ .red } |
+| [:php: PHP](../../sdks/php-sdk.md) |  :material-check-bold:{ .green } | :material-check-bold:{ .green } |
 
 ### Performance
 

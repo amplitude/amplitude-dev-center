@@ -31,7 +31,7 @@ This SDK supports and uses [remote evaluation](../general/evaluation/remote-eval
 
 !!!tip "Quick Start"
 
-    1. [Initialize the experiment client](#initialize)
+    1. [Initialize the experiment client](#initialize-remote)
     2. [Fetch variants for the user](#fetch)
     3. [Access a flag's variant](#fetch)
 
@@ -62,7 +62,7 @@ This SDK supports and uses [remote evaluation](../general/evaluation/remote-eval
 
     **Not getting the expected variant result for your flag?** Make sure your flag [is activated](../guides/getting-started/create-a-flag.md#activate-the-flag), has a [deployment set](../guides/getting-started/create-a-flag.md#add-a-deployment), and has [users allocated](../guides/getting-started/create-a-flag.md#configure-targeting-rules).
 
-### Initialize
+### Initialize Remote
 
 Configure the SDK to initialize on server startup. The [deployment key](../general/data-model.md#deployments) argument you pass into the `apiKey` parameter must live within the same project that you send analytics events to.
 
@@ -196,7 +196,7 @@ initializeLocal(string $apiKey, ?LocalEvaluationConfig $config = null): LocalEva
 | Parameter | Requirement | Description |
 | --- | --- | --- |
 | `apiKey` | required | The server [deployment key](../general/data-model.md#deployments) which authorizes fetch requests and determines which flags should be evaluated for the user. |
-| `config` | optional | The client [configuration](#configuration) used to customize SDK client behavior. |
+| `config` | optional | The client [configuration](#configuration_1) used to customize SDK client behavior. |
 
 #### Configuration
 
@@ -215,7 +215,7 @@ You can configure the SDK client on initialization.
 
 ### Start
 
-Start the local evaluation client and pre-fetch local evaluation mode flag configs for [evaluation](#evaluate).
+Fetch local evaluation mode flag configs for [evaluation](#evaluate).
 
 ```php
 start(): PromiseInterface
@@ -224,21 +224,22 @@ start(): PromiseInterface
 You should await the result of `start()` to ensure that flag configs are ready to be used before calling [`evaluate()`](#evaluate)
 
 ```php
+<?php
 $client->start()->wait();
 ```
 
 ### Evaluate
 
-Executes the [evaluation logic](../general/evaluation/implementation.md) using the flags pre-fetched on [`start()`](#start). You must give evaluate a user object argument. You can optionally pass an array of flag keys if you require only a specific subset of required flag variants.
+Executes the [evaluation logic](../general/evaluation/implementation.md) using the flags fetched on [`start()`](#start). You must give evaluate a user object argument. You can optionally pass an array of flag keys if you require only a specific subset of required flag variants.
 
 ```php
-evaluate(User $user, ?array $flagKeys): array
+evaluate(User $user, array $flagKeys = []): array
 ```
 
 | Parameter | Requirement | Description |
 | --- | --- | --- |
 | `user` | required | The [user](../general/data-model.md#users) to evaluate. |
-| `flagKeys` | optional | Specific flags or experiments to evaluate. If null or empty, all flags and experiments are evaluated. |
+| `flagKeys` | optional | Specific flags or experiments to evaluate. If empty, all flags and experiments are evaluated. |
 
 ```php
 <?php
@@ -248,12 +249,12 @@ $user = \AmplitudeExperiment\User::builder()
         ->build();
 
 // Evaluate all flag variants
-$allVariants = $client->evaluate(user);
+$allVariants = $client->evaluate($user);
 
 // Evaluate a specific subset of flag variants
-$specificVariants = $client->evaluate(user, [
-  "my-local-flag-1",
-  "my-local-flag-2",
+$specificVariants = $client->evaluate($user, [
+  'my-local-flag-1',
+  'my-local-flag-2',
 ]);
 
 // Access a flag's variant
