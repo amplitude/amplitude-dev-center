@@ -273,7 +273,6 @@ Configure the behavior of `start()` by setting `fetchOnStart` in the SDK configu
 * If your application never relies on remote evaluation, set `fetchOnStart` to `false` to avoid increased startup latency caused by remote evaluation.
 * If your application relies on remote evaluation, but not right at startup, you may set `fetchOnStart` to `false` and call `fetch()` and await the promise separately.
 
-
 === "Amplitude Analytics"
 
     ```js
