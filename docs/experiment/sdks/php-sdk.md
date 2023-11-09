@@ -62,7 +62,7 @@ This SDK supports and uses [remote evaluation](../general/evaluation/remote-eval
 
     **Not getting the expected variant result for your flag?** Make sure your flag [is activated](../guides/getting-started/create-a-flag.md#activate-the-flag), has a [deployment set](../guides/getting-started/create-a-flag.md#add-a-deployment), and has [users allocated](../guides/getting-started/create-a-flag.md#configure-targeting-rules).
 
-### Initialize Remote
+### Initialize remote evaluation
 
 Configure the SDK to initialize on server startup. The [deployment key](../general/data-model.md#deployments) argument you pass into the `apiKey` parameter must live within the same project that you send analytics events to.
 
@@ -149,10 +149,10 @@ if ($variant) {
 
 ## Local evaluation
 
-Implements evaluating variants for a user via [local evaluation](../general/evaluation/local-evaluation.md). If you plan on using local evaluation, you should [understand the tradeoffs](../general/evaluation/local-evaluation.md#targeting-capabilities).
+Implements evaluation of variants for a user through [local evaluation](../general/evaluation/local-evaluation.md). If you plan to use local evaluation, you should [understand the tradeoffs](../general/evaluation/local-evaluation.md#targeting-capabilities).
 
 !!!note "Local Evaluation Mode"
-    The local evaluation client can only evaluation flags which are [set to local evaluation mode](../guides/create-local-evaluation-flag.md).
+    The local evaluation client can only evaluate flags which are [set to local evaluation mode](../guides/create-local-evaluation-flag.md).
 
 !!!tip "Quick Start"
 
@@ -182,12 +182,12 @@ Implements evaluating variants for a user via [local evaluation](../general/eval
 
     **Not getting the expected variant result for your flag?** Make sure your flag [is activated](../guides/getting-started/create-a-flag.md#activate-the-flag), has a [deployment set](../guides/getting-started/create-a-flag.md#add-a-deployment), and has [users allocated](../guides/getting-started/create-a-flag.md#configure-targeting-rules).
 
-### Initialize Local
+### Initialize local evaluation
 
-Initializes a [local evaluation](../general/evaluation/local-evaluation.md) client.
+For more information, see [Local Evaluation](../general/evaluation/local-evaluation.md).
 
 !!!warning "Server Deployment Key"
-    You must [initialize](#initialize-local) the local evaluation client with a server [deployment](../general/data-model.md#deployments) key to get access to local evaluation flag configs.
+    [Initialize](#initialize-local) the local evaluation client with a server [deployment](../general/data-model.md#deployments) key to access local evaluation flag configurations.
 
 ```php
 initializeLocal(string $apiKey, ?LocalEvaluationConfig $config = null): LocalEvaluationClient
@@ -195,7 +195,7 @@ initializeLocal(string $apiKey, ?LocalEvaluationConfig $config = null): LocalEva
 
 | Parameter | Requirement | Description |
 | --- | --- | --- |
-| `apiKey` | required | The server [deployment key](../general/data-model.md#deployments) which authorizes fetch requests and determines which flags should be evaluated for the user. |
+| `apiKey` | required | The server [deployment key](../general/data-model.md#deployments) which authorizes fetch requests and determines which flags to evaluate for the user. |
 | `config` | optional | The client [configuration](#configuration_1) used to customize SDK client behavior. |
 
 #### Configuration
@@ -211,7 +211,7 @@ You can configure the SDK client on initialization.
     | `bootstrap` | Bootstrap the client with an array of flag key to flag configuration | `[]` |
 
 !!!info "EU Data Center"
-    If you're using Amplitude's EU data center, configure the `serverUrl` option on initialization to `https://api.lab.eu.amplitude.com`
+    If you use Amplitude's EU data center, configure the `serverUrl` option on initialization to `https://api.lab.eu.amplitude.com`
 
 ### Start
 
@@ -221,7 +221,7 @@ Fetch local evaluation mode flag configs for [evaluation](#evaluate).
 start(): PromiseInterface
 ```
 
-You should await the result of `start()` to ensure that flag configs are ready to be used before calling [`evaluate()`](#evaluate)
+Await the result of `start()` to ensure that flag configs are ready for use before you call [`evaluate()`](#evaluate)
 
 ```php
 <?php
@@ -230,7 +230,7 @@ $client->start()->wait();
 
 ### Evaluate
 
-Executes the [evaluation logic](../general/evaluation/implementation.md) using the flags fetched on [`start()`](#start). You must give evaluate a user object argument. You can optionally pass an array of flag keys if you require only a specific subset of required flag variants.
+Executes the [evaluation logic](../general/evaluation/implementation.md) using the flags fetched on [`start()`](#start). Give `evaluate()` a user object argument. Optionally pass an array of flag keys if you require only a specific subset of required flag variants.
 
 ```php
 evaluate(User $user, array $flagKeys = []): array
@@ -239,7 +239,7 @@ evaluate(User $user, array $flagKeys = []): array
 | Parameter | Requirement | Description |
 | --- | --- | --- |
 | `user` | required | The [user](../general/data-model.md#users) to evaluate. |
-| `flagKeys` | optional | Specific flags or experiments to evaluate. If empty, all flags and experiments are evaluated. |
+| `flagKeys` | optional | Specific flags or experiments to evaluate. If empty, Amplitude evaluates all flags and experiments. |
 
 ```php
 <?php
