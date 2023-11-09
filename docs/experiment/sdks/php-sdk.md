@@ -31,7 +31,7 @@ This SDK supports and uses [remote evaluation](../general/evaluation/remote-eval
 
 !!!tip "Quick Start"
 
-    1. [Initialize the experiment client](#initialize-remote)
+    1. [Initialize the experiment client](#initialize-remote-evaluation)
     2. [Fetch variants for the user](#fetch)
     3. [Access a flag's variant](#fetch)
 
@@ -156,7 +156,7 @@ Implements evaluation of variants for a user through [local evaluation](../gener
 
 !!!tip "Quick Start"
 
-    1. [Initialize the local evaluation client.](#initialize-local)
+    1. [Initialize the local evaluation client.](#initialize-local-evaluation)
     2. [Start the local evaluation client.](#start)
     3. [Evaluate a user.](#evaluate)
 
@@ -187,7 +187,7 @@ Implements evaluation of variants for a user through [local evaluation](../gener
 For more information, see [Local Evaluation](../general/evaluation/local-evaluation.md).
 
 !!!warning "Server Deployment Key"
-    [Initialize](#initialize-local) the local evaluation client with a server [deployment](../general/data-model.md#deployments) key to access local evaluation flag configurations.
+    [Initialize](#initialize-local-evaluation) the local evaluation client with a server [deployment](../general/data-model.md#deployments) key to access local evaluation flag configurations.
 
 ```php
 initializeLocal(string $apiKey, ?LocalEvaluationConfig $config = null): LocalEvaluationClient
