@@ -50,7 +50,7 @@ This SDK supports and uses [remote evaluation](../general/evaluation/remote-eval
     $variants = $client->fetch($user)>wait();
 
     // (3) Access a flag's variant
-    $variant = $variants['FLAG_KEY']
+    $variant = $variants['FLAG_KEY'];
     if ($variant) {
         if ($variant->value == 'on') {
             // Flag is on
@@ -137,7 +137,7 @@ After fetching variants for a user, you may to access the variant for a specific
 
 ```php
 <?php
-$variant = $variants['FLAG-KEY']
+$variant = $variants['FLAG-KEY'];
 if ($variant) {
     if ($variant->value == 'on') {
         // Flag is on
@@ -176,7 +176,6 @@ Implements evaluation of variants for a user through [local evaluation](../gener
         ->userProperties(['premium' => true]) 
         ->build();
 
-    // (3) Evaluate a user
     $variants = $client->evaluate($user);
     ```
 
@@ -258,7 +257,7 @@ $specificVariants = $client->evaluate($user, [
 ]);
 
 // Access a flag's variant
-$variant = $allVariants['FLAG_KEY']
+$variant = $allVariants['FLAG_KEY'];
 if ($variant) {
     if ($variant->value == 'on') {
         // Flag is on
