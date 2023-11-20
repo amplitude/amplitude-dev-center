@@ -203,11 +203,31 @@ You can configure the SDK client on initialization.
 
 ???config "Configuration Options"
 
+    **LocalEvaluationConfig**
+
     | <div class="big-column">Name</div> | Description | Default Value |
     | --- | --- | --- |
     | `debug` | Set to `true` to enable debug logging. | `false` |
     | `serverUrl` | The host to fetch flag configurations from. | `https://api.lab.amplitude.com` |
     | `bootstrap` | Bootstrap the client with an array of flag key to flag configuration | `[]` |
+
+    **AssignmentConfig**
+
+    | <div class="big-column">Name</div> | Description | Default Value |
+    | --- | --- | --- |
+    | `apiKey` | The analytics API key and NOT the experiment deployment key | *required* |
+    | `cacheCapacity` | The maximum number of assignments stored in the assignment cache | `65536` |
+    | `amplitudeConfig` | Options to configure the underlying Amplitude Analytics SDK used to track assignment events | default `AmplitudeConfig` |
+
+    **AmplitudeConfig**
+
+    | <div class="big-column">Name</div> | Description | Default Value |
+    | --- | --- | --- |
+    | `flushQueueSize` | Events wait in the buffer and are sent in a batch. The buffer is flushed when the number of events reaches `flushQueueSize`. | `200` |
+    | `flushMaxRetries` | The number of times the client retries an event when the request returns an error. | `12` |
+    | `serverZone` | The server zone of the projects. Supports `EU` and `US`. For EU data residency, Change to `EU`. | `US` |
+    | `serverUrl` | The API endpoint URL that events are sent to. Automatically selected by `serverZone` and `useBatch`. If this field is set with a string value instead of `None`, then `server_zone` and `use_batch` are ignored and the string value is used. | `https://api2.amplitude.com/2/httpapi` |
+    | `useBatch` | Whether to use [batch API](../../../analytics/apis/batch-event-upload-api/#batch-event-upload). By default, the SDK will use the default `serverUrl`. | `False` |
 
 !!!info "EU Data Center"
     If you use Amplitude's EU data center, configure the `serverUrl` option on initialization to `https://api.lab.eu.amplitude.com`
@@ -230,6 +250,10 @@ $client->start()->wait();
 ### Evaluate
 
 Executes the [evaluation logic](../general/evaluation/implementation.md) using the flags fetched on [`start()`](#start). Give `evaluate()` a user object argument. Optionally pass an array of flag keys if you require only a specific subset of required flag variants.
+
+
+!!!tip "Automatic Assignment Tracking"
+    Set [`assignmentConfig`](#configuration_1) to automatically track an assignment event to Amplitude when `evaluate()` is called.
 
 ```php
 evaluate(User $user, array $flagKeys = []): array
