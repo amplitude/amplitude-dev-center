@@ -219,6 +219,7 @@ You can configure the SDK client on initialization.
     | `cacheCapacity` | The maximum number of assignments stored in the assignment cache | `65536` |
     | `flushQueueSize` | Events wait in the buffer and are sent in a batch. The buffer is flushed when the number of events reaches `flushQueueSize`. | `200` |
     | `flushMaxRetries` | The number of times the client retries an event when the request returns an error. | `12` |
+    | `minIdLength` | The minimum length of `userId` and `deviceId`. | `5` |
     | `serverZone` | The server zone of the projects. Supports `EU` and `US`. For EU data residency, Change to `EU`. | `US` |
     | `serverUrl` | The API endpoint URL that events are sent to. Automatically selected by `serverZone` and `useBatch`. If this field is set with a string value instead of `null`, then `serverZone` and `useBatch` are ignored and the string value is used. | `https://api2.amplitude.com/2/httpapi` |
     | `useBatch` | Whether to use [batch API](../../../analytics/apis/batch-event-upload-api/#batch-event-upload). By default, the SDK will use the default `serverUrl`. | `false` |
