@@ -246,7 +246,6 @@ $client->start()->wait();
 
 Executes the [evaluation logic](../general/evaluation/implementation.md) using the flags fetched on [`start()`](#start). Give `evaluate()` a user object argument. Optionally pass an array of flag keys if you require only a specific subset of required flag variants.
 
-
 !!!tip "Automatic Assignment Tracking"
     Set [`assignmentConfig`](#configuration_1) to automatically track an assignment event to Amplitude when `evaluate()` is called.
 
