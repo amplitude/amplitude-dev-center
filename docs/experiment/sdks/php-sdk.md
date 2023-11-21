@@ -210,6 +210,7 @@ You can configure the SDK client on initialization.
     | `debug` | Set to `true` to enable debug logging. | `false` |
     | `serverUrl` | The host to fetch flag configurations from. | `https://api.lab.amplitude.com` |
     | `bootstrap` | Bootstrap the client with an array of flag key to flag configuration | `[]` |
+    | `assignmentConfig` | Configuration for automatically tracking assignment events after an evaluation. | `null` |
 
     **AssignmentConfig**
 
