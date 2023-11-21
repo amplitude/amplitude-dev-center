@@ -266,3 +266,30 @@ if ($variant) {
     }
 }
 ```
+
+## Access Amplitude cookies
+
+If you're using the Amplitude Analytics SDK on the client-side, the PHP server SDK provides an `AmplitudeCookie` class with convenience functions for parsing and interacting with the Amplitude identity cookie. This is useful for ensuring that the Device ID on the server matches the Device ID set on the client, especially if the client hasn't yet generated a Device ID.
+
+```php
+<?php
+// Grab amp device id if present
+$ampCookieName = AmplitudeCookie::cookieName('amplitude-api-key');
+$deviceId = null;
+
+if (!empty($_COOKIE[$ampCookieName])) {
+    $parsedCookie = AmplitudeCookie::parse($_COOKIE[$ampCookieName]);
+    $deviceId = $parsedCookie['deviceId'];
+}
+
+if ($deviceId === null) {
+    // deviceId doesn't exist, set the Amplitude Cookie
+    $deviceId = bin2hex(random_bytes(16));
+    $ampCookieValue = AmplitudeCookie::generate($deviceId);
+    setcookie($ampCookieName, $ampCookieValue, [
+        'domain' => '.your-domain.com', // this should be the same domain used by the Amplitude JS SDK
+        'httponly' => false,
+        'secure' => false,
+    ]);
+}
+```
