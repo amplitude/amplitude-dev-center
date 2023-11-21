@@ -216,9 +216,9 @@ You can configure the SDK client on initialization.
 
     | <div class="big-column">Name</div> | Description | Default Value |
     | --- | --- | --- |
-    | `apiKey` | The analytics API key and NOT the experiment deployment key | *required* |
-    | `cacheCapacity` | The maximum number of assignments stored in the assignment cache | `65536` |
-    | `flushQueueSize` | Events wait in the buffer and are sent in a batch. The buffer is flushed when the number of events reaches `flushQueueSize`. | `200` |
+    | `apiKey` | The analytics API key. Not to be confused with the experiment deployment key. | *required* |
+    | `cacheCapacity` | The maximum number of assignments stored in the assignment cache. | `65536` |
+    | `flushQueueSize` | Events wait in the buffer and are sent in a batch. Experiment flushes the buffer when the number of events reaches the `flushQueueSize`. | `200` |
     | `flushMaxRetries` | The number of times the client retries an event when the request returns an error. | `12` |
     | `minIdLength` | The minimum length of `userId` and `deviceId`. | `5` |
     | `serverZone` | The server zone of the projects. Supports `EU` and `US`. For EU data residency, Change to `EU`. | `US` |
@@ -248,7 +248,7 @@ $client->start()->wait();
 Executes the [evaluation logic](../general/evaluation/implementation.md) using the flags fetched on [`start()`](#start). Give `evaluate()` a user object argument. Optionally pass an array of flag keys if you require only a specific subset of required flag variants.
 
 !!!tip "Automatic Assignment Tracking"
-    Set [`assignmentConfig`](#configuration_1) to automatically track an assignment event to Amplitude when `evaluate()` is called.
+    Set [`assignmentConfig`](#configuration_1) to automatically track an assignment event to Amplitude when you call `evaluate()`.
 
 ```php
 evaluate(User $user, array $flagKeys = []): array
