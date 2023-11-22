@@ -39,13 +39,13 @@ Before you can ingest data, review your dataset and consider best practices. Mak
 
 ### File requirements
 
-The files you want to send to Amplitude must follow some basic requirements.
+The files you want to send to Amplitude must follow some basic requirements:
 
 - Files contain events, with one event per line.
-- Files are uploaded approximately in the events’ chronological order.
+- Files are uploaded in the events’ chronological order.
 - Filenames are unique.
-- The file wasn't ingested by the S3 import yet. After a file has been ingested by a S3 import source, the same S3 import source won’t process the file again, even if the file is updated.
-- File size shall be greater than 1MB and smaller than 1GB.
+- The file wasn't ingested by the S3 import. After a file is ingested by a S3 import source, the same S3 import source doesn't process the file again, even if the file receives an update.
+- File size must be greater than 1MB and smaller than 1GB.
 - Files are compressed or uncompressed JSON, CSV, or parquet files.
 
 ### Limits
@@ -59,7 +59,7 @@ For each Amplitude project, AWS S3 import can ingest:
 
 Amplitude uses a unique identifier, `insert_id`, to match against incoming events to prevent duplicates. If a new event with a specific `insert_id` is uploaded to Amplitude within 7 days of a previous event with the same `insert_id`, Amplitude drops the new event.
 
-Amplitude highly recommends that you set a custom `insert_id` for each event to prevent duplication. To set a custom `insert_id`, create a field that holds unique values, like random alphanumeric strings, in your dataset. Map the field as an additional property named `insert_id` in the guided converter configuration.
+Amplitude highly recommends that you set a custom `insert_id` for each event to prevent duplication. To set a custom `insert_id`, create a field that holds unique values, like random alphanumeric strings, in your dataset. Map the field as an extra property named `insert_id` in the guided converter configuration.
 
 ## Set up Amazon S3 Import in Amplitude
 
@@ -70,7 +70,7 @@ When your dataset is ready for ingestion, you can set up Amazon S3 Import in Amp
 Follow these steps to give Amplitude read access to your AWS S3 bucket.
 
 1. Create a new IAM role, for example: `AmplitudeReadRole`.
-2. Go to **Trust Relationships** for the role and add Amplitude’s account to the trust relationship policy to allow Amplitude to assume the role using the following example. Please update **{{}}** in highlighted text. 
+2. Go to **Trust Relationships** for the role and add Amplitude’s account to the trust relationship policy to allow Amplitude to assume the role using the following example. Update **{{}}** in highlighted text. 
 
     - **{{amplitude_account}}**: `358203115967` for Amplitude US data center. `202493300829` for Amplitude EU data center. 
     - **{{external_id}}**: unique identifiers used when Amplitude assumes the role. You can generate it with help from [third party tools](https://www.uuidgenerator.net/). Example external id can be `vzup2dfp-5gj9-8gxh-5294-sd9wsncks7dc`.
@@ -214,7 +214,7 @@ To create the data source in Amplitude, gather information about your S3 bucket:
 - IAM role external id: The external id for the IAM role that Amplitude uses to access your S3 bucket. This is the external id created in [Give Amplitude access to your S3 bucket](#give-amplitude-access-to-your-s3-bucket).
 - S3 bucket name: The name of the S3 bucket with your data.
 - S3 bucket prefix: The S3 folder with your data.
-- S3 bucket region: The region where S3 bucket was created.
+- S3 bucket region: The region where S3 bucket resides.
 
 When you have your bucket details, create the Amazon S3 Import source.
 
@@ -281,7 +281,7 @@ After you select a field, you can open the transformation modal and choose from 
 
 ![Screenshot of the transformation menu](../../assets/images/converter-transformations.png)
 
-Depending on the transformation you select, you may be prompted to include more fields. 
+Depending on the transformation you select, you may need to include more fields. 
 
 ![Screenshot of a transformation's details](../../assets/images/converter-transformations-2.png)
 
@@ -336,3 +336,9 @@ To enable the source:
 1. Navigate to the source’s page, and click the **gear** icon to manage the data source.
 2. Toggle **Status** to active.
 3. Confirm your changes.
+
+## Troubleshooting
+
+- Make sure you give access to the correct Amplitude account. Use the same data center as your organization. For more information, see [Give Amplitude access to your S3 bucket](#give-amplitude-access-to-your-s3-bucket).
+- Amplitude don't support dot characters in bucket names. Ensure your bucket names consist of lower-case letters, numbers, and dashes.
+- You can use an existing bucket that you own. Update the bucket's policy with the output from the Amplitude wizard to ensure compatibility. 

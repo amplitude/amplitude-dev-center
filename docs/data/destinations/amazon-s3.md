@@ -7,7 +7,7 @@ description: Export your Amplitude data to an Amazon S3 bucket, enabling you to 
 Often, business needs dictate that you analyze behavioral data alongside other organizational sources of data that aren't captured within Amplitude. 
 By integrating Amplitude with Amazon S3, you can export your Amplitude data to an Amazon S3 bucket. This enables you to analyze your Amplitude data sets side-by-side with the rest of your data.
 
-Because the export works on a per-project basis, you have the flexibility to set up data from one project for delivery to multiple buckets. Or, you can use multiple projects in the same organization to export event data into a single Amazon S3 bucket. However, each bucket can only be accessed by a single organization.
+Because the export works on a per-project basis, you have the flexibility to set up data from one project for delivery to multiple buckets. Or, you can use multiple projects in the same organization to export event data into a single Amazon S3 bucket. Amplitude limits bucket access to a single organization.
 
 !!!note "Other Amplitude + Amazon S3 Integrations"
 
@@ -19,9 +19,10 @@ Because the export works on a per-project basis, you have the flexibility to set
 ## Considerations
 
 - You can't use portfolio projects as data sources for the Amazon S3 export.
+- You can't reuse bucket names across Amplitude organizations, but you can reuse bucket names across projects in the same organization. If you migrate organizations, disable or delete the Amazon S3 destination in the old organization before you create it in the new organization.
 - The export finishes within one hour after the currently exported hour. The export time is typically between one and 10 minutes.
 - The only potential error is an accessibility error. This can happen if you have changed any configurations on the receiving end and Amplitude is unable to access to your bucket. 
-In this case, the export fails after several tries, and the admin and the user who created the S3 export are notified via email.
+In this case, the export fails after several tries, and Amplitude notifies the administrator and user who created the export by email. 
 - The error email includes troubleshooting information. This information isn't available within the Amplitude UI. Because accessibility is the only error possible, the email includes information on which permission is missing.
 - There isn't a size or date range limit when [backfilling historical event data](https://help.amplitude.com/hc/en-us/articles/360044561111-Integrate-Amplitude-with-Amazon-S3#h_01EEXY9TJHVAYEVPXXSAA4ZAZY) via manual exports. If you can't export a certain date range, first confirm that you have event data for that date range. Then [submit a ticket](https://help.amplitude.com/hc/en-us/requests/new) to the support team.
 
@@ -54,7 +55,7 @@ You can backfill historical data to S3 by manually exporting data.
 3. Select the desired date range. 
 4. Click **Start Backfill**. 
 
-If the backfill range overlaps with the range of previously exported data, Amplitude will de-duplicate overlapping data.
+If the backfill range overlaps with the range of already exported data, Amplitude de-duplicates overlapping data.
 
 **![screenshot of the export data modal](../../assets/images/integrations-amazon-s3-export-manual-export.png)**
 
@@ -134,6 +135,22 @@ Here is the exported data JSON object schema:
  }
 ```
 
+### Exported data size
+
+The size and volume of exported data depends on how you instrument data, and the number of events you send to Amplitude. Amplitude can't provide exact estimates, but you can use your average event size to provide a rough estimate:
+
+1. Download a few hourly files with the [Export API](/analytics/apis/export-api/).
+2. Compare the number of events to the size of the zip file to estimate average event size.
+3. Create an [Event Segmentation chart](https://help.amplitude.com/hc/en-us/articles/360052274852-Build-an-event-segmentation-analysis) and multiply by the average event size to estimate the total event volume per month.
+
+### 'Complete' files
+
+Amplitude may label some files in your export as `complete`. These labels help you decide if there is no data in the time frame or if the data in your time frame didn't export.
+
+If you see a `complete` file for a time frame with no data, there is no data to export for the selected time frame.
+
+To disable `complete` files, contact Amplitude Support.
+
 ### Merged Amplitude IDs file and data format
 
 Data is exported hourly as zipped archive JSON files. Each file contains one merged Amplitude ID JSON object per line.
@@ -142,7 +159,7 @@ File names have the following syntax, where the time represents when the data wa
 
 `-OrgID_yyyy-MM-dd_H.json.gz`
 
-For example, data uploaded to this project, on Jan 25, 2020, between 5 PM and 6 PM UTC, is found in the file:
+For example, find data uploaded to this project, on Jan 25, 2020, between 5 PM and 6 PM UTC, in the file:
 
 `-189524_2020-01-25_17.json.gz`
 
@@ -158,34 +175,32 @@ Merged ID JSON objects have the following schema:
 }
 ```
 
-## Updating Bucket Policy for S3 Exports to Use KMS Encryption
+## Update bucket policy for S3 exports to use KMS encryption
 
-### Overview
+The following outlines the procedure to enable KMS encryption in AWS S3 buckets for existing export connections. This encryption improves security posture.
 
-The following outlines a procedure to be taken to utilize KMS encryption in AWS S3 buckets for existing export connections. We have made these changes to help customers improve security standards.
-
-### Migration Steps
+### Migration steps
 
 Before starting the migration, users must have access to the following:
 
 - Credentials to access their existing Amplitude exports
 - Appropriate permissions to update S3 bucket configuration and create KMS keys.
 
-How to update existing export to utilize KMS encryption:
+How to update existing export to use KMS encryption:
 
 1. Create a KMS key in your AWS account by following the [AWS KMS Developer Guide](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html).
 2. Log in to your Amplitude account and navigate to the existing S3 export that you want to migrate.
-3. In the manage settings model change the toggle to **disable** in order to turn off the export momentary. Wait for all in-progress export jobs to complete to avoid unexpected results when a new S3 export connection is created.
+3. In the manage settings model change the toggle to **disable** to turn off the export. Wait for all in-progress export jobs to complete to avoid unexpected results when you create a new S3 export connection.
 4. Create a new S3 export by following the [Amplitude S3 Export Setup Guide](#set-up-the-integration). 
-5. In the export connection setup flow, generate the updated bucket policy and the KMS policy. *The updated policy will now contain a new AWS IAM Role principal to trust.*
+5. In the export connection setup flow, generate the updated bucket policy and the KMS policy. *The updated policy contains a new AWS IAM Role principal to trust.*
 6. Backup the current bucket policy in your S3 bucket in AWS for rollback procedure if needed.
-7. Update the S3 bucket policy and KMS key policy that was generated in Step 5 in your AWS account.
-8. Ensure that the S3 bucket is updated to use KMS encryption as mentioned in the [AWS S3 Developer Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html).
+7. Update the S3 bucket policy and KMS key policy you generated in Step 5 in your AWS account.
+8. Update the S3 bucket to use KMS encryption as mentioned in the [AWS S3 Developer Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html).
 9. Click `Next` to verify Bucket Access and create a new connection in the export setup flow. 
 10. Wait for the new export to complete. Once it's finished, you can verify that your data is being exported to the provided S3 bucket with the new policy.
-11. Once you have verified your data is being exported successfully, you may delete the old S3 export connection, which was disabled in Step 2.
+11. Once you verify your data exports successfully, delete the old S3 export connection, which you disabled in Step 2.
 
-### Rollback Procedure
+### Rollback procedure
 
 !!!note
 
@@ -222,5 +237,3 @@ Less restricting access scope for your destination S3 bucket through (current st
 #### Will it be possible to roll back to the previous bucket policy?
 
 No. Once the old S3 export connection is removed, it will no longer be possible to set up S3 export with the AWS account root principal as a trustee in the bucket policy.
-
-> If you have any questions or concerns about the migration process, please reach out to Amplitude support for additional assistance.
