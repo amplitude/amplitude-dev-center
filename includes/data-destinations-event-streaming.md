@@ -2,6 +2,7 @@
 
 <div class="grid cards" markdown>
 
+- :absmartly: [ABsmartly](/data/destinations/absmartly-event-streaming)
 - :adjust: [Adjust](/data/destinations/adjust-event-streaming)
 - :appfit: [Appfit](/data/destinations/appfit-event-streaming)
 - :appsflyer: [AppsFlyer](/data/destinations/appsflyer)
