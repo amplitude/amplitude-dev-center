@@ -69,11 +69,16 @@ payload = {
   "startDate": "2019-03-01",
   "endDate": "2020-04-01"
 }
-r = requests.post(base_url, auth=(API_KEY, SECRET_KEY), data=payload)
+headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+}
+auth = HTTPBasicAuth(API_KEY, SECRET_KEY)
+r = requests.post(base_url, headers=headers, auth=auth, data=payload)
 request_id = r.json().get('requestId')
 time.sleep(POLL_DELAY)
 while (True):
-    r = requests.get(f'{base_url}/{request_id}', auth=(API_KEY, SECRET_KEY))
+    r = requests.get(f'{base_url}/{request_id}', auth=auth, headers=headers)
     response = r.json()
     if response.get('status') == 'failed':
         sys.exit(1)
@@ -81,7 +86,7 @@ while (True):
         break
     time.sleep(POLL_INTERVAL)
 for url in response.get('urls'):
-    r = requests.get(url, auth=(API_KEY, SECRET_KEY), allow_redirects=True)
+    r = requests.get(url, headers=headers, auth=auth, allow_redirects=True)
     index = url.split('/')[-1]
     filename = f'{AMPLITUDE_ID}-{index}.gz'
     with open(f'{OUTPUT_DIR}/{filename}','wb') as f:
