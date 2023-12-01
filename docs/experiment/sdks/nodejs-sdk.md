@@ -65,7 +65,7 @@ Install the Node.js Server SDK with npm or yarn.
             'premium': true,
         },
     };
-    const variants = await experiment.fetch(user);
+    const variants = await experiment.fetchV2(user);
 
     // (3) Access a flag's variant
     const variant = variants['YOUR-FLAG-KEY'];
@@ -129,7 +129,7 @@ The SDK client can be configured on initialization.
 Fetches variants for a [user](../general/data-model.md#users) and returns the results. This function [remote evaluates](../general/evaluation/remote-evaluation.md) the user for flags associated with the deployment used to initialize the SDK client.
 
 ```js
-fetch(user: ExperimentUser): Promise<Variants>
+fetchV2(user: ExperimentUser): Promise<Variants>
 ```
 
 | Parameter  | Requirement | Description |
@@ -144,7 +144,7 @@ const user = {
         'premium': true,
     },
 };
-const variants = await experiment.fetch(user);
+const variants = await experiment.fetchV2(user);
 ```
 
 After fetching variants for a user, you may to access the variant for a specific flag.
@@ -198,7 +198,7 @@ Install the Node.js Server SDK with `npm` or `yarn`.
 
     // (2) Evaluate a user.
     const user = { device_id: 'abcdefg' };
-    const variants = await experiment.evaluate(user);
+    const variants = await experiment.evaluateV2(user);
     ```
 
     **Not getting the expected variant result for your flag?** Make sure your flag [is activated](../guides/getting-started/create-a-flag.md#activate-the-flag), has a [deployment set](../guides/getting-started/create-a-flag.md#add-a-deployment), and has [users allocated](../guides/getting-started/create-a-flag.md#configure-targeting-rules).
@@ -257,7 +257,7 @@ Start the local evaluation client, pre-fetching local evaluation mode flag confi
 start(): Promise<void>
 ```
 
-You should await the result of `start()` to ensure that flag configs are ready to be used before calling [`evaluate()`](#evaluate)
+You should await the result of `start()` to ensure that flag configs are ready to be used before calling [`evaluateV2()`](#evaluate)
 
 ```js
 await experiment.start();
@@ -268,10 +268,10 @@ await experiment.start();
 Executes the [evaluation logic](../general/evaluation/implementation.md) using the flags pre-fetched on [`start()`](#start). You must give evaluate a user object argument. You can optionally pass an array of flag keys if you require only a specific subset of required flag variants.
 
 !!!tip "Automatic Assignment Tracking"
-    Set [`assignmentConfig`](#configuration_1) to automatically track an assignment event to Amplitude when `evaluate()` is called.
+    Set [`assignmentConfig`](#configuration_1) to automatically track an assignment event to Amplitude when `evaluateV2()` is called.
 
 ```js
-evaluate(user: ExperimentUser, flagKeys?: string[]): Promise<Variants>
+evaluateV2(user: ExperimentUser, flagKeys?: string[]): Promise<Variants>
 ```
 
 | Parameter | Requirement | Description |
@@ -284,10 +284,10 @@ evaluate(user: ExperimentUser, flagKeys?: string[]): Promise<Variants>
 const user = { device_id: 'abcdefg' };
 
 // Evaluate all flag variants
-const allVariants = await experiment.evaluate(user);
+const allVariants = await experiment.evaluateV2(user);
 
 // Evaluate a specific subset of flag variants
-const specificVariants = await experiment.evaluate(user, [
+const specificVariants = await experiment.evaluateV2(user, [
   'my-local-flag-1',
   'my-local-flag-2',
 ]);

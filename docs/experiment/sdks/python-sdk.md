@@ -54,7 +54,7 @@ Install the Python Server SDK with pip.
             'premium': True
         }
     )
-    variants = experiment.fetch(user)
+    variants = experiment.fetch_v2(user)
 
     # (3) Access a flag's variant
     variant = variants['YOUR-FLAG-KEY']
@@ -110,7 +110,7 @@ You can configure the SDK client on initialization.
 Fetches variants for a [user](../general/data-model.md#users) and returns the results. This function [remote evaluates](../general/evaluation/remote-evaluation.md) the user for flags associated with the deployment used to initialize the SDK client.
 
 ```python
-fetch(user: User) : Variants
+fetch_v2(user: User) : Variants
 ```
 
 | Parameter  | Requirement | Description |
@@ -125,7 +125,7 @@ user = User(
         'premium': True
     }
 )
-variants = experiment.fetch(user)
+variants = experiment.fetch_v2(user)
 ```
 
 After fetching variants for a user, you may to access the variant for a specific flag.
@@ -144,7 +144,7 @@ if variant:
 The fetch method is synchronous. To fetch asynchronously, you can use `fetch_async` method
 
 ```python
-fetch_async(user: User, callback)
+fetch_async_v2(user: User, callback)
 ```
 
 | Parameter  | Requirement | Description                                                                   |
@@ -161,7 +161,7 @@ def fetch_callback(user, variants):
     else:
       # Flag is off
 
-experiment.fetch_async(user, fetch_callback)
+experiment.fetch_async_v2(user, fetch_callback)
 ```
 
 ## Local evaluation
@@ -218,7 +218,7 @@ Install the Python Server SDK with pip.
             'premium': True
         }
     )
-    variants = experiment.evaluate(user)
+    variants = experiment.evaluate_v2(user)
     ```
 
     **Not getting the expected variant result for your flag?** Make sure your flag [is activated](../guides/getting-started/create-a-flag.md#activate-the-flag), has a [deployment set](../guides/getting-started/create-a-flag.md#add-a-deployment), and has [users allocated](../guides/getting-started/create-a-flag.md#configure-targeting-rules).
@@ -277,7 +277,7 @@ Start the local evaluation client, pre-fetching local evaluation mode flag confi
 start()
 ```
 
-You should await the result of `start()` to ensure that flag configs are ready to be used before calling [`evaluate()`](#evaluate)
+You should await the result of `start()` to ensure that flag configs are ready to be used before calling [`evaluate_v2()`](#evaluate)
 
 ```python
 experiment.start()
@@ -288,10 +288,10 @@ experiment.start()
 Executes the [evaluation logic](../general/evaluation/implementation.md) using the flags pre-fetched on [`start()`](#start). Evaluate must be given a user object argument and can optionally be passed an array of flag keys if only a specific subset of required flag variants are required.
 
 !!!tip "Automatic Assignment Tracking"
-    Set [`assignment_config`](#configuration_1) to automatically track an assignment event to Amplitude when `evaluate()` is called.
+    Set [`assignment_config`](#configuration_1) to automatically track an assignment event to Amplitude when `evaluate_v2()` is called.
 
 ```python
-evaluate(self, user: User, flag_keys: List[str]) : Dict[str, Variant]
+evaluate_v2(self, user: User, flag_keys: List[str]) : Dict[str, Variant]
 ```
 
 | Parameter   | Requirement | Description |
@@ -304,10 +304,10 @@ evaluate(self, user: User, flag_keys: List[str]) : Dict[str, Variant]
 user = User(user_id='test_user')
 
 # Evaluate all flag variants
-all_variants = experiment.evaluate(user)
+all_variants = experiment.evaluate_v2(user)
 
 # Evaluate a specific subset of flag variants
-specific_variants = experiment.evaluate(user, ["<FLAG_KEY_1>", "<FLAG_KEY_2>"])
+specific_variants = experiment.evaluate_v2(user, ["<FLAG_KEY_1>", "<FLAG_KEY_2>"])
 
 # Access a variant
 variant = all_variants["<FLAG_KEY>"]
