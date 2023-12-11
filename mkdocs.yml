@@ -360,6 +360,7 @@ nav:
         - Pushwoosh: data/destinations/pushwoosh-cohort.md
         - Productboard: data/destinations/productboard-cohort.md
         - Qualtrics: data/destinations/qualtrics-cohort.md
+        - Refiner: data/destinations/refiner-cohort.md
         - Salesforce Marketing V1: data/destinations/marketing-cloud-cohort.md
         - Salesforce Marketing V2: data/destinations/marketing-cloud-cohort-v2.md
         - Sendgrid: data/destinations/sendgrid-cohort.md
