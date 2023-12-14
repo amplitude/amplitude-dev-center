@@ -47,7 +47,7 @@ This SDK supports and uses [remote evaluation](../general/evaluation/remote-eval
         ->userId('user@company.com')
         ->userProperties(['premium' => true]) 
         ->build();
-    $variants = $client->fetch($user)>wait();
+    $variants = $client->fetch($user)->wait();
 
     // (3) Access a flag's variant
     $variant = $variants['FLAG_KEY'] ?? null;
@@ -131,7 +131,7 @@ $user = \AmplitudeExperiment\User::builder()
     ->userId('user@company.com')
     ->userProperties(['premium' => true])
     ->build();
-$variants = $client.fetch($user)->wait();
+$variants = $client->fetch($user)->wait();
 ```
 
 After fetching variants for a user, you may to access the variant for a specific flag.
