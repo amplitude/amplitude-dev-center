@@ -751,11 +751,13 @@ Tracking for each field can be individually controlled, and has a corresponding 
 | <div class="big-column">Method</div> | Description |
 | --- | --- |
 | `disableAdid()` | Disable tracking of Google ADID |
+| `disableAppSetId()` | Disable tracking of App Set Id |
 | `disableCarrier()` | Disable tracking of device's carrier |
 | `disableCity()` | Disable tracking of user's city |
 | `disableCountry()` | Disable tracking of user's country |
 | `disableDeviceBrand()` | Disable tracking of device brand |
 | `disableDeviceModel()` | Disable tracking of device model |
+| `disableTrackDeviceManufacturer()` | Disable tracking of device manufacturer |
 | `disableDma()` | Disable tracking of user's designated market area (DMA). |
 | `disableIpAddress()` | Disable tracking of user's IP address |
 | `disableLanguage()` | Disable tracking of device's language |
@@ -765,6 +767,7 @@ Tracking for each field can be individually controlled, and has a corresponding 
 | `disablePlatform()` | Disable tracking of device's platform |
 | `disableRegion()` | Disable tracking of user's region. |
 | `disableVersionName()` | Disable tracking of your app's version name |
+| `disableApiLevel` | Disable tracking of Android API level |
 
 !!!note
 

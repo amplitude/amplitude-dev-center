@@ -824,21 +824,20 @@ Tracking for each field can be individually controlled, and has a corresponding 
 
 | <div class="big-column">Method</div> | Description |
 | --- | --- |
-| `disableAdid()` | Disable tracking of Google ADID |
-| `disableCarrier()` | Disable tracking of device's carrier |
-| `disableCity()` | Disable tracking of user's city |
-| `disableCountry()` | Disable tracking of user's country |
-| `disableDeviceBrand()` | Disable tracking of device brand |
-| `disableDeviceModel()` | Disable tracking of device model |
-| `disableDma()` | Disable tracking of user's designated market area (DMA). |
-| `disableIpAddress()` | Disable tracking of user's IP address |
-| `disableLanguage()` | Disable tracking of device's language |
-| `disableLatLng()` | Disable tracking of user's current latitude and longitude coordinates |
-| `disableOsName()` | Disable tracking of device's OS Name |
-| `disableOsVersion()` | Disable tracking of device's OS Version |
-| `disablePlatform()` | Disable tracking of device's platform |
-| `disableRegion()` | Disable tracking of user's region. |
-| `disableVersionName()` | Disable tracking of your app's version name |
+| `disableTrackCarrier()` | Disable tracking of device's carrier |
+| `disableTrackCity()` | Disable tracking of user's city |
+| `disableTrackCountry()` | Disable tracking of user's country |
+| `disableTrackDeviceModel()` | Disable tracking of device model|
+| `disableTrackDeviceManufacturer()` | Disable tracking of device manufacturer |
+| `disableTrackDMA()` | Disable tracking of user's designated market area (DMA) |
+| `disableTrackIpAddress()` | Disable tracking of user's IP address |
+| `disableTrackLanguage()` | Disable tracking of device's language |
+| `disableTrackIDFV()` |  | Disable tracking of identifier for vendors (IDFV) |
+| `disableTrackOsName()` | Disable tracking of device's OS Name |
+| `disableTrackOsVersion()` | Disable tracking of device's OS Version |
+| `disableTrackPlatform()` | Disable tracking of device's platform |
+| `disableTrackRegion()` | Disable tracking of user's region |
+| `disableTrackVersionName()` | Disable tracking of your app's version name |
 
 !!!note
 
