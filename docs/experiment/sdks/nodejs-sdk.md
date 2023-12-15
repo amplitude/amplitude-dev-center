@@ -65,7 +65,7 @@ Install the Node.js Server SDK with npm or yarn.
             'premium': true,
         },
     };
-    const variants = await experiment.fetchV2(user);
+    const variants = experiment.fetchV2(user);
 
     // (3) Access a flag's variant
     const variant = variants['YOUR-FLAG-KEY'];
@@ -198,7 +198,7 @@ Install the Node.js Server SDK with `npm` or `yarn`.
 
     // (2) Evaluate a user.
     const user = { device_id: 'abcdefg' };
-    const variants = await experiment.evaluateV2(user);
+    const variants = experiment.evaluateV2(user);
     ```
 
     **Not getting the expected variant result for your flag?** Make sure your flag [is activated](../guides/getting-started/create-a-flag.md#activate-the-flag), has a [deployment set](../guides/getting-started/create-a-flag.md#add-a-deployment), and has [users allocated](../guides/getting-started/create-a-flag.md#configure-targeting-rules).
@@ -271,7 +271,7 @@ Executes the [evaluation logic](../general/evaluation/implementation.md) using t
     Set [`assignmentConfig`](#configuration_1) to automatically track an assignment event to Amplitude when `evaluateV2()` is called.
 
 ```js
-evaluateV2(user: ExperimentUser, flagKeys?: string[]): Promise<Variants>
+evaluateV2(user: ExperimentUser, flagKeys?: string[]): Record<string, Variant>
 ```
 
 | Parameter | Requirement | Description |
@@ -284,10 +284,10 @@ evaluateV2(user: ExperimentUser, flagKeys?: string[]): Promise<Variants>
 const user = { device_id: 'abcdefg' };
 
 // Evaluate all flag variants
-const allVariants = await experiment.evaluateV2(user);
+const allVariants = experiment.evaluateV2(user);
 
 // Evaluate a specific subset of flag variants
-const specificVariants = await experiment.evaluateV2(user, [
+const specificVariants = experiment.evaluateV2(user, [
   'my-local-flag-1',
   'my-local-flag-2',
 ]);
