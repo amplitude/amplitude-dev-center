@@ -3,7 +3,7 @@ title: Evaluation REST API
 description: Retrieve variation assignment data for users with the Amplitude Experiment REST API.
 ---
 
-The Amplitude Experiment Evaluation REST API lets you retrieve variant assignment data for users via [remote evaluation](../general/evaluation/remote-evaluation.md). User information passes as query parameters on the request to allow for [caching the response on the CDN](../general/performance-and-caching.md#cdn-caching).
+The Amplitude Experiment Evaluation REST API lets you retrieve variant assignment data for users via [remote evaluation](../general/evaluation/remote-evaluation.md). User information passes as query parameters on the request to allow for [caching the response on the CDN](../general/performance-and-caching.md#cdn-caching). When you call this API, Amplitude tracks an `[Experiment] Assignment` event.
 
 !!!tip "[Try it out in your browser!](#example)"
 
