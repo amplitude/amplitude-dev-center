@@ -1,5 +1,5 @@
 ---
-title: Import Nami Survey Data
+title: Import Nami Subscription Data
 description: Nami provides a complete solution for in-app purchases and subscriptions including designing no-code paywalls, campaigns to convert and retain your customers, subscription management tools, and real-time revenue analytics. 
 ---
 
