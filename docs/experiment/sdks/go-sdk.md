@@ -144,22 +144,6 @@ Implements evaluating variants for a user via [local evaluation](../general/eval
 
 ### Install
 
-Install the Go Server SDK's local evaluation package using `go get`.
-
-!!!warning "CGO, OS, and architecture support"
-    Local evaluation requires `CGO` be enabled (`CGO_ENABLED=1`). Additionally, the local evaluation package currently only supports the following OS' and architectures (`GOOS/GOARCH`):
-
-    **Supported**
-
-    * darwin/amd64
-    * darwin/arm64
-    * linux/amd64
-    * linux/arm64
-
-    **Alpine linux is not supported** at this time.
-
-    If you need another OS/Arch supported, please [submit an issue on github](https://github.com/amplitude/experiment-go-server/issues/new) or email [experiment@amplitude.com](mailto:experiment@amplitude.com).
-
 Install the Go Server SDK using `go get`.
 
 ```bash
@@ -184,7 +168,7 @@ go get github.com/amplitude/experiment-go-server
 
       // (3) Evaluate a user.
     user := &experiment.User{DeviceId: "abcdefg"}
-    variants, err := client.Evaluate(user, nil)
+    variants, err := client.EvaluateV2(user, nil)
     if err != nil {
       panic(err)
     }
@@ -231,7 +215,7 @@ The SDK client can be configured on initialization.
 
     | <div class="big-column">Name</div> | Description | Default Value |
     | --- | --- | --- |
-    | `cacheCapacity` | The maximum number of assignments stored in the assignment cache | `65536` |
+    | `cacheCapacity` | The maximum number of assignments stored in the assignment cache | `524288` |
     | [`Config`](../../data/sdks/go/index.md#configuration) | Options to configure the underlying Amplitude Analytics SDK used to track assignment events |  |
 
 !!!info "EU Data Center"
@@ -259,10 +243,10 @@ if err != nil {
 Executes the [evaluation logic](../general/evaluation/implementation.md) using the flags pre-fetched on [`Start()`](#start). Evaluate must be given a user object argument and can optionally be passed an array of flag keys if only a specific subset of required flag variants are required.
 
 !!!tip "Automatic Assignment Tracking"
-    Set [`AssignmentConfig`](#configuration_1) to automatically track an assignment event to Amplitude when `Evaluate()` is called.
+    Set [`AssignmentConfig`](#configuration_1) to automatically track an assignment event to Amplitude when `EvaluateV2()` is called.
 
 ```go
-func (c *Client) Evaluate(user *experiment.User, flagKeys []string) (map[string]experiment.Variant, error)
+func (c *Client) EvaluateV2(user *experiment.User, flagKeys []string) (map[string]experiment.Variant, error)
 ```
 
 | Parameter | Requirement | Description |
@@ -275,13 +259,13 @@ func (c *Client) Evaluate(user *experiment.User, flagKeys []string) (map[string]
 user := &experiment.User{DeviceId: "abcdefg"}
 
 // Evaluate all flag variants
-allVariants, err := client.Evaluate(user, nil)
+allVariants, err := client.EvaluateV2(user, nil)
 if err != nil {
     // Handle Error
 }
 
 // Evaluate a specific subset of flag variants
-specificVariants, err := client.Evaluate(user, []string{
+specificVariants, err := client.EvaluateV2(user, []string{
     "<FLAG_KEY_1>",
     "<FLAG_KEY_2>",
 })
