@@ -166,6 +166,10 @@ In general, replays should be available within minutes of ingestion. Delays or e
 - Page instrumentation. If Session Replay isn't implemented on all pages a user visits, their session may not capture properly.
 - Replays older than the set [retention period](#retention-period) (defaults to 90 days).
 
+### Session Replay shows warnings in the user's browser console
+
+Session Replay provides a `logLevel` configuration setting to customize the level of error that Session Replay logs to the console. Decrease the level of logging to mitigate JavaScript errors in the console.
+
 ## Use Session Replay with Segment analytics
 
 Session Replay supports other analytics providers. Follow the information below to add Session Replay to an existing Segment-instrumented site.

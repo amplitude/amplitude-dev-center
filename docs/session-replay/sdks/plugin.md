@@ -66,6 +66,7 @@ Pass the following option when you initialize the Session Replay plugin:
 | Name              | Type      | Required | Default         | Description                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | ----------------- | --------- | -------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `sampleRate`      | `number`  | No       | `0`             | Use this option to control how many sessions to select for replay collection. <br></br>The number should be a decimal between 0 and 1, for example `0.4`, representing the fraction of sessions to have randomly selected for replay collection. Over a large number of sessions, `0.4` would select `40%` of those sessions. |
+| `logLevel`        | `number`  | No       | `LogLevel.Warn` | `LogLevel.None` or `LogLevel.Error` or `LogLevel.Warn` or `LogLevel.Verbose` or `LogLevel.Debug`. Sets the log level.                                                                                                                                                                                                                                                                                                                       |
 
 ### Track default session events
 
@@ -208,3 +209,7 @@ In general, replays should be available within minutes of ingestion. Delays or e
 - Short sessions. If a users bounces within a few seconds of initialization, the SDK may not have time to upload replay data.
 - Page instrumentation. If Session Replay isn't implemented on all pages a user visits, their session may not capture properly.
 - Replays older than the set [retention period](#retention-period) (defaults to 90 days).
+
+### Session Replay shows warnings in the user's browser console
+
+Session Replay provides a `logLevel` configuration setting to customize the level of error that Session Replay logs to the console. Decrease the level of logging to mitigate JavaScript errors in the console.
