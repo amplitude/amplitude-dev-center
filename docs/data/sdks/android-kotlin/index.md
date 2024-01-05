@@ -1066,3 +1066,13 @@ val amplitude2 = Amplitude(Configuration(
     context = applicationContext,
 ))
 ```
+
+### Offline mode
+
+Starting from version 1.13.2, Amplitude Android Kotlin SDK supports offline mode out of box. The SDK checks network connectivity every time when an event is tracked. If it's connected to network, a flush will be schedule. If not, the event will be saved to storage. The SDK also listen to network change. It flushes all stored events when network is back.
+
+To enable this feature, you need to add `ACCESS_NETWORK_STATE` permission to `AndroidManifest.xml`. Otherwise, the SDK will just flush the event based on `flushIntervalMillis` and `flushQueueSize`.
+
+```xml
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+```
