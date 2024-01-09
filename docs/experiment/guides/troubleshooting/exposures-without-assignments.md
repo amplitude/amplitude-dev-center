@@ -3,7 +3,7 @@ title: Exposures Without Assignments Chart
 description: This guide walks through troubleshooting exposures without assignments.
 ---
 
-The Exposures without Assignments chart appears in the **Monitor** tab and queries for the cumulative number of unique users who have performed an exposure event without a corresponding assignment event within each day. 
+The Exposures without Assignments chart appears in the **Diagnostics** card and queries for the cumulative number of unique users who have performed an exposure event without a corresponding assignment event within each day. 
 
 If you see a large number or percentage of users in the chart, be careful when interpreting the results of your experiment. Investigate what happens if someone gets exposed to the experiment that shouldn't: 
 
