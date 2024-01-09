@@ -9,6 +9,8 @@ description: Sync cohorts from Amplitude to Optimizely
 
 [Optimizely](https://www.optimizely.com/) allows advertisers to access a wide range of digital advertising inventory, including display ads, video ads, mobile ads, native ads, and more. Advertisers can use the platform to target specific audiences based on various parameters such as demographics, interests, browsing behavior, and location. The platform also offers real-time bidding capabilities, allowing advertisers to bid on ad placements in real-time auctions.
 
+The Amplitude Behavioral Cohort Optimizely destination allows you to easily connect your Amplitude Cohorts to Optimizely Experimentation audiences (Web and Feature experimentation) and Optimizely CMS Visitor Groups. This will allow you to target your cohorts with experiments and personalized website experiences leveraging your valuable Amplitude data. 
+
 ## Considerations
 
 - This integration is only available for customers who have paid plans with Amplitude.
@@ -19,17 +21,17 @@ description: Sync cohorts from Amplitude to Optimizely
 
 ### Optimizely setup
 
-1. In Optimizely, navigate to **Settings** > **Integrations**.
-2. Click **Add integration**, then find and add Amplitude.
-3. Copy the **API Key** and **AppCode** to your clipboard.
+1. Within your Optimizely Data Platform environment navigate to the app directory via the ‘boxes and +’ icon in the top right.
+2. Click on the **Amplitude** tile at the top and click the **Install** button in the top left.
+3. Once installed, click the **Settings** tab, click **Generate Token**, and copy the resulting token to your clipboard.
 
 ### Amplitude setup
 
 1. In Amplitude Data, click **Catalog** and select the **Destinations** tab.
 2. In the Cohort section, click **Optimizely**.
 3. Click **Add another destination**.
-4. Enter **Name** and paste in the **API key** you copied from **Optimizely**.
-5. Map the Amplitude User ID field to the Optimizely User ID field.
+4. Enter **Name** and paste in the **Bearer Token** you copied from **Optimizely**.
+5. Map the Amplitude **User ID** field to the Optimizely User ID field. Note the **User ID** you select must be the same **User ID** you’re targeting with experimentation and/or visitor groups. 
 6. Save when finished.
 
 ## Send a cohort
@@ -41,6 +43,20 @@ To sync your first cohort, follow these steps:
 3. Choose the account you want to sync to.
 4. Choose the sync cadence.
 5. When finished, save your work.
+
+## Locating your cohort in Optimizely
+
+1. First, ensure your CMS Visitor Groups and/or Advanced Audience Targeting Experimentation integration(s) are configured. Here are relevant instructions for the one-time setup: 
+ 
+    - [CMS Visitor Groups](https://nuget.optimizely.com/package/?id=UNRVLD.ODP.VisitorGroups)
+    - [Advanced Audience Targeting Web Experimentation](https://docs.developers.optimizely.com/web-experimentation/docs/configure-odp-audience-targeting#configure-advanced-audience-targeting)
+    - [Advanced Audience Targeting Feature Experimentation](https://docs.developers.optimizely.com/feature-experimentation/docs/advanced-audience-targeting#implement-the-advanced-audience-targeting-integration)
+  
+2. Once you’ve completed the above you will find your Synced Amplitude Behavioral cohorts in the CMS Visitor Groups UI as well as the Experimentation Audience Builder. See below
+
+![screenshot of the new SFDC group mapping](../../assets/images/OPTIMIZELY-Experimentation-Audience-Builder.png)
+
+![screenshot of the new SFDC group mapping](../../assets/images/OPTIMIZELY-CMS-Visitor-Groups-UI.png)
 
 ### Use cases
 
