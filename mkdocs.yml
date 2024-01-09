@@ -247,7 +247,6 @@ nav:
           - MoEngage: data/sources/moengage.md
         - Other:
           - Datazoom: data/sources/datazoom.md
-          - Kochava: data/sources/kochava.md
           - Blitzllama: data/sources/blitzllama.md
         - Privacy:
           - MetaRouter: data/sources/metarouter.md
