@@ -64,7 +64,6 @@ Use [this quickstart guide](../../sdks/sdk-quickstart#android) to get started wi
     | `newDeviceIdPerInstall` | Whether to generate different a device id every time when the app is installed regardless of devices. It's legacy configuration only to keep compatible with the old Android SDK. It works the same as `useAdvertisingIdForDeviceId`. | `false` |
     | `locationListening` | Whether to enable Android location service. Learn more [here](./#location-tracking).| `true` |
 
-
 --8<-- "includes/sdk-ts/shared-batch-configuration.md"
 
 === "Kotlin"
