@@ -11,7 +11,7 @@ The best way to debug variant jumping is by identifying a user that has jumped v
 
 !!!info "To find a user who has jumped variants:"
 
-    1. Go to the monitor tab of your experiment
+    1. Go to the diagnostics card of your experiment
     2. Find the variant jumping charts, and click "Open in Analytics"
     3. Select the bar for users who jumped variants and click "View User Streams" (you may need to use uniques instead of a formula)
 
@@ -103,12 +103,4 @@ Another common case is simple overlooked implementation error. For example, the 
 
 ## Remove users who variant jumped from experiment analysis
 
-Generally, when doing analysis you want to be careful when removing data as you may introduce bias in your results. It's better to understand the cause of variant jumping and fix any implementation bugs so this doesn't happen again in future  experiments. If you feel you have a legitimate reason for removing users who jumped variants, you can follow these steps:
-
-1. Go to the Monitor tab and click "Open in Analytics" on one of the variant jumping charts.
-2. Click the user segment for users who jumped variants and select "Create Cohort" then save the cohort.
-3. Repeat steps 1 & 2 for each variant.
-4. Go to the Analyze tab and click "Open in Analytics"
-5. In the component for the user segments, add `where cohort != <cohort name>` for each variant
-
-If you have more than two variants, you need to make multiple cohorts of users who variant jumped and filter out each one of them.
+As you analyze results, be careful when you remove data, as you may introduce bias in your results. It's better to understand the cause of variant jumping and fix any implementation bugs, so this doesn't happen again in future  experiments. If you feel that removing users who jumped variants is the best course of action, enable **Exclude users who variant jumped**.

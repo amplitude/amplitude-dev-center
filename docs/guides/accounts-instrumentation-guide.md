@@ -1,7 +1,6 @@
 ---
 title: Plan Your Accounts Instrumentation
 description: Use this guide to plan your Accounts add on instrumentation in Amplitude.
-status: new
 ---
 
 --8<-- "includes/editions-growth-enterprise-with-accounts.md"

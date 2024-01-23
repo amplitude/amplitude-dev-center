@@ -1,7 +1,6 @@
 ---
 title: Migrating from mParticle to Amplitude
 description: This document explains the step-by-step process of migrating from mParticle to Amplitude. It covers the necessary steps for replacing your instrumentation code using the Amplitude SDKs to track your events with minimal code changes.
-status: new
 hide:
   - toc #unhide if more headings are added
 ---

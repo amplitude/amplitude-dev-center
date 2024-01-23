@@ -704,8 +704,7 @@ You can adjust the time window for which sessions are extended. The default sess
     Amplitude* amplitude = [Amplitude initWithConfiguration:configuration];
     ```
 
-By default, Amplitude automatically sends the '[Amplitude] Start Session' and '[Amplitude] End Session' events. Even though these events aren't sent, sessions are still tracked by using `session_id`.
-You can also disable those session events.
+By default, Amplitude sends `[Amplitude] Start Session` and `[Amplitude] End Session` events. These events count toward your contracted event volume. When you disable default session tracking, Amplitude no longer sends session start and end events, but continues to add `session_id` as an event property.
 
 === "Swift"
 

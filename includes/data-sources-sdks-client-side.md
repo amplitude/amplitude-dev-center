@@ -5,7 +5,7 @@
 - :android: [Android](/data/sdks/android-kotlin/)
 - :javascript-color: [Browser](/data/sdks/browser-2/)
 - :javascript-color: [Marketing Analytics Browser](/data/sdks/marketing-analytics-browser/)
-- :material-apple-ios: [iOS Swift (Beta)](/data/sdks/ios-swift/)
+- :material-apple-ios: [iOS Swift](/data/sdks/ios-swift/)
 - :material-apple-ios: [iOS](/data/sdks/ios/)
 - :flutter: [Flutter](/data/sdks/flutter)
 - :react: [React Native](/data/sdks/typescript-react-native/)

@@ -446,9 +446,10 @@ nav:
   - Accounts Guide: guides/accounts-instrumentation-guide.md
   - Amplitude Keys Guide: guides/amplitude-keys-guide.md
   - Data Backfill Guide: analytics/data-backfill-guide.md
-  - Segment Migration Guide: guides/segment-migration-guide.md
+  - Migrate from Segment: guides/segment-migration-guide.md
   - Migrate from Mixpanel: guides/mixpanel-migration-guide.md
   - Migrate from mParticle: guides/mparticle-migration-guide.md
+  - Migrate from Adobe: guides/adobe-migration-guide.md
   - Cookies and Consent Management: guides/cookies-consent-mgmt-guide.md
 - APIs:
   - analytics/apis/index.md

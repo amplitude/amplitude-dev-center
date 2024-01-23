@@ -1,7 +1,6 @@
 ---
 title: Migrating from Mixpanel to Amplitude
 description: This document explains the step-by-step process of migrating from Mixpanel to Amplitude.
-status: new
 ---
 
 The Amplitude Professional Services team has compiled this Mixpanel to Amplitude Implementation Guide to help you implement Amplitude and start getting insights right out of the gate.

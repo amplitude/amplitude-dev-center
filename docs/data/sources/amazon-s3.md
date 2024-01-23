@@ -31,8 +31,8 @@ Amazon S3 Import setup has four main phases:
 
 Before you start, make sure you’ve taken care of some prerequisites.
 
-- Make sure you have admin permissions for your Amplitude org.
-- Make sure that a project exists to receive the data. If not, create a new project.
+- Make sure that an Amplitude project exists to receive the data. If not, create a new project.
+- Make sure you are an Admin or Manager of the Amplitude project.
 - Make sure your S3 bucket has data files ready for Amplitude to ingest. They must conform to the mappings that you outline in your converter file.
 
 Before you can ingest data, review your dataset and consider best practices. Make sure your dataset contains the data you want to ingest, and any required fields.

@@ -1,7 +1,7 @@
 ---
 title: Cookies and Consent Management
 description: Learn more about how cookies and consent management is done in Amplitude.
-status: new
+
 ---
 
 This guide covers functional and technical information on how Amplitude works with cookies, local storage, opt-in/opt-out options and consent management (including CNIL regulations for France).  

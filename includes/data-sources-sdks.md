@@ -4,7 +4,7 @@
 
 - :android: [Android](../../data/sdks/android-kotlin/)
 - :typescript: [Browser](../../data/sdks/typescript-browser/)
-- :material-apple-ios: [iOS Swift (Beta)](../../data/sdks/ios-swift/)
+- :material-apple-ios: [iOS Swift](../../data/sdks/ios-swift/)
 - :material-apple-ios: [iOS](../../data/sdks/ios/)
 - :java: [Java](../../data/sdks/java/)
 - :node: [Node.js](../../data/sdks/typescript-node/)

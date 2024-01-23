@@ -83,6 +83,14 @@ Getting started with Amplitude can be daunting. These guides break down sophisti
 
     [:octicons-arrow-right-24: Read the guide](../guides/mixpanel-migration-guide)
 
+- :material-tools:{ .lg .middle } __Adobe Migration Guide__
+
+    ---
+
+    Learn how to migrate from Adobe to Amplitude CDP.
+
+    [:octicons-arrow-right-24: Read the guide](../guides/adobe-migration-guide)
+
 - :material-cookie-outline:{ .lg .middle } __Amplitude Cookies & Consent Management__
 
     ---

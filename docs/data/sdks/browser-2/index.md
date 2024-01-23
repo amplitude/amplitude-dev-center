@@ -189,7 +189,8 @@ amplitude.init(AMPLITUDE_API_KEY, {
 
 #### Tracking marketing attribution
 
-Amplitude marketing attribution by default by tracking UTM, referrers and click IDs as user properties.
+Amplitude tracks marketing attribution by default. 
+Browser SDK 2.0 captures UTM parameters, referrer information, and click IDs as user properties.
 
 ???info "Attribution Overview"
     --8<-- "includes/sdk-ts-browser/marketing-analytics-overview.md"
@@ -413,3 +414,9 @@ amplitude.init(AMPLITUDE_API_KEY, {
 #### Disable cookies
 
 You can opt-out of using cookies by setting `identityStorage` to `localStorage` so that the SDK will use `LocalStorage` instead. `LocalStorage` is a great alternative, but because access to `LocalStorage` is restricted by subdomain, you can't track anonymous users across subdomains of your product (for example: `www.amplitude.com` vs `analytics.amplitude.com`).
+
+```ts
+amplitude.init("api-key", null, {
+  identityStorage: "localStorage",
+});
+```

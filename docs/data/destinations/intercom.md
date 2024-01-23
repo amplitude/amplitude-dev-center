@@ -60,6 +60,9 @@ _This applies to both event and user forwarding. Transformed user properties are
 
 Under **Send Events**, make sure the toggle is enabled ("Events are sent to Intercom") if you want to stream events to Intercom. When enabled, events are automatically forwarded to Intercom when they're ingested in Amplitude. Events aren't sent on a schedule or on-demand using this integration. Events are sent to Intercom as [Intercom data events](https://developers.intercom.com/intercom-api-reference/reference/the-data-event-model). Intercom has a limit of 120 event types.
 
+Intercom triggers an event `[Intercom] event.created` when Intercom creates events, including events from Amplitude's Event Streaming integration.
+If you don't want Amplitude to store these events, use Amplitude's [block or drop filters](https://help.amplitude.com/hc/en-us/articles/16805784778907-Remove-invalid-or-incorrect-data) to remove this data. 
+
 1. In **Select and filter events** choose which events you want to send. Choose only the events you need in Intercom. _Transformed events aren't supported._
 
     !!!warning "Events for anonymous users cannot be streamed"
