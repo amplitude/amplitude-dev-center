@@ -57,6 +57,7 @@ Use [this quickstart guide](../../sdks/sdk-quickstart#android) to get started wi
     | `enableCoppaControl` | `Boolean`. Whether to enable COPPA control for tracking options. | `false` |
     | `instanceName` | `String`. The name of the instance. Instances with the same name will share storage and identity. For isolated storage and identity use a unique `instanceName` for each instance.  | `$default_instance`|
     | `migrateLegacyData` | `Boolean`. Available in `1.9.0`+. Whether to migrate [maintenance Android SDK](../android) data (events, user/device ID). Learn more [here](https://github.com/amplitude/Amplitude-Kotlin/blob/main/android/src/main/java/com/amplitude/android/migration/RemnantDataMigration.kt#L9-L16). | `true`|
+    | `offline` | `Boolean | AndroidNetworkConnectivityCheckerPlugin.Disabled`. Whether the SDK is connected to network. Learn more [here](./#offline-mode) | `false` |
 
 --8<-- "includes/sdk-ts/shared-batch-configuration.md"
 
@@ -1076,3 +1077,8 @@ To enable this feature, you need to add `ACCESS_NETWORK_STATE` permission to `An
 ```xml
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 ```
+
+You can also implement you own offline logic:
+
+1. Disable the default offline logic by setting `config.offline` to `AndroidNetworkConnectivityCheckerPlugin.Disabled`
+2. Toggle `config.offline` by yourself
