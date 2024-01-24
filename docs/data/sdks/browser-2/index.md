@@ -427,7 +427,7 @@ amplitude.init("api-key", null, {
 !!!note "Auto flush when reconnect"
     Note that setting `config.flushIntervalMillis` to a very small value like 1 might cause `ERR_NETWORK_CHANGED`.
 
-Starting from version 2.4.0, the Amplitude Browser SDK supports offline mode. The SDK checks network connectivity every time it tracks an event. If the device is connected to network, the SDK schedules a flush. If not, it saves the event to storage. The SDK also listens for changes in network connectivity and schedules a flush based on `config.flushIntervalMillis` for all stored events when the device reconnects.
+Beginning with version 2.4.0, the Amplitude Browser SDK supports offline mode. The SDK checks network connectivity every time it tracks an event. If the device is connected to network, the SDK schedules a flush. If not, it saves the event to storage. The SDK also listens for changes in network connectivity and schedules a flush based on `config.flushIntervalMillis` for all stored events when the device reconnects.
 
 To opt-out, refer to the code below. Otherwise, you can omit the configuration to keep it on.
 
