@@ -1086,5 +1086,5 @@ To enable this feature, you need to add `ACCESS_NETWORK_STATE` permission to `An
 
 You can also implement you own offline logic:
 
-1. Disable the default offline logic by setting `config.offline` to `AndroidNetworkConnectivityCheckerPlugin.Disabled`
+1. Set `config.offline` to `AndroidNetworkConnectivityCheckerPlugin.Disabled` to disable the default offline logic.
 2. Toggle `config.offline` by yourself
