@@ -14,7 +14,7 @@ title: Management API Versions Endpoints
 GET https://experiment.amplitude.com/api/1/versions
 ```
 
-Fetch a list of versions of all experiments or flags can the management api key has access to.
+Fetch a list of versions of all experiments or flags can the management api key has access to, across multiple projects if the key is scoped to them.
 
 ### Query parameters
 
@@ -28,18 +28,19 @@ Fetch a list of versions of all experiments or flags can the management api key 
 ### Response
 
 A successful request returns a `200 OK` response and a list of versions encoded as JSON in the response body, along with the cursor to next page.
+Versions will be ordered by version creation time descending.
 
 !!!example "Example cURL"
     ```bash
     curl --request GET \                                                                                    
-      --url 'https://experiment.amplitude.com/api/1/versions?limit=1000&cursor=3000&start=2023-01-01T00:00:00Z&end=2024-12-31T23:59:59Z' \
+      --url 'https://experiment.amplitude.com/api/1/versions?limit=3&cursor=3000&start=2023-01-01T00:00:00Z&end=2024-12-31T23:59:59Z' \
       --header 'Accept: application/json' \
       --header 'Authorization: Bearer <management-api-key>'
     ```
 ???example "Example response (click to open)"
     ```bash
         {
-            "nextCursor": 100,
+            "nextCursor": 3003,
             "versions": [
                 {
                     "createdAt": "2023-07-29T03:32:49.594Z",
