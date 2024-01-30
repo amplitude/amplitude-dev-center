@@ -71,6 +71,7 @@ You must initialize the SDK before you can instrument. The API key for your Ampl
     | `trackingOptions` |  Options to control the values tracked in SDK. | `enable` |
     | `enableCoppaControl` |  Whether to enable COPPA control for tracking options. | `false` |
     | `migrateLegacyData` | Available in `0.4.7`+. Whether to migrate [maintenance SDK](../ios) data (events, user/device ID). | `true`|
+    | `offline` | Available in `1.2.0+`. Whether the SDK is connected to network. Learn more [here](./#offline-mode). | `false` |
 
 ### `track`
 
