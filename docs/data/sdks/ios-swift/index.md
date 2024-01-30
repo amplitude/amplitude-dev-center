@@ -1012,6 +1012,26 @@ Implements a customized `loggerProvider` class from the LoggerProvider, and pass
     )
     ```
 
+### Offline mode
+
+Beginning with version 1.2.0, the Amplitude iOS Swift SDK supports offline mode. The SDK checks network connectivity every time it tracks an event. If the device is connected to network, the SDK schedules a flush. If not, it saves the event to storage. The SDK also listens for changes in network connectivity and flushes all stored events when the device reconnects.
+
+To disable offline mode, add `offline: NetworkConnectivityCheckerPlugin.Disabled` on initialization as shown below.
+
+```swift
+let amplitude = Amplitude(
+    configuration: Configuration(
+        apiKey: "API-KEY",
+        offline: NetworkConnectivityCheckerPlugin.Disabled
+    )
+)
+```
+
+You can also implement you own offline logic:
+
+1. Disable the default offline logic as above.
+2. Toggle `amplitude.configuration.offline` by yourself.
+
 ### More resources
 
 If you have any problems or issues with the SDK, [create a GitHub issue](https://github.com/amplitude/Amplitude-Swift/issues/new) or submit a request on [Amplitude Help](https://help.amplitude.com/hc/en-us/requests/new).
