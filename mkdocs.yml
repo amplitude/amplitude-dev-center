@@ -436,6 +436,7 @@ nav:
           - Flags: experiment/apis/management-api/flags.md
           - Experiments: experiment/apis/management-api/experiments.md
           - Deployments: experiment/apis/management-api/deployments.md
+          - Versions: experiment/apis/management-api/versions.md
   - Session Replay:
       - session-replay/index.md
       - Overview: session-replay/index.md
