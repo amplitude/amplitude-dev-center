@@ -28,7 +28,7 @@ Fetch a list of versions of all experiments or flags can the management api key 
 ### Response
 
 A successful request returns a `200 OK` response and a list of versions encoded as JSON in the response body, along with the cursor to next page.
-Versions will be ordered by version creation time descending.
+Versions are ordered by version creation time descending.
 
 !!!example "Example cURL"
     ```bash
