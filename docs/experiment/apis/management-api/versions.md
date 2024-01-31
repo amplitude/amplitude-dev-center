@@ -2,10 +2,6 @@
 title: Management API Versions Endpoints
 ---
 
-| <div class="big-column">Name</div> | Description |
-| --- | --- |
-| [List versions](#list-versions) | List versions of all experiments or flags can the management api key has access to. |
-
 ------
 
 ## List versions
