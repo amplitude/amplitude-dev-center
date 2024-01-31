@@ -1019,14 +1019,24 @@ Beginning with version 1.2.0, the Amplitude iOS Swift SDK supports offline mode.
 
 To disable offline mode, add `offline: NetworkConnectivityCheckerPlugin.Disabled` on initialization as shown below.
 
-```swift
-let amplitude = Amplitude(
-    configuration: Configuration(
-        apiKey: "API-KEY",
-        offline: NetworkConnectivityCheckerPlugin.Disabled
+=== "Swift"
+
+    ```swift
+    let amplitude = Amplitude(
+        configuration: Configuration(
+            apiKey: "API-KEY",
+            offline: NetworkConnectivityCheckerPlugin.Disabled
+        )
     )
-)
-```
+    ```
+
+=== "Objective-C"
+
+    ```obj-c
+    AMPConfiguration* configuration = [AMPConfiguration initWithApiKey:AMPLITUDE_API_KEY];
+    configuration.offline = AMPNetworkConnectivityCheckerPlugin.Disabled;
+    Amplitude* amplitude = [Amplitude initWithConfiguration:configuration];
+    ```
 
 You can also implement you own offline logic:
 
