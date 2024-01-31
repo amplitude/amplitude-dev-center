@@ -2,7 +2,6 @@
 title: Management API Versions Endpoints
 ---
 
-------
 
 ## List versions
 
