@@ -85,7 +85,7 @@ You can configure the SDK client on initialization.
     | --- | --- | --- |
     | `serverUrl` | The host to fetch variants from. | `https://api.lab.amplitude.com` |
     | `logger` | Set to use custom logger. If not set, the DefaultLogger is used. | `null` |
-    | `logLevel` | The LogLevel to use for the logger. | `LogLevel::ERROR` |
+    | `logLevel` | The [log level](#log-level) to use for the logger. | `LogLevel::ERROR` |
     | `httpClient` | The underlying [HTTP client](#custom-http-client) to use for requests, if this is not set, a [default](#guzzlehttpclient) HTTP client will be used. | `null` |
     | `guzzleClientConfig` | The configuration for the underlying default `GuzzleHttpClient` (if used). | [defaults](#guzzlehttpclient) |
 
@@ -193,7 +193,7 @@ You can configure the SDK client on initialization.
     | --- | --- | --- |
     | `serverUrl` | The host to fetch flag configurations from. | `https://api.lab.amplitude.com` |
     | `logger` | Set to use custom logger. If not set, the DefaultLogger is used. | `null` |
-    | `logLevel` | The LogLevel to use for the logger. | `LogLevel::ERROR` |
+    | `logLevel` | The [log level](#log-level) to use for the logger. | `LogLevel::ERROR` |
     | `httpClient` | The underlying [HTTP client](#custom-http-client) to use for requests, if this is not set, a [default](#guzzlehttpclient) HTTP client will be used. | `null` |
     | `guzzleClientConfig` | The configuration for the underlying default `GuzzleHttpClient` (if used). | [defaults](#guzzlehttpclient) |
     | `bootstrap` | Bootstrap the client with an array of flag key to flag configuration | `[]` |
