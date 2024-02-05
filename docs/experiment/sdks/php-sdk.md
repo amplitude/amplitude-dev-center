@@ -316,7 +316,7 @@ Local and remote evaluation clients can be configured to use a custom HTTP clien
 
 ### GuzzleHttpClient
 
-The default Guzzle client can be configured via the `guzzleClientConfig` option in [`RemoteEvaluationConfig`](#configuration) and [`LocalEvaluationConfig`](#configuration-1).
+The default Guzzle client can be configured via the `guzzleClientConfig` option in [`RemoteEvaluationConfig`](#configuration) and [`LocalEvaluationConfig`](#configuration_1).
 
 ???config "Configuration Options"
     | <div class="big-column">Name</div>  | Description | Default Value |
