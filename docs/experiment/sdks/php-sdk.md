@@ -141,7 +141,7 @@ Implements evaluation of variants for a user through [local evaluation](../gener
 !!!tip "Quick Start"
 
     1. [Initialize the local evaluation client.](#initialize-local-evaluation)
-    2. [Start the local evaluation client.](#start)
+    2. [Fetch flag configs for the local evaluation client.](#refreshFlagConfigs)
     3. [Evaluate a user.](#evaluate)
 
     ```php
@@ -150,8 +150,8 @@ Implements evaluation of variants for a user through [local evaluation](../gener
     $experiment = new \AmplitudeExperiment\Experiment();
     $client = $experiment->initializeLocal('<DEPLOYMENT_KEY>');
 
-    // (2) Start the local evaluation client.
-    $client->start();
+    // (2) Fetch flags for the local evaluation client.
+    $client->refreshFlagConfigs();
 
     // (3) Evaluate a user.
     $user = \AmplitudeExperiment\User::builder()
@@ -216,24 +216,39 @@ You can configure the SDK client on initialization.
 !!!info "EU Data Center"
     If you use Amplitude's EU data center, configure the `serverUrl` option on initialization to `https://api.lab.eu.amplitude.com`
 
-### Start
+### refreshFlagConfigs
 
-Fetch local evaluation mode flag configs for [evaluation](#evaluate).
+Fetch up-to-date local evaluation mode flag configs for [evaluation](#evaluate).
 
 ```php
-start(): void
+refreshFlagConfigs(): void
 ```
 
-Call `start()` to ensure that flag configs are ready for use before you use [`evaluate()`](#evaluate)
+Call `refreshFlagConfigs()` to ensure that flag configs are up-to-date before you use [`evaluate()`](#evaluate)
 
 ```php
 <?php
-$client->start();
+$client->refreshFlagConfigs();
+```
+
+### getFlagConfigs
+
+Return flag configs currently used in the client.
+
+```php
+getFlagConfigs(): array
+```
+
+Flag configs returned can be used to reduce start up time by [bootstrapping](#configuration_1) the local evaluation client.
+
+```php
+<?php
+$client->getFlagConfigs();
 ```
 
 ### Evaluate
 
-Executes the [evaluation logic](../general/evaluation/implementation.md) using the flags fetched on [`start()`](#start). Give `evaluate()` a user object argument. Optionally pass an array of flag keys if you require only a specific subset of required flag variants.
+Executes the [evaluation logic](../general/evaluation/implementation.md) using the flags fetched on [`refreshFlagConfigs()`](#refreshFlagConfigs). Give `evaluate()` a user object argument. Optionally pass an array of flag keys if you require only a specific subset of required flag variants.
 
 !!!tip "Automatic Assignment Tracking"
     Set [`assignmentConfig`](#configuration_1) to automatically track an assignment event to Amplitude when you call `evaluate()`.
@@ -284,7 +299,7 @@ The following log levels are used by the SDK:
 
 | Level | Description |
 | --- | --- |
-| `OFF` | Turn off logging |
+| `NO_LOG` | Turn off logging |
 | `ERROR` | Error-level messages are logged |
 | `DEBUG` | Debug and error-level messages are logged |
 
