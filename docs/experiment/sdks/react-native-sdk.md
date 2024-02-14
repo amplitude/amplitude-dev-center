@@ -288,7 +288,7 @@ Set `fetchOnStart` in the SDK configuration to set the behavior of `start()` to 
     await experiment.start(user);
     ```
 
-If the client is bootstrapped with `initialVariants` or `initialFlags` and does not need to await the results of `start()`, call and await `cacheReady()` to ensure variants and flags have been loaded from async storage.
+If the client is bootstrapped with `initialVariants` or `initialFlags` and doesn't need to await the results of `start()`, call and await `cacheReady()` to ensure variants and flags have been loaded from async storage.
 
 ### Fetch
 
