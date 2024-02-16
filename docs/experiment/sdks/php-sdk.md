@@ -286,7 +286,7 @@ You can configure the local evaluation client to send [assignment events](../../
 
 #### AssignmentTrackingProvider
 
-The local evaluation client uses an assignment tracking provider to send assignment events to Amplitude. While a default assignment tracking provider is provided for the use of testing, due to its synchronous nature, Amplitude recommends that you use a custom provider for increased flexibility and performance.
+The local evaluation client uses an assignment tracking provider to send assignment events to Amplitude. Amplitude provides a default assignment tracking provider, but this is best used for testing due to its synchronous nature. Amplitude recommends that you use a custom provider for increased flexibility and performance.
 
 ```php title="AssignmentTrackingProvider"
 <?php
@@ -303,7 +303,7 @@ interface AssignmentTrackingProvider {
 
 #### DefaultAssignmentTrackingProvider
 
-The default assignment tracking provider is a basic implementation of the interface which uses the internal `Amplitude` package to send assignment events via synchronous HTTP requests.
+The default assignment tracking provider is a basic implementation of the interface which uses the internal `Amplitude` package to send assignment events through synchronous HTTP requests.
 
 ```php title="DefaultAssignmentTrackingProvider"
 <?php
