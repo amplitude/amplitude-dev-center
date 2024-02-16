@@ -274,7 +274,7 @@ if ($variant) {
 
 ### Assignment tracking
 
-The local evaluation client can be [configured](#configuration_1) to automatically send [assignment events](../../general/experiment-event-tracking/#assignment-events) to Amplitude.
+You can configure the local evaluation client to send [assignment events](../../general/experiment-event-tracking/#assignment-events) to Amplitude.
 
 ???config "Configuration Options"
     | <div class="big-column">Name</div> | Description | Default Value |
@@ -286,7 +286,7 @@ The local evaluation client can be [configured](#configuration_1) to automatical
 
 #### AssignmentTrackingProvider
 
-The local evaluation client uses an assignment tracking provider to send assignment events to Amplitude. Implementing a custom provider is highly recommended for increased flexibility and performance.
+The local evaluation client uses an assignment tracking provider to send assignment events to Amplitude. Amplitude recommends that you use a custom provider for increased flexibility and performance.
 
 ```php title="AssignmentTrackingProvider"
 <?php
