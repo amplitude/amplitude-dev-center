@@ -265,7 +265,7 @@ start(user?: ExperimentUser): Promise<void>
 
 | Parameter | Requirement | Description |
 | --- | --- | --- |
-| `user` | optional | Explicit [user](../general/data-model.md#users) information to pass with the request to fetch variants. This user information is merged with user information provided from [integrations](#integrations) via the [user provider](#user-provider), preferring properties passed explicitly to `fetch()` over provided properties. Also sets the user in the SDK for reuse. | `undefined` |
+| `user` | optional | Explicit [user](../general/data-model.md#users) information to pass with the request to fetch variants. This user information is merged with user information provided from [integrations](#integrations) via the [user provider](#user-provider), preferring properties passed explicitly to `fetch()` over provided properties. Also sets the user in the SDK for reuse. |
 
 Call `start()` when your application is initializing, after user information is available to use to evaluate or [fetch](#fetch) variants. The returned promise resolves after loading local evaluation flag configurations and fetching remote evaluation variants.
 
