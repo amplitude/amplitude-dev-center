@@ -295,7 +295,7 @@ interface AssignmentTrackingProvider {
 }
 ```
 
-`track()` is called by the local evaluation client when an assignment event needs to be tracked, which happens when [`evaluate()`](#evaluate) is used. The implementation of `track()` should eventually result in the event being sent to Amplitude Analytics.
+The local evaluation client calls `track()` when it determines there are untracked assignment events. It compares the resulting assignment from `evaluate()` with the assignment cache and tracks it if it's not in the cache.
 
 | Parameter | Requirement | Description |
 | --- | --- | --- |
