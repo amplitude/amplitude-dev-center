@@ -41,7 +41,7 @@ Amplitude recommends you to use **Amplitude defined exposure or assignment event
 
 ## Experiment user properties
 
-Experiment uses a user property per flag and experiment, which is set or unset on both assignment and exposure events. Experiment uses this user property to determine which variant the user is in for experiment analysis purposes.
+Experiment uses a user property per flag and experiment, which is set or unset on both assignment and exposure events. Experiment uses this user property to determine which variant the user is in for experiment analysis purposes. You can have up to 700 experiment user properties per project.
 
 The format of the user property is, `[Experiment] <flag_key>` and the value is the variant key that the user was assigned or exposed to. Use this user property in queries for non-experiment events which occur after Experiment sets the user property to segment based on the flag or experiment variant.
 
