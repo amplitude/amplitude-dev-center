@@ -45,7 +45,7 @@ The default location for the configuration yaml file is `/etc/evaluation-proxy-c
 
 ???config "Environment variable configuration (click to open)"
 
-    Environment configuration can only configure a single deployment within a single project. Environment variable configuration is only considered if the configuration file is not found.
+    Environment configuration can only configure a single project. Environment variable configuration is only considered if the configuration file is not found.
 
     | Environment Variable | Description |
     | --- | --- |
@@ -71,7 +71,7 @@ A required array of objects with the following fields, all which are required.
 | `id` | The project's ID. Found in the project settings. |
 | `apiKey` | The project's [API key](../../guides/amplitude-keys-guide.md#api-key). |
 | `secretKey` | The project's [secret key](../../guides/amplitude-keys-guide.md#secret-key). |
-| `managementKey` | The Experiment management API key. Must be created for the same project as the configured API and secret key. Used to automatically access and update deployments used for the project. |
+| `managementKey` | The [Experiment management API key](../../guides/amplitude-keys-guide.md#management-api-key). Must be created for the same project as the configured API and secret key. Used to automatically access and update deployments used for the project. |
 
 ### `configuration`
 
