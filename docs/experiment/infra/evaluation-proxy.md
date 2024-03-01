@@ -114,7 +114,9 @@ For example, a kubernetes deployment with greater than one replica.
 
 Use the evaluation proxy [Helm chart](https://github.com/amplitude/evaluation-proxy-helm) to install the proxy service on kubernetes or generate the files needed to deploy the service manually. The repository also contains an [example of running the evaluation proxy on kubernetes](https://github.com/amplitude/evaluation-proxy-helm/tree/main/example) locally using `minikube`.
 
-#### Helm installation
+#### Helm
+
+##### Add helm repo
 
 ```bash
 helm repo add \
