@@ -51,7 +51,7 @@ The default location for the configuration yaml file is `/etc/evaluation-proxy-c
     | --- | --- |
     | `AMPLITUDE_API_KEY` | The project's [API key](../../guides/amplitude-keys-guide.md#api-key). |
     | `AMPLITUDE_SECRET_KEY` | The project's [secret key](../../guides/amplitude-keys-guide.md#secret-key). |
-    | `AMPLITUDE_EXPERIMENT_MANAGEMENT_API_KEY` | <span style="max-width:450px;display:inline-block">The Experiment management api key. Must be created for the same project as the configured API and secret key. Used to automatically access and update deployments used for the project.</span> |
+    | `AMPLITUDE_EXPERIMENT_MANAGEMENT_API_KEY` | <span style="max-width:450px;display:inline-block">The [Experiment management API key](../../guides/amplitude-keys-guide.md#management-api-key). Must be created for the same project as the configured API and secret key. Used to automatically access and update deployments used for the project.</span> |
     | `AMPLITUDE_REDIS_URI` | Optional. The entire URI to connect to Redis. Include the protocol, host, port, and optional username, password, and path (for example `redis://localhost:6379`). |
     | `AMPLITUDE_REDIS_PREFIX` | Optional. The prefix to connect  |
     | `AMPLITUDE_SERVER_URL` | Optional. The server URL, including protocol and host, to fetch flags from. |
