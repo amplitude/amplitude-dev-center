@@ -4,6 +4,8 @@ description: Containerized service to enhance local evaluation running in your i
 icon: simple/docker
 ---
 
+!!!warning "The evaluation proxy is under active development. APIs are unstable and may change before general availability."
+
 !!!beta "Beta Resources"
     [:material-github: GitHub](https://github.com/amplitude/evaluation-proxy) · [:material-code-tags-check: Releases](https://github.com/amplitude/evaluation-proxy/releases) · [:simple-docker: Docker Image](https://hub.docker.com/r/amplitudeinc/evaluation-proxy) · [:simple-helm: Helm Chart](https://github.com/amplitude/evaluation-proxy-helm)
 <br />
@@ -19,11 +21,9 @@ The Evaluation Proxy is a Service to enable, enhance, and optimize [local evalua
 
 ## Configuration
 
-The evaluation proxy is either configured via a YAML file (recommended, more configuration options), or using environment variables.
+The evaluation proxy is either configured via a `yaml` file (recommended, more configuration options), or using environment variables.
 
-The default location for the configuration YAML file is `/etc/evaluation-proxy-config.yaml`. You may also configure the file location using the `PROXY_CONFIG_FILE_PATH` environment variable.
-
-The configuration YAML file base is an object with two primary sub objects:
+The default location for the configuration yaml file is `/etc/evaluation-proxy-config.yaml`. You may also configure the file location using the `PROXY_CONFIG_FILE_PATH` environment variable.
 
 * [`projects`](#projects) (required)
 * [`configuration`](#configuration-1) (optional).
@@ -34,12 +34,9 @@ The configuration YAML file base is an object with two primary sub objects:
 
     ```yaml
     projects:
-      - id: "YOUR PROJECT ID"
-        apiKey: "YOUR API KEY"
-        secretKey: " YOUR SECRET KEY"
-        deploymentKeys:
-          - "YOUR DEPLOYMENT KEY 1"
-          - "YOUR DEPLOYMENT KEY 2"
+      - apiKey: "YOUR API KEY"
+        secretKey: "YOUR SECRET KEY"
+        managementKey: "YOUR MANAGEMENT API KEY"
 
     configuration:
       redis:
@@ -52,10 +49,9 @@ The configuration YAML file base is an object with two primary sub objects:
 
     | Environment Variable | Description |
     | --- | --- |
-    | `AMPLITUDE_PROJECT_ID` | The project's ID. Found in the project settings. |
     | `AMPLITUDE_API_KEY` | The project's [API key](../../guides/amplitude-keys-guide.md#api-key). |
     | `AMPLITUDE_SECRET_KEY` | The project's [secret key](../../guides/amplitude-keys-guide.md#secret-key). |
-    | `AMPLITUDE_EXPERIMENT_DEPLOYMENT_KEY` | <span style="max-width:450px;display:inline-block">The key for the deployment to manage. The [deployment key](../../guides/amplitude-keys-guide.md#deployment-key) must exist within the same project as the API and secret key.</span> |
+    | `AMPLITUDE_EXPERIMENT_MANAGEMENT_API_KEY` | <span style="max-width:450px;display:inline-block">The Experiment management api key. Must be created for the same project as the configured API and secret key. Used to automatically access and update deployments used for the project.</span> |
     | `AMPLITUDE_REDIS_URI` | Optional. The entire URI to connect to Redis. Include the protocol, host, port, and optional username, password, and path (for example `redis://localhost:6379`). |
     | `AMPLITUDE_REDIS_PREFIX` | Optional. The prefix to connect  |
     | `AMPLITUDE_SERVER_URL` | Optional. The server URL, including protocol and host, to fetch flags from. |
@@ -75,7 +71,7 @@ A required array of objects with the following fields, all which are required.
 | `id` | The project's ID. Found in the project settings. |
 | `apiKey` | The project's [API key](../../guides/amplitude-keys-guide.md#api-key). |
 | `secretKey` | The project's [secret key](../../guides/amplitude-keys-guide.md#secret-key). |
-| `deploymentKeys` | The keys of the deployments to manage within the project. The [deployment keys](../../guides/amplitude-keys-guide.md#deployment-key) must exist within the same project as the API and secret key. |
+| `managementKey` | The Experiment management API key. Must be created for the same project as the configured API and secret key. Used to automatically access and update deployments used for the project. |
 
 ### `configuration`
 
@@ -111,20 +107,21 @@ Configure the evaluation proxy to use Redis as a persistent storage. Highly reco
 ## Deployment
 
 The evaluation proxy is stateless, and should be deployed with multiple instances behind a load balancer for high availability and scalability.
+
 For example, a kubernetes deployment with greater than one replica.
 
 ### Kubernetes
 
 Use the evaluation proxy [Helm chart](https://github.com/amplitude/evaluation-proxy-helm) to install the proxy service on kubernetes or generate the files needed to deploy the service manually. The repository also contains an [example of running the evaluation proxy on kubernetes](https://github.com/amplitude/evaluation-proxy-helm/tree/main/example) locally using `minikube`.
 
-#### Add helm repo
+#### Helm installation
 
 ```bash
 helm repo add \
     evaluation-proxy-helm https://amplitude.github.io/evaluation-proxy-helm
 ```
 
-#### Configure `values.yaml`
+##### Configure `values.yaml`
 
 Configure the chart values. The recommended approach to configuring and installing the helm chart is using a values.yaml configuration file.
 
@@ -134,17 +131,15 @@ The chart's `evaluationProxy` value contents exactly match the evaluation proxy'
 evaluationProxy:
   # At least one project is required.
   projects:
-    - id: "TODO"
-      apiKey: "TODO"
-      secretKey: "TODO"
-      deploymentKeys:
-        - "TODO"
+    - apiKey: "YOUR API KEY"
+      secretKey: "YOUR SECRET KEY"
+      managementKey: "YOUR MANAGEMENT API KEY"
   configuration: {}
 #    redis:
 #      uri: "redis://redis-master.default.svc.cluster.local:6379"
 ```
 
-#### Install helm chart
+##### Install helm chart
 
 ```bash
 helm install -f values.yaml \
@@ -170,19 +165,7 @@ docker run \
 
 The Evaluation Proxy exposes remote [Evaluation API](../apis/evaluation-api.md) and [SDK](../index.md#sdks) endpoints to run local evaluation within your cluster. This is useful to enable platforms and languages which aren't supported by local evaluation SDKs. As an added benefit, fetch requests made to the evaluation proxy can target cohorts of users, and have assignment events tracked automatically to Amplitude.
 
-**Requests must be sent to the service using `http` on port `3546`.**
+**You must send requests to the service using `http` on port `3546`.**
 
 !!!example "Kubernetes"
-    A Kubernetes deployed Evaluation Proxy service (named `evaluation-proxy`) running within a kubernetes namespace `prod` may be accessed from within the cluster at: `http://evaluation-proxy.prod.svc.cluster.local:3546`
-
-## SDK proxy mode
-
-Certain local evaluation SDKs are configurable to run in proxy mode. In proxy mode, flag configurations, full cohorts, and cohort memberships are synced from the evaluation proxy rather than from Amplitude directly. This reduces SDK startup time and provides redundancy for flags and cohorts for local evaluation SDKs running within your infrastructure.
-
-| SDK | Proxy Mode Support | Supported Version |
-| --- |:---:| --- |
-| [:material-language-java: Java/Kotlin](../sdks/jvm-sdk.md) |  :material-check-bold:{ .green } | `1.2.0-beta.3` |
-| [:material-nodejs: Node.js](../sdks/nodejs-sdk.md) |  :material-close-thick:{ .red } | - |
-| [:material-language-ruby: Ruby](../sdks/ruby-sdk.md) |  :material-close-thick:{ .red } | - |
-| [:fontawesome-brands-golang: Go](../sdks/go-sdk.md) |  :material-close-thick:{ .red } | - |
-| [:material-language-python: Python](../sdks/python-sdk.md) |  :material-close-thick:{ .red } | - |
+    A Kubernetes deployed Evaluation Proxy service (named `evaluation-proxy`) running within a kubernetes namespace `main` is from within the cluster at: `http://evaluation-proxy.main.svc.cluster.local:3546`
