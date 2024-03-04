@@ -7,9 +7,7 @@ Guide to creating a local evaluation flag, or migrating an existing remote evalu
 
 ## Create a local evaluation flag or experiment
 
-1. [Create a flag or experiment](./getting-started/create-a-flag.md) as you normally would, but select the **Local** option for the **Evaluation Mode** setting.
-
-    ![Screenshot of the flag creation modal with evaluation mode setting](../../assets/images/experiment/local-eval-create-flag-1.png)
+1. [Create a flag or experiment](./getting-started/create-a-flag.md) as you normally would, but select the **Local** Evaluation Mode on the Flag & Evaluation tab of the Configure Delivery step.
 
 2. Within your new experiment, set your server-side deployment, configure the allocation (for example, target 100% of users), and activate your flag.
 
@@ -21,12 +19,8 @@ Guide to creating a local evaluation flag, or migrating an existing remote evalu
 You may retroactively transition a remote flag to local evaluation mode by changing the flag settings and updating the bucketing key from Amplitude ID to Device ID or User ID.
 
 !!!warning
-    Migrating a flag from remote to local evaluation mode will change the bucketing behavior. Before migrating, your flag will need to be inactive. You need to make sure that all targeting rules abide by the limitations of local evaluation.
+    Migrating a flag from remote to local evaluation mode changes bucketing behavior. Before migrating, your flag needs to be inactive. Make sure all targeting rules abide by the limitations of local evaluation.
 
-1. Change the flag's "Evaluation Mode" setting to "Local" in the Advanced Settings section of the Configure tab.
+1. Change the flag's Evaluation Mode setting to **Local** in the Delivery Settings section of the Settings tab.
 
-    ![Screenshot of advanced settings with evaluation mode picker](../../assets/images/experiment/local-eval-migrate-flag-1.png)
-
-2. Update the "bucketed by" setting from Amplitude ID to Device ID in each targeted users segment and the "All Other Users" Section.
-
-    ![Screenshot of allocation configuration with "bucketed by" setting](../../assets/images/experiment/local-eval-migrate-flag-2.png)
+2. Update the **Bucketed by** setting in the Allocation from `Amplitude ID` to `Device ID` in each targeted users segment and the All Other Users, if applicable.
