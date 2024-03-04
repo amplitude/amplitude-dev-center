@@ -4,7 +4,7 @@
 
 <pre>
 <code>curl --request POST \
-     --url https://api2.amplitude.com/2/httpapi \
+     --url '<span id="curl_url"></span>' \
      --data '{"api_key":"<span id="curl_api_key"></span>","events":[{"event_type":"$exposure","user_id":"<span id="curl_user_id"></span>","device_id":"<span id="curl_device_id"></span>","event_properties":{"flag_key":"<span id="curl_flag_key"></span>","variant":"<span id="curl_variant"></span>"}}]}'
 </code>
 </pre>
@@ -16,6 +16,7 @@
 | <textarea class="at-field" spellcheck="false" placeholder="device_id" id="device_id"></textarea> | The user's device ID. |
 | <textarea class="at-field" spellcheck="false" placeholder="flag_key" id="flag_key"></textarea> | The flag key of the flag or experiment the user has been exposed to. |
 | <textarea class="at-field" spellcheck="false" placeholder="variant" id="variant"></textarea> | The variant value (e.g. `on`, `control`, `treatment`). |
+| <select id="server-zone" onchange="updateUrl()"><option value="US">US</option><option value="EU">EU</option></select> | The server zone for your Amplitude project |
 | <a class="md-button" id="at-action-button">Track Exposure</a> | |
 
 Result: <span id="failure_tip"></span>
@@ -30,6 +31,16 @@ Result: <span id="failure_tip"></span>
 <script>
 document.getElementById('api_key').value =
      localStorage.getItem('api_key') || '';
+
+function updateUrl() {
+     const serverZone = document.getElementById('server-zone').value;
+     const url = serverZone === 'US' ? 'https://api2.amplitude.com/2/httpapi' :
+          'https://api.eu.amplitude.com/2/httpapi';
+
+     document.getElementById('curl_url').textContent = url;
+}
+
+document.getElementById('curl_url').textContent = 'https://api2.amplitude.com/2/httpapi';
 
 setupApiTable({
      'api_key': false,
@@ -46,7 +57,11 @@ setupApiTable({
 
      localStorage.setItem('api_key', apiKey);
 
-     const response = await fetch('https://api2.amplitude.com/2/httpapi', {
+     const serverZone = document.getElementById('server-zone').value;
+     const url = serverZone === 'US' ? 'https://api2.amplitude.com/2/httpapi' :
+          'https://api.eu.amplitude.com/2/httpapi';
+
+     const response = await fetch(url, {
           method: 'POST',
           headers: {
                'Content-Type':'application/json',

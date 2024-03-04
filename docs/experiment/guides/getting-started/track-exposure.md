@@ -10,7 +10,7 @@ template: guide-last.html
 
 To keep things simple, this example is going to `curl` an [exposure event](../../general/experiment-event-tracking.md#exposure-events) to Amplitude using the [Analytics REST API v2.0](../../../analytics/apis/http-v2-api.md).
 
---8<-- "includes/experiment-interactive-exposure-table.md"
+--8<-- "includes/experiment-interactive-exposure-tracking-table.md"
 
 If the request succeeded, you should see a user in the Exposures chart in Experiment.
 

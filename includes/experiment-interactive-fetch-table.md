@@ -4,7 +4,7 @@
 
 <pre>
 <code>curl --request GET \
-     --url 'https://api.lab.amplitude.com/v1/vardata?<span id='curl_user_id'></span>' \
+     --url '<span id='curl_url'></span><span id='curl_user_id'></span>' \
      --header 'Authorization: Api-Key <span id='curl_deployment_key'></span>'
 </code>
 </pre>
@@ -13,6 +13,7 @@
 | --- | --- |
 | <textarea class="at-field" spellcheck="false" placeholder="deployment_key" id="deployment_key"></textarea> | (Required) The [deployment](../../general/data-model.md#deployments) key you [created](./create-a-deployment.md). |
 | <textarea class="at-field" spellcheck="false" placeholder="user_id" id="user_id"></textarea> | (Required) The user ID used to fetch variants. This should be the same [user](../../general/data-model.md#users) you [track exposure](./track-exposure.md) for. |
+| <select id="server-zone" onchange="updateUrl()"><option value="US">US</option><option value="EU">EU</option></select> | The server zone for your Amplitude project |
 | <a class="md-button" id="at-action-button">Fetch Variants</a> | |
 
 Result: <span id="failure_tip"></span>
@@ -28,16 +29,30 @@ Result: <span id="failure_tip"></span>
 document.getElementById('deployment_key').value =
      localStorage.getItem('deployment_key') || '';
 
+function updateUrl() {
+     const serverZone = document.getElementById('server-zone').value;
+     const url = serverZone === 'US' ? 'https://api.lab.amplitude.com/v1/vardata?user_id=' :
+          'https://api.lab.eu.amplitude.com/v1/vardata?user_id=';
+
+     document.getElementById('curl_url').textContent = url;
+}
+
+document.getElementById('curl_url').textContent = 'https://api.lab.amplitude.com/v1/vardata?user_id=';
+
 setupApiTable({
      'deployment_key': false,
      'user_id': true
 }, async function(fields) {
      const deploymentKey = fields['deployment_key'];
      const userId = fields['user_id'];
+     const serverZone = document.getElementById('server-zone').value;
 
      localStorage.setItem('deployment_key', deploymentKey);
 
-     const response = await fetch('https://api.lab.amplitude.com/v1/vardata?user_id=' + userId, {
+     const url = serverZone === 'US' ? 'https://api.lab.amplitude.com/v1/vardata?user_id=' + userId :
+          'https://api.lab.eu.amplitude.com/v1/vardata?user_id=' + userId;
+
+     const response = await fetch(url, {
           headers: {
                'Authorization': 'Api-Key ' + deploymentKey,
           },
