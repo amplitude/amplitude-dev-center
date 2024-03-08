@@ -222,6 +222,9 @@ initializeLocal(apiKey: string, config?: LocalEvaluationConfig): LocalEvaluation
 !!!tip "Flag Polling Interval"
     Use the `flagConfigPollingIntervalMillis` [configuration](#configuration_1) to determine the time flag configs take to update once modified (default 30s).
 
+!!!tip "Flag Streaming"
+    Use the `streamUpdates` [configuration](#configuration_1) to get flag config updates pushed to SDK (default false), instead of polling every `flagConfigPollingIntervalMillis` milliseconds. The time for SDK to receive the update after saving is generally under 1 second. It will fallback to polling if streaming failed. Configure `flagConfigPollingIntervalMillis` [configuration](#configuration_1) as well for fallback. 
+
 #### Configuration
 
 You can configure the SDK client on initialization.
@@ -237,6 +240,14 @@ You can configure the SDK client on initialization.
     | `bootstrap` | Bootstrap the client with a map of flag key to flag configuration | `{}` |
     | `flagConfigPollingIntervalMillis` | The interval (in milliseconds) to poll for updated flag configs after calling `start()` | `30000` |
     | `assignmentConfig` | Configuration for automatically tracking assignment events after an evaluation. | `null` |
+    | `streamUpdates` | Enable streaming to replace polling for receiving flag config updates. Instead of polling every second, our servers pushupdates to SDK within a second. If stream fails for any reason, it will fallback to polling automatically and retry streaming after some interval. | `false` |
+    | `streamServerUrl` | The stream server url to stream from. | `https://stream.lab.amplitude.com` |
+    | `streamConnTimeoutMillis` | The timeout for connecting an server-side event stream. Aka, the timeout for an http connection. | `1000` |
+    | `streamFlagConnTimeoutMillis` | The timeout for establishing a valid flag config stream. This includes `streamConnTimeoutMillis` and time for receiving initial flag configs. It has to be greater than or equal to `streamConnTimeoutMillis` | `1000` |
+    | `streamFlagTryAttempts` | The number of attempts to connect to stream before fallback to polling. | `2` |
+    | `streamFlagTryDelayMillis` | The delay between attempts to connect to stream. | `1000` |
+    | `streamFlagRetryDelayMillis` | The base delay to retry stream after fallbacked to polling. | `15000` |
+    | `streamFlagRetryJitterMillis` | The max jitter to add to `streamFlagRetryDelayMillis`. Actual value will be randomized between 0 and `streamFlagRetryJitterMillis` | `2000` |
 
     **AssignmentConfig**
 
@@ -248,6 +259,8 @@ You can configure the SDK client on initialization.
 
 !!!info "EU Data Center"
     If you're using Amplitude's EU data center, configure the `serverUrl` option on initialization to `https://api.lab.eu.amplitude.com`
+
+    If you opted in for streaming flag config updates, configure the `streamServerUrl` option on initialization to `https://stream.lab.eu.amplitude.com`
 
 ### Start
 
