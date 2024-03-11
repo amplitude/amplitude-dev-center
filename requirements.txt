@@ -1,6 +1,6 @@
 # Requirements for core
 mkdocs-material==9.5.13
-Jinja2==3.1.2
+Jinja2==3.1.3
 Markdown==3.5.2
 mkdocs==1.5.3
 mkdocs-material-extensions==1.3.1
