@@ -9,7 +9,7 @@ pymdown-extensions==9.9.2
 
 # Requirements for Social Previews
 cairosvg==2.5.2
-pillow==9.3.0
+pillow==10.2.0
 
 # Lightbox requirements
 mkdocs-glightbox==0.2.1
