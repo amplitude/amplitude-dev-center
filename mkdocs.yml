@@ -290,6 +290,7 @@ nav:
         - Bento: data/destinations/bento-event-streaming.md
         - Branch: data/destinations/branch.md
         - Braze: data/destinations/braze.md
+        - Candu: data/destinations/candu.md
         - Customer.io: data/destinations/customerio.md
         - CleverTap: data/destinations/clevertap-event-streaming.md
         - Extole: data/destinations/extole-event-streaming.md
