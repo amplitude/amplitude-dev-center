@@ -381,6 +381,7 @@ nav:
         - Userlist: data/destinations/userlist-cohort.md
         - User.com: data/destinations/user.com-cohort.md
         - Webengage: data/destinations/webengage-cohort.md
+        - Welltory: data/destinations/welltory-cohort.md
         - Zeda.io: data/destinations/zeda.io-cohort.md
       - Profile API:
         - Moveable Ink: data/destinations/moveable-ink-profile-api.md

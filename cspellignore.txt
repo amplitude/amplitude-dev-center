@@ -378,6 +378,8 @@ wbraid
 webengage
 WebEngage
 web-engage
+Welltory
+welltory
 xcodeproj
 xcodeworkspace
 xsmall
