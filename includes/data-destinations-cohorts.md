@@ -12,6 +12,7 @@
 - :apxor: [Apxor](../data/destinations/apxor-cohort.md)
 - :bento: [Bento](../data/destinations/bento-cohort.md)
 - :braze: [Braze](../data/destinations/braze-cohort.md)
+- :candu: [Candu](../data/destinations/candu-cohort.md)
 - :cohort-webhooks:[Cohort Webhooks](../data/destinations/cohort-webhooks.md)
 - :cordial: [Cordial](../data/destinations/cordial-cohort.md)
 - :clevertap: [Clevertap](../data/destinations/clevertap-cohort.md)

@@ -335,6 +335,7 @@ nav:
         - Blitzllama: data/destinations/blitzllama-cohort.md
         - Bento: data/destinations/bento-cohort.md
         - Braze: data/destinations/braze-cohort.md
+        - Candu: data/destinations/candu-cohort.md
         - CleverTap: data/destinations/clevertap-cohort.md
         - Cohort Webhooks: data/destinations/cohort-webhooks.md
         - Cordial: data/destinations/cordial-cohort.md
