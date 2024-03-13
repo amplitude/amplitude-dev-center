@@ -58,10 +58,10 @@ Like all other calls, `instance()` is removed. Flutter SDK 4.0 uses the Configur
 
 Flutter SDK 4.0 includes the following configuration changes:
 
-- It's more consistent across runtimes.
-- It no longer supports certain configurations.
-- It uses an instance variable for configuration, versus setters in SDK version 3.0.
-- Configuration is immutable after you pass it to Amplitude.
+* It's more consistent across runtimes.
+* It no longer supports certain configurations.
+* It uses an instance variable for configuration, versus setters in SDK version 3.0.
+* Configuration is immutable after you pass it to Amplitude.
 
 |Flutter SDK 3.0                      |Flutter SDK 4.0                     |
 |-------------------------------------|------------------------------------|
@@ -81,11 +81,11 @@ Flutter SDK 4.0 includes the following configuration changes:
 
 Flutter SDK 4.0 uses a unified `track` API to replace the following `logEvent` API variations:
 
-- `withEventProperties`
-- `withApiProperties`
-- `withUserProperties`
-- `withGroup`
-- `withGroupProperties`
+* `withEventProperties`
+* `withApiProperties`
+* `withUserProperties`
+* `withGroup`
+* `withGroupProperties`
 
 #### `logEvent()`
 
