@@ -20,7 +20,7 @@ Open `pubspec.yaml` and update the dependency:
 ```diff
 dependencies:
 -  amplitude_flutter: ^3
-+  amplitude_flutter: ^4
++  amplitude_flutter: ^4.0.0-beta.1
 ```
 
 ## Instrumentation
