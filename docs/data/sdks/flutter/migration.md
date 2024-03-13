@@ -3,7 +3,7 @@ title: Flutter SDK Migration Guide
 description: Use this guide to easily migrate from Amplitude's Flutter SDK 3.0 to the Flutter SDK 4.0.
 ---
 
-Amplitude Flutter SDK 4.0 features default event tracking, simplified interfaces and wraps on the latest [Amplitude iOS SDK](/data/sdks/ios-swift/) and [Android Kotlin SDK](/data/sdks/android-kotlin/). 
+Amplitude Flutter SDK 4.0 features default event tracking, simplified interfaces, and wraps the latest [Amplitude iOS](/data/sdks/ios-swift/) and [Android Kotlin](/data/sdks/android-kotlin/) SDKs. 
 
 !!!beta "SDK Resources"
      [:material-github: GitHub](https://github.com/amplitude/Amplitude-Flutter/tree/beta) · [:material-code-tags-check: Releases](https://github.com/amplitude/experiment-php-server/releases)
@@ -15,7 +15,7 @@ Amplitude Flutter SDK 4.0 features default event tracking, simplified interfaces
 
 ## Dependencies
 
-Go to the pubspec.yaml file and update the dependency.
+Open `pubspec.yaml` and update the dependency:
 
 ```diff
 dependencies:
@@ -25,11 +25,11 @@ dependencies:
 
 ## Instrumentation
 
-Flutter SDK 4.0 offers an API to instrument events. To migrate to the Flutter SDK 4.0, you need to update a few calls. The following sections detail which calls have changed.
+Flutter SDK 4.0 offers an API to instrument events. To migrate to Flutter SDK 4.0, you need to update a few calls. The following sections detail which calls have changed.
 
 ### Initialization
 
-Like all other calls, `instance()` has been removed. Configuration is handled differently. The Flutter SDK 4.0 use the Configuration object to set the configuration. See [Configuration](#configuration).
+Like all other calls, `instance()` is removed. Flutter SDK 4.0 uses the Configuration object to set the configuration. See [Configuration](#configuration) for more information.
 
 ```diff
 - import 'package:amplitude_flutter/amplitude.dart';
@@ -56,7 +56,12 @@ Like all other calls, `instance()` has been removed. Configuration is handled di
 
 ### Configuration
 
-The configurations for the new SDK are simpler and more consistent across runtimes. Some configurations are no longer supported. The Flutter SDK 3.0 uses setters for configuration. The configuration of the Flutter SDK 4.0 can be set by an instance variable. Note the Configuration is immutable (cannot be changed) after being passed to Amplitude.
+Flutter SDK 4.0 includes the following configuration changes:
+
+- It's more consistent across runtimes.
+- It no longer supports certain configurations.
+- It uses an instance variable for configuration, versus setters in SDK version 3.0.
+- Configuration is immutable after you pass it to Amplitude.
 
 |Flutter SDK 3.0                      |Flutter SDK 4.0                     |
 |-------------------------------------|------------------------------------|
@@ -74,7 +79,13 @@ The configurations for the new SDK are simpler and more consistent across runtim
 
 ### Tracking events
 
-The Flutter SDK 3.0 offered a variety of `logEvent` APIs with `withEventProperties`, `withApiProperties`, `withUserProperties`, `withGroup`, `withGroupProperties`, `withTimestamp`, `outOfSession`, to override specific properties in the event payload. Amplitude has simplified all these variations into a unified `track` API.
+Flutter SDK 4.0 uses a unified `track` API to replace the following `logEvent` API variations:
+
+- `withEventProperties`
+- `withApiProperties`
+- `withUserProperties`
+- `withGroup`
+- `withGroupProperties`
 
 #### `logEvent()`
 
