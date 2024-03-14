@@ -93,14 +93,14 @@ The `logEvent()` API maps to `track()`.
 
 ```diff
 - amplitude.logEvent('BUTTON_CLICKED');
-+ amplitude.track(event: BaseEvent(eventType:'BUTTON_CLICKED'))
++ amplitude.track(event: BaseEvent(eventType:'BUTTON_CLICKED'));
 ```
 
 #### `logEvent()` with event properties
 
 ```diff
 - amplitude.logEvent('BUTTON_CLICKED', {"Hover Time": "100ms"});
-+ amplitude.track(event: BaseEvent(eventType:'BUTTON_CLICKED', eventProperties: {"Hover Time": "100ms"}))
++ amplitude.track(event: BaseEvent(eventType:'BUTTON_CLICKED', eventProperties: {"Hover Time": "100ms"}));
 ```
 
 #### `logEvent()` with outOfSession
@@ -108,8 +108,8 @@ The `logEvent()` API maps to `track()`.
 `logEvent()` receives an optional boolean argument `outOfSession`. The new `track()` API will **NOT** support it. However, you can still track an event as out-of-session by setting `event.sessionId = -1`.
 
 ```diff
-- amplitude.logEvent("BUTTON_CLICKED", outOfSession: true)
-+ amplitude.track(event: BaseEvent(eventType:'BUTTON_CLICKED', sessionId: -1))
+- amplitude.logEvent("BUTTON_CLICKED", outOfSession: true);
++ amplitude.track(event: BaseEvent(eventType:'BUTTON_CLICKED', sessionId: -1));
 ```
 
 #### `uploadEvents()`
@@ -118,7 +118,7 @@ The `uploadEvents()` API maps to `flush()`.
 
 ```diff
 - amplitude.uploadEvents();
-+ amplitude.flush()
++ amplitude.flush();
 ```
 
 ### Set user properties
@@ -144,8 +144,8 @@ The `clearUserProperties` API has been removed, but you can now use the unified 
 ```diff
 - amplitude.clearUserProperties();
 + final Identify identify = Identify()
-+   ..clearAll()
-+ amplitude.identify(identify)
++   ..clearAll();
++ amplitude.identify(identify);
 ```
 
 #### `setUserProperties()`
