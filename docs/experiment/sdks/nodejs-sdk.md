@@ -242,12 +242,7 @@ You can configure the SDK client on initialization.
     | `assignmentConfig` | Configuration for automatically tracking assignment events after an evaluation. | `null` |
     | `streamUpdates` | Enable streaming to replace polling for receiving flag config updates. Instead of polling every second, our servers pushupdates to SDK within a second. If stream fails for any reason, it will fallback to polling automatically and retry streaming after some interval. | `false` |
     | `streamServerUrl` | The stream server url to stream from. | `https://stream.lab.amplitude.com` |
-    | `streamConnTimeoutMillis` | The timeout for connecting an server-side event stream. Aka, the timeout for an http connection. | `1000` |
-    | `streamFlagConnTimeoutMillis` | The timeout for establishing a valid flag config stream. This includes `streamConnTimeoutMillis` and time for receiving initial flag configs. It has to be greater than or equal to `streamConnTimeoutMillis` | `1000` |
-    | `streamFlagTryAttempts` | The number of attempts to connect to stream before fallback to polling. | `2` |
-    | `streamFlagTryDelayMillis` | The delay between attempts to connect to stream. | `1000` |
-    | `streamFlagRetryDelayMillis` | The base delay to retry stream after fallbacked to polling. | `15000` |
-    | `streamFlagRetryJitterMillis` | The max jitter to add to `streamFlagRetryDelayMillis`. Actual value will be randomized between 0 and `streamFlagRetryJitterMillis` | `2000` |
+    | `streamFlagConnTimeoutMillis` | The timeout for establishing a valid flag config stream. This includes time for a connection to be established to stream server and time for receiving initial flag configs. | `1500` |
 
     **AssignmentConfig**
 
