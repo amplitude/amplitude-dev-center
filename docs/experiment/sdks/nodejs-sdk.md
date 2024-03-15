@@ -240,7 +240,7 @@ You can configure the SDK client on initialization.
     | `bootstrap` | Bootstrap the client with a map of flag key to flag configuration | `{}` |
     | `flagConfigPollingIntervalMillis` | The interval (in milliseconds) to poll for updated flag configs after calling `start()` | `30000` |
     | `assignmentConfig` | Configuration for automatically tracking assignment events after an evaluation. | `null` |
-    | `streamUpdates` | Enable streaming to replace polling for receiving flag config updates. Instead of polling every second, our servers pushupdates to SDK within a second. If stream fails for any reason, it will fallback to polling automatically and retry streaming after some interval. | `false` |
+    | `streamUpdates` | Enable streaming to replace polling for receiving flag config updates. Instead of polling every second, our servers push updates to SDK within a second. If stream fails for any reason, it will fallback to polling automatically and retry streaming after some interval. | `false` |
     | `streamServerUrl` | The stream server url to stream from. | `https://stream.lab.amplitude.com` |
     | `streamFlagConnTimeoutMillis` | The timeout for establishing a valid flag config stream. This includes time for a connection to be established to stream server and time for receiving initial flag configs. | `1500` |
 
