@@ -202,6 +202,7 @@ nav:
       - Warehouse:
         - BigQuery: data/sources/bigquery.md
         - Snowflake: data/sources/snowflake.md
+        - Databricks: data/sources/databricks.md
       - Other Sources:
         - Overview: data/source-other-overview.md
         - Ad Networks:
