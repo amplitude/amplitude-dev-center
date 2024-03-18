@@ -161,7 +161,7 @@ Starting version 1.9.1, Browser SDK now tracks default events. Browser SDK can b
     |-|-|-|
     `config.defaultTracking.attribution` | Optional. `boolean` | Enables/disables marketing attribution tracking. If value is `true`, Amplitude tracks marketing attribution events otherwise marketing attribution tracking is disabled. Default value is `true`.<br /><br />|
     `config.defaultTracking.pageViews` | Optional. `boolean` | Enables/disables default page view tracking. If value is `true`, Amplitude tracks page view events on initialization otherwise page view tracking is disabled. Default value is `true`.<br /><br />Event properties tracked includes: `[Amplitude] Page Domain`, `[Amplitude] Page Location`, `[Amplitude] Page Path`, `[Amplitude] Page Title`, `[Amplitude] Page URL`<br /><br />See [Tracking page views](#tracking-page-views) for more information.|
-    `config.defaultTracking.sessions` | Optional. `boolean` | Enables/disables session tracking. If value is `true`, Amplitude tracks session start and session end events otherwise session tracking is disabled. Default value is `true`.<br /><br />See [Tracking sessions](#tracking-sessions) for more information.|
+    `config.defaultTracking.sessions` | Optional. `boolean` | Enables/disables session tracking. If value is `true`, Amplitude tracks session start and session end events otherwise session events are not tracked. Note that when `false`, session Id is still tracked. Default value is `true`.<br /><br />See [Tracking sessions](#tracking-sessions) for more information.|
     `config.defaultTracking.formInteractions` | Optional. `boolean` | Enables/disables form interaction tracking. If value is `true`, Amplitude tracks form start and form submit events otherwise form interaction tracking is disabled. Default value is `true`.<br /><br />Event properties tracked includes: `[Amplitude]  Form ID`, `[Amplitude] Form Name`, `[Amplitude] Form Destination`<br /><br />See [Tracking form interactions](#tracking-form-interactions) for more information.|
     `config.defaultTracking.fileDownloads` | Optional. `boolean` | Enables/disables file download tracking. If value is `true`, Amplitude tracks file download events otherwise file download tracking is disabled. Default value is `true`.<br /><br />Event properties tracked includes: `[Amplitude] File Extension`, `[Amplitude] File Name`, `[Amplitude] Link ID`, `[Amplitude] Link Text`, `[Amplitude] Link URL`<br /><br />See [Tracking file downloads](#tracking-file-downloads) for more information.|
 
@@ -253,7 +253,7 @@ amplitude.init(AMPLITUDE_API_KEY, {
 
 Amplitude tracks session events by default. A session is the period of time a user has your website open. See [How Amplitude defines sessions](https://help.amplitude.com/hc/en-us/articles/115002323627-Track-sessions-in-Amplitude#how-amplitude-defines-sessions) for more information. When a new session starts, Amplitude tracks a session start event and is the first event of the session. The event type for session start is "[Amplitude] Start Session". When an existing session ends, a session end is tracked and is the last event of the session. The event type for session end is "[Amplitude] End Session".
 
-You can opt out of session tracking by setting `config.defaultTracking.sessions` to `false`. Refer to the code sample below.
+You can opt out of tracking session events by setting `config.defaultTracking.sessions` to `false`. Refer to the code sample below.
 
 ```ts
 amplitude.init(AMPLITUDE_API_KEY, {
