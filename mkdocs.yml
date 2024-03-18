@@ -354,6 +354,7 @@ nav:
         - HubSpot: data/destinations/hubspot-cohort.md
         - Infobip: data/destinations/infobip-cohort.md
         - Intercom: data/destinations/intercom-cohort.md
+        - InMobi: data/destinations/inmobi-cohort.md
         - Insider: data/destinations/insider-cohort.md
         - Iterable: data/destinations/iterable-cohort.md
         - Klaviyo: data/destinations/klaviyo-cohort.md

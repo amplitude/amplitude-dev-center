@@ -22,6 +22,7 @@
 - :google-ads: [Google Ads](../data/destinations/google-ads-cohort.md)
 - :infobip: [Infobip](../data/destinations/infobip-cohort.md)
 - :insider: [Insider](../data/destinations/insider-cohort.md)
+- :inmobi: [InMobi](../data/destinations/inmobi-cohort.md)
 - :intercom: [Intercom](../data/destinations/intercom-cohort.md)
 - :iterable: [Iterable](../data/destinations/iterable-cohort.md)
 - :klaviyo: [Klaviyo](../data/destinations/klaviyo-cohort.md)
