@@ -15,7 +15,7 @@ To create a [flag](../../general/data-model.md#flags-and-experiments), first nav
 
 ### Add a deployment
 
-Once you've created the flag, you'll need to add a [deployment](../../general/data-model.md#deployments). Add one or more deployments using the Settings card.
+Once you've created the flag, you can choose to use the default Amplitude project [deployment](../../general/data-model.md#deployments), or add a custom deployment. Add one or more deployments using the Settings card.
 
 ![Screenshot of settings card with deployments](../../../assets/images/experiment/create-flag-1.png)
 

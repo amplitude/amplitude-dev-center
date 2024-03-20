@@ -288,7 +288,7 @@ Here is an example of what a footnote[^1] looks like.
 
 ## Guides (previous and next buttons)
 
-You can add the next page and previous page buttons to guides that you intend readers to go through in a particular order, one page at a time. For example, the Experiment Getting Started Guide (experiment/guides/getting-started/create-a-deployment/).
+You can add the next page and previous page buttons to guides that you intend readers to go through in a particular order, one page at a time. For example, the Experiment Getting Started Guide (experiment/guides/getting-started/create-a-flag/).
 
 On the first page, set the page's `template` metadata to `guide-first.html`. 
 

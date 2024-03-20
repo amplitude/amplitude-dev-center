@@ -11,7 +11,7 @@
 
 | <div class='big-column'>Variable</div> | Description |
 | --- | --- |
-| <textarea class="at-field" spellcheck="false" placeholder="deployment_key" id="deployment_key"></textarea> | (Required) The [deployment](../../general/data-model.md#deployments) key you [created](./create-a-deployment.md). |
+| <textarea class="at-field" spellcheck="false" placeholder="deployment_key" id="deployment_key"></textarea> | (Required) The [deployment](../../general/data-model.md#deployments) key. |
 | <textarea class="at-field" spellcheck="false" placeholder="user_id" id="user_id"></textarea> | (Required) The user ID used to fetch variants. This should be the same [user](../../general/data-model.md#users) you [track exposure](./track-exposure.md) for. |
 | <select id="server-zone" onchange="updateUrl()"><option value="US">US</option><option value="EU">EU</option></select> | The server zone for your Amplitude project |
 | <a class="md-button" id="at-action-button">Fetch Variants</a> | |

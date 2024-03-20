@@ -60,7 +60,7 @@ You can create and revoke these as needed by navigating to **Data** > **Settings
 
 ### Deployment Key
 
-When you [create a deployment](../../experiment/guides/getting-started/create-a-deployment), Experiment creates a key for that deployment. Whether the key is public or private depends on whether the deployment is client-side or server-side.
+When you create a [deployment](../experiment/general/data-model.md#deployments), Experiment creates a key for that deployment. Whether the key is public or private depends on whether the deployment is client-side or server-side.
 
 !!!tip "Client-side Deployment Keys are public"
 
