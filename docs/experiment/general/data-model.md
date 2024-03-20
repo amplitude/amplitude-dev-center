@@ -20,12 +20,13 @@ Experiment uses the same projects which are required for Amplitude Analytics. As
 
 ## Deployments
 
-In Amplitude Experiment, a deployment serves a group of flags or experiments for use in an application. Deployments have an associated randomly generated **deployment key** which Experiment uses to identify the deployment and authorize requests to the evaluation servers. For each project, a deployment using the project API key as the deployment key is available by default.
+In Amplitude Experiment, a deployment serves a group of flags or experiments for use in an application. Each [project](#projects) has a deployment using the project API key as the deployment key, available by default. On creation, experiment deployments have an associated randomly generated **deployment key** which Experiment uses to identify the deployment and authorize requests to the evaluation servers.
 
 !!!info "Client vs Server Deployments"
-    Deployments are either client or server deployments. Only server deployments can use flag configs for [local evaluation](./evaluation/local-evaluation.md). Don't share or make flag configs public.
+    Deployments are either client or server deployments. Client-side deployments should be used to initialize client-side SDKs, and server-side deployments should be used to initialize server-side SDKs or authorize requests to the Evaluation API.
 
-Deployments live within Amplitude Analytics projects, and a project can have multiple deployments. Deployments are generally named after the platform (client-side) or service (server-side) which variants are served to (for example: `android`, `ios`, `web`).
+Deployments live within Amplitude Analytics projects, and a project can have multiple deployments. Deployments are generally named after the platform (client-side) or service (server-side) which variants are served to (for example: `android`, `ios`, `web`). The default project API key deployment is useful for getting started, however using explicit deployments for each platform or service is the best practice for larger organizations or teams that may share the same Amplitude project across multiple platforms for the same application.
+
 Add deployments to [Flags and Experiments](../guides/getting-started/create-a-flag.md#add-a-deployment) in the same project. When Experiment's evaluation servers receive a request to fetch variants for a user, Experiment uses the deployment key to look up all associated flags and experiments for evaluation.
 
 ## Flags and experiments

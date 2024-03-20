@@ -11,7 +11,7 @@
 
 | <div class='big-column'>Variable</div> | Description |
 | --- | --- |
-| <textarea class="at-field" spellcheck="false" placeholder="deployment_key" id="deployment_key"></textarea> | (Required) The [deployment](../../general/data-model.md#deployments) key you created. |
+| <textarea class="at-field" spellcheck="false" placeholder="deployment_key" id="deployment_key"></textarea> | (Required) The [deployment](../../general/data-model.md#deployments) key. |
 | <textarea class="at-field" spellcheck="false" placeholder="user_id" id="user_id"></textarea> | (Required) The user ID used to fetch variants. This should be the same [user](../../general/data-model.md#users) you [track exposure](./track-exposure.md) for. |
 | <a class="md-button" id="at-action-button">Fetch Variants</a> | |
 
