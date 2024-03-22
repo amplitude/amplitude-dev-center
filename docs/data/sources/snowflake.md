@@ -130,14 +130,15 @@ To change the modeling method of your Snowflake source:
 2. If the source uses complex SQL, including `JOIN` and `WHERE` clauses:
       1. Create a [`VIEW`](https://docs.snowflake.com/en/user-guide/views-introduction) in your Snowflake account that wraps the data source.
       2. Enable [Change Tracking](https://docs.snowflake.com/en/user-guide/streams-manage.html#label-enabling-change-tracking-views) on the new view.
-      3. Update the current Snowflake SQL import configuration to use the newly created view. Record the  time of the update.
+      3. Update the current Snowflake SQL import configuration to use the newly created view. Record the time of the update.
       4. Ensure `Data synced as of` is greater than the time recorded in the previous step to prevent potential data discrepancy and failure to identify the data drift after the latest completed import job.
-3. Enable [Change Tracking](https://docs.snowflake.com/en/user-guide/streams-manage.html#label-enabling-change-tracking-views) on the source table or view, if you haven't done so.
+3. Enable [Change Tracking](https://docs.snowflake.com/en/user-guide/streams-manage.html#label-enabling-change-tracking-views) on the source table or view, if you haven't done so. Record the time of the update.
 4. Ensure the existing connection has `Data synced as of` (presented on the source detail page) on or after `October 1, 2023, 12:00 AM UTC`. If it doesn't, either re-enable the connection and wait for `Data synced as of` to advance or consider creating a new import connection. Otherwise, Amplitude imports all data from the current source, which may cause data duplication.
-5. Disable the source from the **Manage Import Settings** dialog. If the source has a status of In-Progress, wait for the job to complete and the status changes to Disabled.
-6. Navigate to the **Edit Import Config** tab and click **Convert To Table Select Import**.
-7. Re-enable the source.
-8. Monitor incoming data for one day to ensure the import works as expected.
+5. Ensure `Data synced as of` is greater than the time recorded in the step 3 to prevent potential data discrepancy and failure to identify the data drift after the latest completed import job.
+6. Disable the source from the **Manage Import Settings** dialog. If the source has a status of In-Progress, wait for the job to complete and the status changes to Disabled.
+7. Navigate to the **Edit Import Config** tab and click **Convert To Table Select Import**.
+8. Re-enable the source.
+9. Monitor incoming data for one day to ensure the import works as expected.
 
 ### Roll back to a Custom SQL connection
 
