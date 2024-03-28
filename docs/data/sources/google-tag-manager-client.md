@@ -196,12 +196,16 @@ The `track` tag type is for tracking an event under a specific trigger.
 | --- | --- |
 | `Event Type` | `string`. The name of the event. |
 
-##### Event Properties
+##### Event Properties Basic
 
 | Name  | Description |
 | --- | --- |
 | `Property Name` | `string`. The name of the event property. |
 | `Property Value` | `string`. The value of the event property. |
+
+##### Event Properties Object
+
+Choose the object format for the GTM variable to define event properties. It's important to note that if there are any duplicate keys, the event properties object will overwrite the basic event properties. Any input not in object format will be ignored.
 
 ##### Custom Timestamp 
 
