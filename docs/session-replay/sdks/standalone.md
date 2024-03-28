@@ -166,6 +166,12 @@ When Amplitude captures a replay, it doesn't download and store CSS files or oth
 - Assets on your site move or change name. This can happen when you deploy a new version of your application.
 - Assets on your site are behind access controls that prevent Amplitude from fetching them.
 
+To help resolve CSS loading issues:
+
+- Ensure your domain is publicly accessible. If you store assets on `localhost`, try moving them to a staging environment.
+- Your CDN should keep track of old stylesheets for older replays. If the content of the same stylesheet changes over time, try to append a unique string or hash to the asset URL. For example, `stylesheet.css?93f8b89`.
+- Add `app.amplitude.com` or `app.eu.amplitude.com` to the list of domains that your server's CORS configuration permits.
+
 ### Session replays don't appear in Amplitude 
 
 Session replays may not appear in Amplitude due to:
